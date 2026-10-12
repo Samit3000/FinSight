@@ -1,0 +1,86 @@
+# ==============================================================================
+# FinSight Risk Rules Configuration
+# Explainable, deterministic risk scoring rules for transaction intelligence.
+# ==============================================================================
+
+version: "1.0.0"
+
+scoring_framework:
+  baseline_score: 0
+  max_score: 100
+  risk_tiers:
+    low:
+      min: 0
+      max: 29
+      action: "AUTO_APPROVE"
+    medium:
+      min: 30
+      max: 69
+      action: "MANUAL_REVIEW"
+    high:
+      min: 70
+      max: 100
+      action: "FLAG_SUSPICIOUS"
+
+rules:
+  - id: "RULE_001_HIGH_VALUE"
+    name: "Excessive Single Transaction Amount"
+    description: "Flags transactions exceeding the defined single-transaction value ceiling."
+    category: "VALUE_ANOMALY"
+    severity: "HIGH"
+    risk_points: 35
+    enabled: true
+    parameters:
+      threshold_amount: 5000.00
+      currency: "USD"
+    reason_template: "Transaction amount {amount} exceeds the single transaction monitoring ceiling of {threshold_amount}."
+
+  - id: "RULE_002_HIGH_VELOCITY"
+    name: "Short-Window Transaction Velocity Spike"
+    description: "Flags accounts executing multiple transactions within a narrow time window."
+    category: "VELOCITY"
+    severity: "HIGH"
+    risk_points: 40
+    enabled: true
+    parameters:
+      window_minutes: 10
+      max_transaction_count: 3
+    reason_template: "Account initiated {tx_count} transactions within {window_minutes} minutes, breaching the velocity threshold of {max_transaction_count}."
+
+  - id: "RULE_003_RAPID_GEO_HOP"
+    name: "Impossible Travel / Rapid Geographic Hop"
+    description: "Identifies consecutive transactions from distinct countries within an unrealistic transit duration."
+    category: "GEOGRAPHIC"
+    severity: "CRITICAL"
+    risk_points: 50
+    enabled: true
+    parameters:
+      window_hours: 2
+    reason_template: "Transactions detected in different countries ({prev_country} -> {current_country}) within {elapsed_hours} hours."
+
+  - id: "RULE_004_HIGH_RISK_MCC"
+    name: "High-Risk Merchant Category Code"
+    description: "Flags transactions processed at merchant categories historically prone to fraud or chargebacks."
+    category: "MERCHANT_PROFILE"
+    severity: "MEDIUM"
+    risk_points: 25
+    enabled: true
+    parameters:
+      high_risk_mcc_codes:
+        - "7995"  # Betting / Casino / Gambling
+        - "6051"  # Non-Financial Institutions / Foreign Currency / Crypto
+        - "5993"  # Cigar Stores and Stands
+        - "4829"  # Wire Transfer Money Orders
+    reason_template: "Merchant Category Code {mcc} matches high-risk monitoring registry."
+
+  - id: "RULE_005_CONSECUTIVE_DECLINES"
+    name: "Repeated Failures Followed by Success"
+    description: "Detects potential card-testing or credential-stuffing patterns indicated by multiple failed attempts followed by an approval."
+    category: "BEHAVIORAL"
+    severity: "HIGH"
+    risk_points: 30
+    enabled: true
+    parameters:
+      failure_lookback_window_minutes: 30
+      min_failures_before_success: 2
+    reason_template: "Successful transaction preceded by {failure_count} declined attempts in {window_minutes} minutes."

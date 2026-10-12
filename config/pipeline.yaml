@@ -1,0 +1,40 @@
+# ==============================================================================
+# FinSight Ingestion & Data Quality Pipeline Configuration
+# ==============================================================================
+
+pipeline:
+  name: "finsight_transaction_pipeline"
+  version: "1.0.0"
+  description: "End-to-end ingestion, validation, risk enrichment, and load pipeline"
+
+ingestion:
+  source_type: "csv"
+  file_encoding: "utf-8"
+  datetime_format: "%Y-%m-%d %H:%M:%S"
+  batch_chunk_size: 10000
+
+validation:
+  strict_mode: false  # If true, aborts pipeline on critical DQ failure; if false, quarantines invalid rows
+  rules:
+    allow_null_customer_id: false
+    allow_null_transaction_id: false
+    allow_negative_amount: false
+    min_transaction_amount: 0.01
+    max_transaction_amount: 1000000.00
+    valid_currencies: ["USD", "EUR", "GBP", "CAD", "AUD", "INR"]
+    valid_payment_methods: ["CREDIT_CARD", "DEBIT_CARD", "UPI", "BANK_TRANSFER", "DIGITAL_WALLET"]
+    valid_statuses: ["SUCCESS", "FAILED", "PENDING", "CANCELLED", "REVERSED"]
+    max_duplicate_threshold_pct: 0.00  # 0% duplicate IDs tolerated
+
+database:
+  target_schema: "public"
+  tables:
+    raw_staging: "stg_transactions"
+    clean_transactions: "fct_transactions"
+    risk_evaluations: "fct_risk_evaluations"
+    quarantine_records: "dq_quarantine_records"
+    data_quality_log: "dq_audit_log"
+
+output:
+  export_processed_csv: true
+  generate_dq_summary_report: true
