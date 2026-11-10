@@ -1,0 +1,702 @@
+{
+  "timestamp_utc": "2026-10-18T21:16:01Z",
+  "daily_stats": [
+    {
+      "sim_day": 1,
+      "total_tx": 574255,
+      "fraud_tx": 271,
+      "fraud_rate_pct": 0.0472,
+      "total_amount": 92131868672.0
+    },
+    {
+      "sim_day": 2,
+      "total_tx": 455238,
+      "fraud_tx": 309,
+      "fraud_rate_pct": 0.0679,
+      "total_amount": 71238639616.0
+    },
+    {
+      "sim_day": 3,
+      "total_tx": 1070,
+      "fraud_tx": 310,
+      "fraud_rate_pct": 28.972,
+      "total_amount": 447084480.0
+    },
+    {
+      "sim_day": 4,
+      "total_tx": 28240,
+      "fraud_tx": 262,
+      "fraud_rate_pct": 0.9278,
+      "total_amount": 3830547456.0
+    },
+    {
+      "sim_day": 5,
+      "total_tx": 9789,
+      "fraud_tx": 252,
+      "fraud_rate_pct": 2.5743,
+      "total_amount": 1325133824.0
+    },
+    {
+      "sim_day": 6,
+      "total_tx": 441005,
+      "fraud_tx": 228,
+      "fraud_rate_pct": 0.0517,
+      "total_amount": 73409986560.0
+    },
+    {
+      "sim_day": 7,
+      "total_tx": 420583,
+      "fraud_tx": 272,
+      "fraud_rate_pct": 0.0647,
+      "total_amount": 67070779392.0
+    },
+    {
+      "sim_day": 8,
+      "total_tx": 449637,
+      "fraud_tx": 278,
+      "fraud_rate_pct": 0.0618,
+      "total_amount": 70030598144.0
+    },
+    {
+      "sim_day": 9,
+      "total_tx": 417919,
+      "fraud_tx": 255,
+      "fraud_rate_pct": 0.061,
+      "total_amount": 58067767296.0
+    },
+    {
+      "sim_day": 10,
+      "total_tx": 392945,
+      "fraud_tx": 282,
+      "fraud_rate_pct": 0.0718,
+      "total_amount": 65190350848.0
+    },
+    {
+      "sim_day": 11,
+      "total_tx": 417859,
+      "fraud_tx": 262,
+      "fraud_rate_pct": 0.0627,
+      "total_amount": 60328660992.0
+    },
+    {
+      "sim_day": 12,
+      "total_tx": 349776,
+      "fraud_tx": 298,
+      "fraud_rate_pct": 0.0852,
+      "total_amount": 57988497408.0
+    },
+    {
+      "sim_day": 13,
+      "total_tx": 428583,
+      "fraud_tx": 242,
+      "fraud_rate_pct": 0.0565,
+      "total_amount": 138673061888.0
+    },
+    {
+      "sim_day": 14,
+      "total_tx": 397876,
+      "fraud_tx": 246,
+      "fraud_rate_pct": 0.0618,
+      "total_amount": 100037361664.0
+    },
+    {
+      "sim_day": 15,
+      "total_tx": 401282,
+      "fraud_tx": 250,
+      "fraud_rate_pct": 0.0623,
+      "total_amount": 77472366592.0
+    },
+    {
+      "sim_day": 16,
+      "total_tx": 375594,
+      "fraud_tx": 252,
+      "fraud_rate_pct": 0.0671,
+      "total_amount": 67890540544.0
+    },
+    {
+      "sim_day": 17,
+      "total_tx": 425766,
+      "fraud_tx": 320,
+      "fraud_rate_pct": 0.0752,
+      "total_amount": 74250133504.0
+    },
+    {
+      "sim_day": 18,
+      "total_tx": 20999,
+      "fraud_tx": 268,
+      "fraud_rate_pct": 1.2763,
+      "total_amount": 3711531264.0
+    },
+    {
+      "sim_day": 19,
+      "total_tx": 11300,
+      "fraud_tx": 256,
+      "fraud_rate_pct": 2.2655,
+      "total_amount": 1936895488.0
+    },
+    {
+      "sim_day": 20,
+      "total_tx": 19727,
+      "fraud_tx": 236,
+      "fraud_rate_pct": 1.1963,
+      "total_amount": 3596373248.0
+    },
+    {
+      "sim_day": 21,
+      "total_tx": 24593,
+      "fraud_tx": 272,
+      "fraud_rate_pct": 1.106,
+      "total_amount": 4840421376.0
+    },
+    {
+      "sim_day": 22,
+      "total_tx": 53437,
+      "fraud_tx": 256,
+      "fraud_rate_pct": 0.4791,
+      "total_amount": 9515278336.0
+    },
+    {
+      "sim_day": 23,
+      "total_tx": 51012,
+      "fraud_tx": 216,
+      "fraud_rate_pct": 0.4234,
+      "total_amount": 8194745856.0
+    },
+    {
+      "sim_day": 24,
+      "total_tx": 32709,
+      "fraud_tx": 280,
+      "fraud_rate_pct": 0.856,
+      "total_amount": 5243509248.0
+    },
+    {
+      "sim_day": 25,
+      "total_tx": 57853,
+      "fraud_tx": 240,
+      "fraud_rate_pct": 0.4148,
+      "total_amount": 9177487360.0
+    },
+    {
+      "sim_day": 26,
+      "total_tx": 13885,
+      "fraud_tx": 272,
+      "fraud_rate_pct": 1.9589,
+      "total_amount": 2228709632.0
+    },
+    {
+      "sim_day": 27,
+      "total_tx": 8578,
+      "fraud_tx": 280,
+      "fraud_rate_pct": 3.2642,
+      "total_amount": 1756268800.0
+    },
+    {
+      "sim_day": 28,
+      "total_tx": 14661,
+      "fraud_tx": 248,
+      "fraud_rate_pct": 1.6916,
+      "total_amount": 3006717952.0
+    },
+    {
+      "sim_day": 29,
+      "total_tx": 54890,
+      "fraud_tx": 260,
+      "fraud_rate_pct": 0.4737,
+      "total_amount": 9357636608.0
+    },
+    {
+      "sim_day": 30,
+      "total_tx": 11287,
+      "fraud_tx": 268,
+      "fraud_rate_pct": 2.3744,
+      "total_amount": 1995900416.0
+    },
+    {
+      "sim_day": 31,
+      "total_tx": 272,
+      "fraud_tx": 272,
+      "fraud_rate_pct": 100.0,
+      "total_amount": 448086240.0
+    }
+  ],
+  "rail_partition_stats": {
+    "train": [
+      {
+        "type": "CASH_IN",
+        "total_tx": 1320011,
+        "fraud_tx": 0,
+        "fraud_rate_pct": 0.0
+      },
+      {
+        "type": "CASH_OUT",
+        "total_tx": 2126178,
+        "fraud_tx": 2538,
+        "fraud_rate_pct": 0.1194
+      },
+      {
+        "type": "DEBIT",
+        "total_tx": 38717,
+        "fraud_tx": 0,
+        "fraud_rate_pct": 0.0
+      },
+      {
+        "type": "PAYMENT",
+        "total_tx": 2029834,
+        "fraud_tx": 0,
+        "fraud_rate_pct": 0.0
+      },
+      {
+        "type": "TRANSFER",
+        "total_tx": 499977,
+        "fraud_tx": 2519,
+        "fraud_rate_pct": 0.5038
+      }
+    ],
+    "val": [
+      {
+        "type": "CASH_IN",
+        "total_tx": 34166,
+        "fraud_tx": 0,
+        "fraud_rate_pct": 0.0
+      },
+      {
+        "type": "CASH_OUT",
+        "total_tx": 47847,
+        "fraud_tx": 504,
+        "fraud_rate_pct": 1.0534
+      },
+      {
+        "type": "DEBIT",
+        "total_tx": 1166,
+        "fraud_tx": 0,
+        "fraud_rate_pct": 0.0
+      },
+      {
+        "type": "PAYMENT",
+        "total_tx": 53937,
+        "fraud_tx": 0,
+        "fraud_rate_pct": 0.0
+      },
+      {
+        "type": "TRANSFER",
+        "total_tx": 14186,
+        "fraud_tx": 504,
+        "fraud_rate_pct": 3.5528
+      }
+    ],
+    "holdout": [
+      {
+        "type": "CASH_IN",
+        "total_tx": 45107,
+        "fraud_tx": 0,
+        "fraud_rate_pct": 0.0
+      },
+      {
+        "type": "CASH_OUT",
+        "total_tx": 63475,
+        "fraud_tx": 1074,
+        "fraud_rate_pct": 1.692
+      },
+      {
+        "type": "DEBIT",
+        "total_tx": 1549,
+        "fraud_tx": 0,
+        "fraud_rate_pct": 0.0
+      },
+      {
+        "type": "PAYMENT",
+        "total_tx": 67724,
+        "fraud_tx": 0,
+        "fraud_rate_pct": 0.0
+      },
+      {
+        "type": "TRANSFER",
+        "total_tx": 18746,
+        "fraud_tx": 1074,
+        "fraud_rate_pct": 5.7292
+      }
+    ]
+  },
+  "amount_quantiles": {
+    "train": {
+      "legit": [
+        13475.64,
+        75053.71,
+        208894.85,
+        365300.47,
+        1593087.7
+      ],
+      "fraud": [
+        126375.17,
+        436906.22,
+        1589763.62,
+        4482608.7,
+        10000000.0
+      ]
+    },
+    "val": {
+      "legit": [
+        12176.37,
+        67575.11,
+        198171.33,
+        351121.23,
+        1812617.71
+      ],
+      "fraud": [
+        137937.65,
+        490570.2,
+        1313810.72,
+        3707342.5,
+        10000000.0
+      ]
+    },
+    "holdout": {
+      "legit": [
+        11281.46,
+        69108.92,
+        200012.19,
+        345890.04,
+        1201222.66
+      ],
+      "fraud": [
+        125146.75,
+        427559.69,
+        1494146.88,
+        5175876.5,
+        10000000.0
+      ]
+    }
+  },
+  "experiments": {
+    "model_9_baseline": {
+      "feature_count": 9,
+      "features": [
+        "amount",
+        "log1p_amount",
+        "transaction_hour",
+        "transaction_day",
+        "type_CASH_IN",
+        "type_CASH_OUT",
+        "type_DEBIT",
+        "type_PAYMENT",
+        "type_TRANSFER"
+      ],
+      "fit_time_seconds": 44.53,
+      "validation": {
+        "average_precision_pr_auc": 0.2519,
+        "roc_auc": 0.9229,
+        "optimal_threshold": 0.983,
+        "precision": 0.3462,
+        "recall": 0.4276,
+        "f1_score": 0.3826,
+        "alert_count": 1245
+      },
+      "holdout_at_val_optimal_threshold": {
+        "applied_threshold": 0.983,
+        "average_precision_pr_auc": 0.3836,
+        "roc_auc": 0.9185,
+        "precision": 0.5456,
+        "recall": 0.4232,
+        "f1_score": 0.4767,
+        "confusion_matrix": {
+          "tp": 909,
+          "fp": 757,
+          "fn": 1239,
+          "tn": 193696
+        },
+        "alert_count": 1666
+      },
+      "holdout_at_threshold_0_9900": {
+        "applied_threshold": 0.99,
+        "precision": 0.6901,
+        "recall": 0.3431,
+        "f1_score": 0.4583,
+        "confusion_matrix": {
+          "tp": 737,
+          "fp": 331,
+          "fn": 1411,
+          "tn": 194122
+        },
+        "alert_count": 1068
+      },
+      "temporal_stability_holdout": {
+        "days_23_27_pr_auc": 0.3565,
+        "days_28_31_pr_auc": 0.4188,
+        "delta_pr_auc_late_minus_early": 0.0623
+      }
+    },
+    "model_8_no_day": {
+      "feature_count": 8,
+      "features": [
+        "amount",
+        "log1p_amount",
+        "transaction_hour",
+        "type_CASH_IN",
+        "type_CASH_OUT",
+        "type_DEBIT",
+        "type_PAYMENT",
+        "type_TRANSFER"
+      ],
+      "fit_time_seconds": 40.55,
+      "validation": {
+        "average_precision_pr_auc": 0.3115,
+        "roc_auc": 0.9509,
+        "optimal_threshold": 0.966,
+        "precision": 0.3351,
+        "recall": 0.4315,
+        "f1_score": 0.3773,
+        "alert_count": 1298
+      },
+      "holdout_at_val_optimal_threshold": {
+        "applied_threshold": 0.966,
+        "average_precision_pr_auc": 0.4479,
+        "roc_auc": 0.9487,
+        "precision": 0.5774,
+        "recall": 0.4274,
+        "f1_score": 0.4912,
+        "confusion_matrix": {
+          "tp": 918,
+          "fp": 672,
+          "fn": 1230,
+          "tn": 193781
+        },
+        "alert_count": 1590
+      },
+      "holdout_at_threshold_0_9900": {
+        "applied_threshold": 0.99,
+        "precision": 0.6788,
+        "recall": 0.304,
+        "f1_score": 0.4199,
+        "confusion_matrix": {
+          "tp": 653,
+          "fp": 309,
+          "fn": 1495,
+          "tn": 194144
+        },
+        "alert_count": 962
+      },
+      "temporal_stability_holdout": {
+        "days_23_27_pr_auc": 0.4133,
+        "days_28_31_pr_auc": 0.4909,
+        "delta_pr_auc_late_minus_early": 0.0776
+      }
+    },
+    "model_7_no_temporal": {
+      "feature_count": 7,
+      "features": [
+        "amount",
+        "log1p_amount",
+        "type_CASH_IN",
+        "type_CASH_OUT",
+        "type_DEBIT",
+        "type_PAYMENT",
+        "type_TRANSFER"
+      ],
+      "fit_time_seconds": 40.09,
+      "validation": {
+        "average_precision_pr_auc": 0.2665,
+        "roc_auc": 0.9194,
+        "optimal_threshold": 0.971,
+        "precision": 0.9202,
+        "recall": 0.1944,
+        "f1_score": 0.321,
+        "alert_count": 213
+      },
+      "holdout_at_val_optimal_threshold": {
+        "applied_threshold": 0.971,
+        "average_precision_pr_auc": 0.3222,
+        "roc_auc": 0.9195,
+        "precision": 0.9659,
+        "recall": 0.1848,
+        "f1_score": 0.3103,
+        "confusion_matrix": {
+          "tp": 397,
+          "fp": 14,
+          "fn": 1751,
+          "tn": 194439
+        },
+        "alert_count": 411
+      },
+      "holdout_at_threshold_0_9900": {
+        "applied_threshold": 0.99,
+        "precision": 0.992,
+        "recall": 0.1732,
+        "f1_score": 0.2949,
+        "confusion_matrix": {
+          "tp": 372,
+          "fp": 3,
+          "fn": 1776,
+          "tn": 194450
+        },
+        "alert_count": 375
+      },
+      "temporal_stability_holdout": {
+        "days_23_27_pr_auc": 0.3076,
+        "days_28_31_pr_auc": 0.339,
+        "delta_pr_auc_late_minus_early": 0.0314
+      }
+    },
+    "model_7_no_amount": {
+      "feature_count": 7,
+      "features": [
+        "transaction_hour",
+        "transaction_day",
+        "type_CASH_IN",
+        "type_CASH_OUT",
+        "type_DEBIT",
+        "type_PAYMENT",
+        "type_TRANSFER"
+      ],
+      "fit_time_seconds": 39.87,
+      "validation": {
+        "average_precision_pr_auc": 0.1117,
+        "roc_auc": 0.895,
+        "optimal_threshold": 0.991,
+        "precision": 0.2762,
+        "recall": 0.2976,
+        "f1_score": 0.2865,
+        "alert_count": 1086
+      },
+      "holdout_at_val_optimal_threshold": {
+        "applied_threshold": 0.991,
+        "average_precision_pr_auc": 0.2197,
+        "roc_auc": 0.8752,
+        "precision": 0.3153,
+        "recall": 0.3017,
+        "f1_score": 0.3084,
+        "confusion_matrix": {
+          "tp": 648,
+          "fp": 1407,
+          "fn": 1500,
+          "tn": 193046
+        },
+        "alert_count": 2055
+      },
+      "holdout_at_threshold_0_9900": {
+        "applied_threshold": 0.99,
+        "precision": 0.087,
+        "recall": 0.4409,
+        "f1_score": 0.1453,
+        "confusion_matrix": {
+          "tp": 947,
+          "fp": 9943,
+          "fn": 1201,
+          "tn": 184510
+        },
+        "alert_count": 10890
+      },
+      "temporal_stability_holdout": {
+        "days_23_27_pr_auc": 0.2,
+        "days_28_31_pr_auc": 0.2468,
+        "delta_pr_auc_late_minus_early": 0.0468
+      }
+    },
+    "model_4_no_type": {
+      "feature_count": 4,
+      "features": [
+        "amount",
+        "log1p_amount",
+        "transaction_hour",
+        "transaction_day"
+      ],
+      "fit_time_seconds": 36.13,
+      "validation": {
+        "average_precision_pr_auc": 0.168,
+        "roc_auc": 0.8325,
+        "optimal_threshold": 0.986,
+        "precision": 0.2104,
+        "recall": 0.2579,
+        "f1_score": 0.2317,
+        "alert_count": 1236
+      },
+      "holdout_at_val_optimal_threshold": {
+        "applied_threshold": 0.986,
+        "average_precision_pr_auc": 0.2686,
+        "roc_auc": 0.8256,
+        "precision": 0.4315,
+        "recall": 0.2477,
+        "f1_score": 0.3147,
+        "confusion_matrix": {
+          "tp": 532,
+          "fp": 701,
+          "fn": 1616,
+          "tn": 193752
+        },
+        "alert_count": 1233
+      },
+      "holdout_at_threshold_0_9900": {
+        "applied_threshold": 0.99,
+        "precision": 0.4667,
+        "recall": 0.2123,
+        "f1_score": 0.2918,
+        "confusion_matrix": {
+          "tp": 456,
+          "fp": 521,
+          "fn": 1692,
+          "tn": 193932
+        },
+        "alert_count": 977
+      },
+      "temporal_stability_holdout": {
+        "days_23_27_pr_auc": 0.2339,
+        "days_28_31_pr_auc": 0.3299,
+        "delta_pr_auc_late_minus_early": 0.096
+      }
+    },
+    "model_7_business_core": {
+      "feature_count": 7,
+      "features": [
+        "amount",
+        "log1p_amount",
+        "type_CASH_IN",
+        "type_CASH_OUT",
+        "type_DEBIT",
+        "type_PAYMENT",
+        "type_TRANSFER"
+      ],
+      "fit_time_seconds": 40.83,
+      "validation": {
+        "average_precision_pr_auc": 0.2665,
+        "roc_auc": 0.9194,
+        "optimal_threshold": 0.971,
+        "precision": 0.9202,
+        "recall": 0.1944,
+        "f1_score": 0.321,
+        "alert_count": 213
+      },
+      "holdout_at_val_optimal_threshold": {
+        "applied_threshold": 0.971,
+        "average_precision_pr_auc": 0.3222,
+        "roc_auc": 0.9195,
+        "precision": 0.9659,
+        "recall": 0.1848,
+        "f1_score": 0.3103,
+        "confusion_matrix": {
+          "tp": 397,
+          "fp": 14,
+          "fn": 1751,
+          "tn": 194439
+        },
+        "alert_count": 411
+      },
+      "holdout_at_threshold_0_9900": {
+        "applied_threshold": 0.99,
+        "precision": 0.992,
+        "recall": 0.1732,
+        "f1_score": 0.2949,
+        "confusion_matrix": {
+          "tp": 372,
+          "fp": 3,
+          "fn": 1776,
+          "tn": 194450
+        },
+        "alert_count": 375
+      },
+      "temporal_stability_holdout": {
+        "days_23_27_pr_auc": 0.3076,
+        "days_28_31_pr_auc": 0.339,
+        "delta_pr_auc_late_minus_early": 0.0314
+      }
+    }
+  }
+}

@@ -1,0 +1,60 @@
+{
+  "model_artifact": "C:\\Users\\samit\\OneDrive\\Desktop\\FinSight\\models\\hist_gradient_boosting_no_day.joblib",
+  "model_name": "HistGradientBoosting No Day",
+  "feature_count": 8,
+  "feature_names": [
+    "amount",
+    "log1p_amount",
+    "transaction_hour",
+    "type_CASH_IN",
+    "type_CASH_OUT",
+    "type_DEBIT",
+    "type_PAYMENT",
+    "type_TRANSFER"
+  ],
+  "locked_decision_threshold": 0.966,
+  "validation_evaluation": {
+    "model_name": "HistGradientBoosting No Day",
+    "dataset_name": "validation",
+    "decision_threshold": 0.966,
+    "total_samples": 151302,
+    "positive_labels": 1008,
+    "predicted_positive_count": 1298,
+    "predicted_positive_rate_pct": 0.8579,
+    "metrics": {
+      "precision": 0.3351,
+      "recall": 0.4315,
+      "f1_score": 0.3773,
+      "average_precision_pr_auc": 0.3115,
+      "roc_auc": 0.9509
+    },
+    "confusion_matrix": {
+      "true_positives": 435,
+      "false_positives": 863,
+      "true_negatives": 149431,
+      "false_negatives": 573
+    }
+  },
+  "holdout_evaluation": {
+    "model_name": "HistGradientBoosting No Day",
+    "dataset_name": "holdout",
+    "decision_threshold": 0.966,
+    "total_samples": 196601,
+    "positive_labels": 2148,
+    "predicted_positive_count": 1590,
+    "predicted_positive_rate_pct": 0.8087,
+    "metrics": {
+      "precision": 0.5774,
+      "recall": 0.4274,
+      "f1_score": 0.4912,
+      "average_precision_pr_auc": 0.4479,
+      "roc_auc": 0.9487
+    },
+    "confusion_matrix": {
+      "true_positives": 918,
+      "false_positives": 672,
+      "true_negatives": 193781,
+      "false_negatives": 1230
+    }
+  }
+}

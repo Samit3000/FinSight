@@ -62,6 +62,11 @@ data/processed/*
 data/sample/*
 !data/sample/.gitkeep
 
+# Raw Large Datasets (PaySim)
+PS_*.csv
+*.csv.gz
+*.csv.zip
+
 # Quality Reports & Logs
 reports/data_quality/*
 !reports/data_quality/.gitkeep

@@ -1,0 +1,26 @@
+{
+  "model_artifact": "models/hist_gradient_boosting_no_day.joblib",
+  "estimator_class": "HistGradientBoostingClassifier",
+  "explainer_type": "TreeExplainer",
+  "explanation_output": "raw (margin log-odds score; mapped to probability via sigmoid)",
+  "sample_size": 2000,
+  "sample_fraud_count": 17,
+  "fraud_prevalence_pct": 0.85,
+  "decision_threshold": 0.966,
+  "random_seed": 42,
+  "feature_count": 8,
+  "feature_names": [
+    "amount",
+    "log1p_amount",
+    "transaction_hour",
+    "type_CASH_IN",
+    "type_CASH_OUT",
+    "type_DEBIT",
+    "type_PAYMENT",
+    "type_TRANSFER"
+  ],
+  "base_value_log_odds": -3.416074,
+  "base_value_probability": 0.031797,
+  "max_reconstruction_error": 1.0658141036401503e-14,
+  "generated_at_utc": "2026-10-18T21:43:31Z"
+}

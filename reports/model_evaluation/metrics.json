@@ -1,0 +1,244 @@
+{
+  "timestamp_utc": "2026-10-18T15:06:06Z",
+  "random_seed": 42,
+  "split_boundaries": {
+    "train": {
+      "partition_name": "train",
+      "min_step": 1,
+      "max_step": 450,
+      "row_count": 6014717,
+      "fraud_count": 5057,
+      "fraud_rate_pct": 0.0841
+    },
+    "validation": {
+      "partition_name": "validation",
+      "min_step": 451,
+      "max_step": 550,
+      "row_count": 151302,
+      "fraud_count": 1008,
+      "fraud_rate_pct": 0.6662
+    },
+    "holdout": {
+      "partition_name": "holdout",
+      "min_step": 551,
+      "max_step": 743,
+      "row_count": 196601,
+      "fraud_count": 2148,
+      "fraud_rate_pct": 1.0926
+    }
+  },
+  "canonical_features": [
+    "amount",
+    "log1p_amount",
+    "transaction_hour",
+    "transaction_day",
+    "is_merchant_dest",
+    "type_CASH_IN",
+    "type_CASH_OUT",
+    "type_DEBIT",
+    "type_PAYMENT",
+    "type_TRANSFER"
+  ],
+  "ablated_features": [
+    "amount",
+    "log1p_amount",
+    "transaction_hour",
+    "transaction_day",
+    "type_CASH_IN",
+    "type_CASH_OUT",
+    "type_DEBIT",
+    "type_PAYMENT",
+    "type_TRANSFER"
+  ],
+  "validation_evaluations": {
+    "dummy_baseline": {
+      "model_name": "Dummy Baseline (Majority)",
+      "dataset_name": "validation",
+      "decision_threshold": 0.5,
+      "total_samples": 151302,
+      "positive_labels": 1008,
+      "predicted_positive_count": 0,
+      "predicted_positive_rate_pct": 0.0,
+      "metrics": {
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1_score": 0.0,
+        "average_precision_pr_auc": 0.0,
+        "roc_auc": 0.5
+      },
+      "confusion_matrix": {
+        "true_positives": 0,
+        "false_positives": 0,
+        "true_negatives": 150294,
+        "false_negatives": 1008
+      }
+    },
+    "logistic_regression": {
+      "model_name": "Logistic Regression (Balanced)",
+      "dataset_name": "validation",
+      "decision_threshold": 0.9009,
+      "total_samples": 151302,
+      "positive_labels": 1008,
+      "predicted_positive_count": 2807,
+      "predicted_positive_rate_pct": 1.8552,
+      "metrics": {
+        "precision": 0.0994,
+        "recall": 0.2768,
+        "f1_score": 0.1463,
+        "average_precision_pr_auc": 0.1104,
+        "roc_auc": 0.9156
+      },
+      "confusion_matrix": {
+        "true_positives": 279,
+        "false_positives": 2528,
+        "true_negatives": 147766,
+        "false_negatives": 729
+      }
+    },
+    "hist_gradient_boosting_canonical": {
+      "model_name": "HistGradientBoosting (Canonical)",
+      "dataset_name": "validation",
+      "decision_threshold": 0.99,
+      "total_samples": 151302,
+      "positive_labels": 1008,
+      "predicted_positive_count": 972,
+      "predicted_positive_rate_pct": 0.6424,
+      "metrics": {
+        "precision": 0.3498,
+        "recall": 0.3373,
+        "f1_score": 0.3434,
+        "average_precision_pr_auc": 0.2519,
+        "roc_auc": 0.9229
+      },
+      "confusion_matrix": {
+        "true_positives": 340,
+        "false_positives": 632,
+        "true_negatives": 149662,
+        "false_negatives": 668
+      }
+    },
+    "hist_gradient_boosting_ablated": {
+      "model_name": "HistGradientBoosting (Ablated)",
+      "dataset_name": "validation",
+      "decision_threshold": 0.99,
+      "total_samples": 151302,
+      "positive_labels": 1008,
+      "predicted_positive_count": 972,
+      "predicted_positive_rate_pct": 0.6424,
+      "metrics": {
+        "precision": 0.3498,
+        "recall": 0.3373,
+        "f1_score": 0.3434,
+        "average_precision_pr_auc": 0.2519,
+        "roc_auc": 0.9229
+      },
+      "confusion_matrix": {
+        "true_positives": 340,
+        "false_positives": 632,
+        "true_negatives": 149662,
+        "false_negatives": 668
+      }
+    }
+  },
+  "holdout_evaluations": {
+    "dummy_baseline": {
+      "model_name": "Dummy Baseline",
+      "dataset_name": "holdout",
+      "decision_threshold": 0.5,
+      "total_samples": 196601,
+      "positive_labels": 2148,
+      "predicted_positive_count": 0,
+      "predicted_positive_rate_pct": 0.0,
+      "metrics": {
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1_score": 0.0,
+        "average_precision_pr_auc": 0.0,
+        "roc_auc": 0.5
+      },
+      "confusion_matrix": {
+        "true_positives": 0,
+        "false_positives": 0,
+        "true_negatives": 194453,
+        "false_negatives": 2148
+      }
+    },
+    "logistic_regression": {
+      "model_name": "Logistic Regression",
+      "dataset_name": "holdout",
+      "decision_threshold": 0.9009,
+      "total_samples": 196601,
+      "positive_labels": 2148,
+      "predicted_positive_count": 2576,
+      "predicted_positive_rate_pct": 1.3103,
+      "metrics": {
+        "precision": 0.243,
+        "recall": 0.2914,
+        "f1_score": 0.265,
+        "average_precision_pr_auc": 0.1805,
+        "roc_auc": 0.9152
+      },
+      "confusion_matrix": {
+        "true_positives": 626,
+        "false_positives": 1950,
+        "true_negatives": 192503,
+        "false_negatives": 1522
+      }
+    },
+    "hist_gradient_boosting_canonical": {
+      "model_name": "HistGradientBoosting (Canonical)",
+      "dataset_name": "holdout",
+      "decision_threshold": 0.99,
+      "total_samples": 196601,
+      "positive_labels": 2148,
+      "predicted_positive_count": 1068,
+      "predicted_positive_rate_pct": 0.5432,
+      "metrics": {
+        "precision": 0.6901,
+        "recall": 0.3431,
+        "f1_score": 0.4583,
+        "average_precision_pr_auc": 0.3836,
+        "roc_auc": 0.9185
+      },
+      "confusion_matrix": {
+        "true_positives": 737,
+        "false_positives": 331,
+        "true_negatives": 194122,
+        "false_negatives": 1411
+      }
+    },
+    "hist_gradient_boosting_ablated": {
+      "model_name": "HistGradientBoosting (Ablated)",
+      "dataset_name": "holdout",
+      "decision_threshold": 0.99,
+      "total_samples": 196601,
+      "positive_labels": 2148,
+      "predicted_positive_count": 1068,
+      "predicted_positive_rate_pct": 0.5432,
+      "metrics": {
+        "precision": 0.6901,
+        "recall": 0.3431,
+        "f1_score": 0.4583,
+        "average_precision_pr_auc": 0.3836,
+        "roc_auc": 0.9185
+      },
+      "confusion_matrix": {
+        "true_positives": 737,
+        "false_positives": 331,
+        "true_negatives": 194122,
+        "false_negatives": 1411
+      }
+    }
+  },
+  "ablation_comparison": {
+    "candidate_model": "HistGradientBoostingClassifier",
+    "metric_comparison": {
+      "canonical_pr_auc": 0.2519,
+      "ablated_pr_auc": 0.2519,
+      "delta_pr_auc": 0.0,
+      "canonical_val_f1": 0.3434,
+      "ablated_val_f1": 0.3434
+    },
+    "risk_rationale": "In PaySim, `is_merchant_dest` is strictly 1 only on PAYMENT transactions, and in PaySim 100% of frauds occur exclusively on TRANSFER and CASH_OUT rails. Consequently, `is_merchant_dest` is collinear with `type_PAYMENT` and provides zero marginal predictive power (+0.0000 delta PR-AUC). In real-world payment networks, merchant accounts experience significant fraud (e.g., merchant bust-out, fake storefronts, card-not-present fraud). Treating merchant destination as an immunity signal is an artifactual PaySim shortcut and should be avoided in real-world deployment."
+  }
+}

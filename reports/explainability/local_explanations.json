@@ -1,0 +1,439 @@
+[
+  {
+    "transaction_ref": {
+      "step": 578,
+      "type": "CASH_OUT",
+      "amount": 6274752.5,
+      "name_orig": "C789526780",
+      "name_dest": "C1905238884",
+      "ground_truth_label": 1
+    },
+    "observed_attributes": {
+      "transaction_type": "CASH_OUT",
+      "amount_usd": 6274752.5,
+      "simulated_day": 25,
+      "simulated_hour": 1
+    },
+    "model_assessment": {
+      "raw_log_odds_score": 5.1396,
+      "predicted_probability": 0.99417,
+      "score_type": "uncalibrated_model_score_sigmoid",
+      "locked_decision_threshold": 0.966,
+      "predicted_positive_alert": true,
+      "classification_status": "HIGH-RISK ALERT (Score: 0.9942 >= Threshold: 0.9660)",
+      "base_value_log_odds": -3.41607
+    },
+    "top_positive_drivers": [
+      {
+        "feature": "type_CASH_IN",
+        "feature_value": 0.0,
+        "shap_attribution": 1.97492,
+        "semantic_description": "Absence of CASH_IN rail under one-hot encoding (encoded flag = 0; transaction was not CASH_IN)"
+      },
+      {
+        "feature": "type_PAYMENT",
+        "feature_value": 0.0,
+        "shap_attribution": 1.84428,
+        "semantic_description": "Absence of PAYMENT rail under one-hot encoding (encoded flag = 0; transaction was not PAYMENT)"
+      },
+      {
+        "feature": "amount",
+        "feature_value": 6274752.5,
+        "shap_attribution": 1.83691,
+        "semantic_description": "Transaction monetary value ($6,274,752.50)"
+      }
+    ],
+    "top_negative_drivers": [],
+    "all_attributions": [
+      {
+        "feature": "amount",
+        "feature_value": 6274752.5,
+        "shap_attribution": 1.83691,
+        "semantic_description": "Transaction monetary value ($6,274,752.50)"
+      },
+      {
+        "feature": "log1p_amount",
+        "feature_value": 15.652044296264648,
+        "shap_attribution": 0.35984,
+        "semantic_description": "Log-stabilized amount scale (log1p=15.65)"
+      },
+      {
+        "feature": "transaction_hour",
+        "feature_value": 1.0,
+        "shap_attribution": 1.68917,
+        "semantic_description": "Simulated hour-of-day (01:00)"
+      },
+      {
+        "feature": "type_CASH_IN",
+        "feature_value": 0.0,
+        "shap_attribution": 1.97492,
+        "semantic_description": "Absence of CASH_IN rail under one-hot encoding (encoded flag = 0; transaction was not CASH_IN)"
+      },
+      {
+        "feature": "type_CASH_OUT",
+        "feature_value": 1.0,
+        "shap_attribution": 0.73607,
+        "semantic_description": "Active transaction rail: CASH_OUT (encoded flag = 1)"
+      },
+      {
+        "feature": "type_DEBIT",
+        "feature_value": 0.0,
+        "shap_attribution": 0.10409,
+        "semantic_description": "Absence of DEBIT rail under one-hot encoding (encoded flag = 0; transaction was not DEBIT)"
+      },
+      {
+        "feature": "type_PAYMENT",
+        "feature_value": 0.0,
+        "shap_attribution": 1.84428,
+        "semantic_description": "Absence of PAYMENT rail under one-hot encoding (encoded flag = 0; transaction was not PAYMENT)"
+      },
+      {
+        "feature": "type_TRANSFER",
+        "feature_value": 0.0,
+        "shap_attribution": 0.0104,
+        "semantic_description": "Absence of TRANSFER rail under one-hot encoding (encoded flag = 0; transaction was not TRANSFER)"
+      }
+    ],
+    "human_readable_explanation": "The model assigned an uncalibrated fraud risk score of 99.42% (raw margin: +5.140 vs baseline: -3.416), breaching the operational alert threshold of 0.9660. For this observed CASH_OUT transaction of $6,274,752.50, the score was pushed higher primarily by: absence of CASH_IN rail under encoding (+1.975), absence of PAYMENT rail under encoding (+1.844), amount $6,274,752.50 (+1.837). Note that one-hot indicators (such as type_PAYMENT=0) reflect the mathematical absence of non-fraud rail risk suppression under the chosen model encoding, rather than an independent real-world event.",
+    "case_category": "True Positive (High Score Fraud)"
+  },
+  {
+    "transaction_ref": {
+      "step": 589,
+      "type": "CASH_IN",
+      "amount": 247717.296875,
+      "name_orig": "C724471785",
+      "name_dest": "C61426560",
+      "ground_truth_label": 0
+    },
+    "observed_attributes": {
+      "transaction_type": "CASH_IN",
+      "amount_usd": 247717.3,
+      "simulated_day": 25,
+      "simulated_hour": 12
+    },
+    "model_assessment": {
+      "raw_log_odds_score": -5.7256,
+      "predicted_probability": 0.00325,
+      "score_type": "uncalibrated_model_score_sigmoid",
+      "locked_decision_threshold": 0.966,
+      "predicted_positive_alert": false,
+      "classification_status": "NORMAL / LOW-RISK (Score: 0.0033 < Threshold: 0.9660)",
+      "base_value_log_odds": -3.41607
+    },
+    "top_positive_drivers": [
+      {
+        "feature": "type_PAYMENT",
+        "feature_value": 0.0,
+        "shap_attribution": 0.40851,
+        "semantic_description": "Absence of PAYMENT rail under one-hot encoding (encoded flag = 0; transaction was not PAYMENT)"
+      },
+      {
+        "feature": "type_DEBIT",
+        "feature_value": 0.0,
+        "shap_attribution": 0.00361,
+        "semantic_description": "Absence of DEBIT rail under one-hot encoding (encoded flag = 0; transaction was not DEBIT)"
+      }
+    ],
+    "top_negative_drivers": [
+      {
+        "feature": "type_CASH_IN",
+        "feature_value": 1.0,
+        "shap_attribution": -1.90662,
+        "semantic_description": "Active transaction rail: CASH_IN (encoded flag = 1)"
+      },
+      {
+        "feature": "type_CASH_OUT",
+        "feature_value": 0.0,
+        "shap_attribution": -0.62078,
+        "semantic_description": "Absence of CASH_OUT rail under one-hot encoding (encoded flag = 0; transaction was not CASH_OUT)"
+      },
+      {
+        "feature": "type_TRANSFER",
+        "feature_value": 0.0,
+        "shap_attribution": -0.11727,
+        "semantic_description": "Absence of TRANSFER rail under one-hot encoding (encoded flag = 0; transaction was not TRANSFER)"
+      }
+    ],
+    "all_attributions": [
+      {
+        "feature": "amount",
+        "feature_value": 247717.296875,
+        "shap_attribution": -0.05194,
+        "semantic_description": "Transaction monetary value ($247,717.30)"
+      },
+      {
+        "feature": "log1p_amount",
+        "feature_value": 12.420047760009766,
+        "shap_attribution": -0.02406,
+        "semantic_description": "Log-stabilized amount scale (log1p=12.42)"
+      },
+      {
+        "feature": "transaction_hour",
+        "feature_value": 12.0,
+        "shap_attribution": -0.00098,
+        "semantic_description": "Simulated hour-of-day (12:00)"
+      },
+      {
+        "feature": "type_CASH_IN",
+        "feature_value": 1.0,
+        "shap_attribution": -1.90662,
+        "semantic_description": "Active transaction rail: CASH_IN (encoded flag = 1)"
+      },
+      {
+        "feature": "type_CASH_OUT",
+        "feature_value": 0.0,
+        "shap_attribution": -0.62078,
+        "semantic_description": "Absence of CASH_OUT rail under one-hot encoding (encoded flag = 0; transaction was not CASH_OUT)"
+      },
+      {
+        "feature": "type_DEBIT",
+        "feature_value": 0.0,
+        "shap_attribution": 0.00361,
+        "semantic_description": "Absence of DEBIT rail under one-hot encoding (encoded flag = 0; transaction was not DEBIT)"
+      },
+      {
+        "feature": "type_PAYMENT",
+        "feature_value": 0.0,
+        "shap_attribution": 0.40851,
+        "semantic_description": "Absence of PAYMENT rail under one-hot encoding (encoded flag = 0; transaction was not PAYMENT)"
+      },
+      {
+        "feature": "type_TRANSFER",
+        "feature_value": 0.0,
+        "shap_attribution": -0.11727,
+        "semantic_description": "Absence of TRANSFER rail under one-hot encoding (encoded flag = 0; transaction was not TRANSFER)"
+      }
+    ],
+    "human_readable_explanation": "The model assigned a low uncalibrated fraud risk score of 0.33% (raw margin: -5.726 vs baseline: -3.416), remaining safely below the alert threshold of 0.9660. For this observed CASH_IN transaction of $247,717.30, the score was suppressed primarily by: active CASH_IN rail (-1.907), absence of CASH_OUT rail under encoding (-0.621), absence of TRANSFER rail under encoding (-0.117). One-hot feature indicators reflect model rail encoding mechanics rather than separate real-world events.",
+    "case_category": "True Negative (Low Score Legitimate)"
+  },
+  {
+    "transaction_ref": {
+      "step": 699,
+      "type": "CASH_OUT",
+      "amount": 242895.765625,
+      "name_orig": "C1641939233",
+      "name_dest": "C86170378",
+      "ground_truth_label": 0
+    },
+    "observed_attributes": {
+      "transaction_type": "CASH_OUT",
+      "amount_usd": 242895.77,
+      "simulated_day": 30,
+      "simulated_hour": 2
+    },
+    "model_assessment": {
+      "raw_log_odds_score": 4.9153,
+      "predicted_probability": 0.99272,
+      "score_type": "uncalibrated_model_score_sigmoid",
+      "locked_decision_threshold": 0.966,
+      "predicted_positive_alert": true,
+      "classification_status": "HIGH-RISK ALERT (Score: 0.9927 >= Threshold: 0.9660)",
+      "base_value_log_odds": -3.41607
+    },
+    "top_positive_drivers": [
+      {
+        "feature": "transaction_hour",
+        "feature_value": 2.0,
+        "shap_attribution": 4.04548,
+        "semantic_description": "Simulated hour-of-day (02:00)"
+      },
+      {
+        "feature": "type_PAYMENT",
+        "feature_value": 0.0,
+        "shap_attribution": 1.70352,
+        "semantic_description": "Absence of PAYMENT rail under one-hot encoding (encoded flag = 0; transaction was not PAYMENT)"
+      },
+      {
+        "feature": "type_CASH_IN",
+        "feature_value": 0.0,
+        "shap_attribution": 1.67717,
+        "semantic_description": "Absence of CASH_IN rail under one-hot encoding (encoded flag = 0; transaction was not CASH_IN)"
+      }
+    ],
+    "top_negative_drivers": [
+      {
+        "feature": "amount",
+        "feature_value": 242895.765625,
+        "shap_attribution": -0.17157,
+        "semantic_description": "Transaction monetary value ($242,895.77)"
+      },
+      {
+        "feature": "type_TRANSFER",
+        "feature_value": 0.0,
+        "shap_attribution": -0.08509,
+        "semantic_description": "Absence of TRANSFER rail under one-hot encoding (encoded flag = 0; transaction was not TRANSFER)"
+      },
+      {
+        "feature": "log1p_amount",
+        "feature_value": 12.400391578674316,
+        "shap_attribution": -0.03174,
+        "semantic_description": "Log-stabilized amount scale (log1p=12.40)"
+      }
+    ],
+    "all_attributions": [
+      {
+        "feature": "amount",
+        "feature_value": 242895.765625,
+        "shap_attribution": -0.17157,
+        "semantic_description": "Transaction monetary value ($242,895.77)"
+      },
+      {
+        "feature": "log1p_amount",
+        "feature_value": 12.400391578674316,
+        "shap_attribution": -0.03174,
+        "semantic_description": "Log-stabilized amount scale (log1p=12.40)"
+      },
+      {
+        "feature": "transaction_hour",
+        "feature_value": 2.0,
+        "shap_attribution": 4.04548,
+        "semantic_description": "Simulated hour-of-day (02:00)"
+      },
+      {
+        "feature": "type_CASH_IN",
+        "feature_value": 0.0,
+        "shap_attribution": 1.67717,
+        "semantic_description": "Absence of CASH_IN rail under one-hot encoding (encoded flag = 0; transaction was not CASH_IN)"
+      },
+      {
+        "feature": "type_CASH_OUT",
+        "feature_value": 1.0,
+        "shap_attribution": 1.08809,
+        "semantic_description": "Active transaction rail: CASH_OUT (encoded flag = 1)"
+      },
+      {
+        "feature": "type_DEBIT",
+        "feature_value": 0.0,
+        "shap_attribution": 0.10551,
+        "semantic_description": "Absence of DEBIT rail under one-hot encoding (encoded flag = 0; transaction was not DEBIT)"
+      },
+      {
+        "feature": "type_PAYMENT",
+        "feature_value": 0.0,
+        "shap_attribution": 1.70352,
+        "semantic_description": "Absence of PAYMENT rail under one-hot encoding (encoded flag = 0; transaction was not PAYMENT)"
+      },
+      {
+        "feature": "type_TRANSFER",
+        "feature_value": 0.0,
+        "shap_attribution": -0.08509,
+        "semantic_description": "Absence of TRANSFER rail under one-hot encoding (encoded flag = 0; transaction was not TRANSFER)"
+      }
+    ],
+    "human_readable_explanation": "The model assigned an uncalibrated fraud risk score of 99.27% (raw margin: +4.915 vs baseline: -3.416), breaching the operational alert threshold of 0.9660. For this observed CASH_OUT transaction of $242,895.77, the score was pushed higher primarily by: hour 02:00 (+4.045), absence of PAYMENT rail under encoding (+1.704), absence of CASH_IN rail under encoding (+1.677). Note that one-hot indicators (such as type_PAYMENT=0) reflect the mathematical absence of non-fraud rail risk suppression under the chosen model encoding, rather than an independent real-world event.",
+    "case_category": "False Positive (Alerted Legitimate)"
+  },
+  {
+    "transaction_ref": {
+      "step": 614,
+      "type": "TRANSFER",
+      "amount": 4212683.0,
+      "name_orig": "C359671277",
+      "name_dest": "C1265391231",
+      "ground_truth_label": 1
+    },
+    "observed_attributes": {
+      "transaction_type": "TRANSFER",
+      "amount_usd": 4212683.0,
+      "simulated_day": 26,
+      "simulated_hour": 13
+    },
+    "model_assessment": {
+      "raw_log_odds_score": 2.39366,
+      "predicted_probability": 0.91634,
+      "score_type": "uncalibrated_model_score_sigmoid",
+      "locked_decision_threshold": 0.966,
+      "predicted_positive_alert": false,
+      "classification_status": "SUB-THRESHOLD / ELEVATED (Score: 0.9163 < Threshold: 0.9660)",
+      "base_value_log_odds": -3.41607
+    },
+    "top_positive_drivers": [
+      {
+        "feature": "amount",
+        "feature_value": 4212683.0,
+        "shap_attribution": 1.76642,
+        "semantic_description": "Transaction monetary value ($4,212,683.00)"
+      },
+      {
+        "feature": "type_CASH_IN",
+        "feature_value": 0.0,
+        "shap_attribution": 1.51775,
+        "semantic_description": "Absence of CASH_IN rail under one-hot encoding (encoded flag = 0; transaction was not CASH_IN)"
+      },
+      {
+        "feature": "type_PAYMENT",
+        "feature_value": 0.0,
+        "shap_attribution": 1.39131,
+        "semantic_description": "Absence of PAYMENT rail under one-hot encoding (encoded flag = 0; transaction was not PAYMENT)"
+      }
+    ],
+    "top_negative_drivers": [
+      {
+        "feature": "type_CASH_OUT",
+        "feature_value": 0.0,
+        "shap_attribution": -0.33516,
+        "semantic_description": "Absence of CASH_OUT rail under one-hot encoding (encoded flag = 0; transaction was not CASH_OUT)"
+      },
+      {
+        "feature": "transaction_hour",
+        "feature_value": 13.0,
+        "shap_attribution": -0.01846,
+        "semantic_description": "Simulated hour-of-day (13:00)"
+      }
+    ],
+    "all_attributions": [
+      {
+        "feature": "amount",
+        "feature_value": 4212683.0,
+        "shap_attribution": 1.76642,
+        "semantic_description": "Transaction monetary value ($4,212,683.00)"
+      },
+      {
+        "feature": "log1p_amount",
+        "feature_value": 15.253610610961914,
+        "shap_attribution": 0.34077,
+        "semantic_description": "Log-stabilized amount scale (log1p=15.25)"
+      },
+      {
+        "feature": "transaction_hour",
+        "feature_value": 13.0,
+        "shap_attribution": -0.01846,
+        "semantic_description": "Simulated hour-of-day (13:00)"
+      },
+      {
+        "feature": "type_CASH_IN",
+        "feature_value": 0.0,
+        "shap_attribution": 1.51775,
+        "semantic_description": "Absence of CASH_IN rail under one-hot encoding (encoded flag = 0; transaction was not CASH_IN)"
+      },
+      {
+        "feature": "type_CASH_OUT",
+        "feature_value": 0.0,
+        "shap_attribution": -0.33516,
+        "semantic_description": "Absence of CASH_OUT rail under one-hot encoding (encoded flag = 0; transaction was not CASH_OUT)"
+      },
+      {
+        "feature": "type_DEBIT",
+        "feature_value": 0.0,
+        "shap_attribution": 0.00402,
+        "semantic_description": "Absence of DEBIT rail under one-hot encoding (encoded flag = 0; transaction was not DEBIT)"
+      },
+      {
+        "feature": "type_PAYMENT",
+        "feature_value": 0.0,
+        "shap_attribution": 1.39131,
+        "semantic_description": "Absence of PAYMENT rail under one-hot encoding (encoded flag = 0; transaction was not PAYMENT)"
+      },
+      {
+        "feature": "type_TRANSFER",
+        "feature_value": 1.0,
+        "shap_attribution": 1.14308,
+        "semantic_description": "Active transaction rail: TRANSFER (encoded flag = 1)"
+      }
+    ],
+    "human_readable_explanation": "The model assigned an elevated uncalibrated fraud risk score of 91.63% (raw margin: +2.394 vs baseline: -3.416), which remained below the locked alert threshold of 0.9660. For this observed TRANSFER transaction of $4,212,683.00, the score was pushed higher by amount $4,212,683.00 (+1.766), absence of CASH_IN rail under encoding (+1.518), absence of PAYMENT rail under encoding (+1.391), but held below threshold primarily by: absence of CASH_OUT rail under encoding (-0.335), hour 13:00 (-0.018). One-hot feature indicators reflect model rail encoding mechanics rather than separate real-world events.",
+    "case_category": "False Negative (Missed Fraud)"
+  }
+]

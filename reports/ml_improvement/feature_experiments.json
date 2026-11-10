@@ -1,0 +1,603 @@
+{
+  "timestamp_utc": "2026-10-19T11:25:07Z",
+  "baseline_val_ap": 0.3115,
+  "baseline_val_f1": 0.3773,
+  "experiments": [
+    {
+      "experiment_id": "EXP-01",
+      "experiment_name": "Baseline Champion (8 Features, Balanced)",
+      "feature_set": "baseline_8",
+      "feature_count": 8,
+      "features": [
+        "amount",
+        "log1p_amount",
+        "transaction_hour",
+        "type_CASH_IN",
+        "type_CASH_OUT",
+        "type_DEBIT",
+        "type_PAYMENT",
+        "type_TRANSFER"
+      ],
+      "class_weight": "balanced",
+      "undersample_ratio": null,
+      "training_samples": 6014717,
+      "hyperparameters": {
+        "max_iter": 50,
+        "learning_rate": 0.1,
+        "max_leaf_nodes": 31,
+        "min_samples_leaf": 20,
+        "l2_regularization": 0.0
+      },
+      "training_time_seconds": 31.41,
+      "hypothesis": "Benchmark reference: 8 non-leaking features with default balanced weighting.",
+      "validation_results": {
+        "average_precision_pr_auc": 0.3115,
+        "roc_auc": 0.9509,
+        "optimal_threshold": 0.966,
+        "precision": 0.3351,
+        "recall": 0.4315,
+        "f1_score": 0.3773,
+        "predicted_alerts": 1298,
+        "delta_ap_vs_baseline": 0.0,
+        "delta_f1_vs_baseline": 0.0,
+        "improved_on_validation": false
+      }
+    },
+    {
+      "experiment_id": "EXP-02",
+      "experiment_name": "Cyclical Diurnal Time Features",
+      "feature_set": "cyclical_time",
+      "feature_count": 11,
+      "features": [
+        "amount",
+        "log1p_amount",
+        "transaction_hour",
+        "type_CASH_IN",
+        "type_CASH_OUT",
+        "type_DEBIT",
+        "type_PAYMENT",
+        "type_TRANSFER",
+        "hour_sin",
+        "hour_cos",
+        "is_night_hour"
+      ],
+      "class_weight": "balanced",
+      "undersample_ratio": null,
+      "training_samples": 6014717,
+      "hyperparameters": {
+        "max_iter": 50,
+        "learning_rate": 0.1,
+        "max_leaf_nodes": 31,
+        "min_samples_leaf": 20,
+        "l2_regularization": 0.0
+      },
+      "training_time_seconds": 38.7,
+      "hypothesis": "Adding continuous sin/cos hour and nocturnal window (12-6 AM) improves nocturnal fraud discrimination.",
+      "validation_results": {
+        "average_precision_pr_auc": 0.3083,
+        "roc_auc": 0.9504,
+        "optimal_threshold": 0.965,
+        "precision": 0.3316,
+        "recall": 0.4315,
+        "f1_score": 0.375,
+        "predicted_alerts": 1312,
+        "delta_ap_vs_baseline": -0.0032,
+        "delta_f1_vs_baseline": -0.0023,
+        "improved_on_validation": false
+      }
+    },
+    {
+      "experiment_id": "EXP-03",
+      "experiment_name": "Type-Amount Explicit Interactions",
+      "feature_set": "type_amount_interactions",
+      "feature_count": 13,
+      "features": [
+        "amount",
+        "log1p_amount",
+        "transaction_hour",
+        "type_CASH_IN",
+        "type_CASH_OUT",
+        "type_DEBIT",
+        "type_PAYMENT",
+        "type_TRANSFER",
+        "is_high_risk_rail",
+        "log1p_x_transfer",
+        "log1p_x_cashout",
+        "amount_x_transfer",
+        "amount_x_cashout"
+      ],
+      "class_weight": "balanced",
+      "undersample_ratio": null,
+      "training_samples": 6014717,
+      "hyperparameters": {
+        "max_iter": 50,
+        "learning_rate": 0.1,
+        "max_leaf_nodes": 31,
+        "min_samples_leaf": 20,
+        "l2_regularization": 0.0
+      },
+      "training_time_seconds": 50.08,
+      "hypothesis": "Explicit interaction terms between amount and TRANSFER/CASH_OUT provide direct split cues for high-value liquidation.",
+      "validation_results": {
+        "average_precision_pr_auc": 0.3531,
+        "roc_auc": 0.9513,
+        "optimal_threshold": 0.99,
+        "precision": 0.4262,
+        "recall": 0.375,
+        "f1_score": 0.3989,
+        "predicted_alerts": 887,
+        "delta_ap_vs_baseline": 0.0416,
+        "delta_f1_vs_baseline": 0.0216,
+        "improved_on_validation": true
+      }
+    },
+    {
+      "experiment_id": "EXP-04",
+      "experiment_name": "Nonlinear Amount Transformations",
+      "feature_set": "nonlinear_amount",
+      "feature_count": 11,
+      "features": [
+        "amount",
+        "log1p_amount",
+        "transaction_hour",
+        "type_CASH_IN",
+        "type_CASH_OUT",
+        "type_DEBIT",
+        "type_PAYMENT",
+        "type_TRANSFER",
+        "sqrt_amount",
+        "log1p_sq",
+        "is_round_1000"
+      ],
+      "class_weight": "balanced",
+      "undersample_ratio": null,
+      "training_samples": 6014717,
+      "hyperparameters": {
+        "max_iter": 50,
+        "learning_rate": 0.1,
+        "max_leaf_nodes": 31,
+        "min_samples_leaf": 20,
+        "l2_regularization": 0.0
+      },
+      "training_time_seconds": 47.47,
+      "hypothesis": "Square root and round-amount indicators capture round liquidation amounts without distortion.",
+      "validation_results": {
+        "average_precision_pr_auc": 0.2973,
+        "roc_auc": 0.9508,
+        "optimal_threshold": 0.965,
+        "precision": 0.3377,
+        "recall": 0.4375,
+        "f1_score": 0.3812,
+        "predicted_alerts": 1306,
+        "delta_ap_vs_baseline": -0.0142,
+        "delta_f1_vs_baseline": 0.0039,
+        "improved_on_validation": false
+      }
+    },
+    {
+      "experiment_id": "EXP-05",
+      "experiment_name": "All Engineered Features Combined",
+      "feature_set": "all_engineered",
+      "feature_count": 19,
+      "features": [
+        "amount",
+        "log1p_amount",
+        "transaction_hour",
+        "type_CASH_IN",
+        "type_CASH_OUT",
+        "type_DEBIT",
+        "type_PAYMENT",
+        "type_TRANSFER",
+        "hour_sin",
+        "hour_cos",
+        "is_night_hour",
+        "is_high_risk_rail",
+        "log1p_x_transfer",
+        "log1p_x_cashout",
+        "amount_x_transfer",
+        "amount_x_cashout",
+        "sqrt_amount",
+        "log1p_sq",
+        "is_round_1000"
+      ],
+      "class_weight": "balanced",
+      "undersample_ratio": null,
+      "training_samples": 6014717,
+      "hyperparameters": {
+        "max_iter": 50,
+        "learning_rate": 0.1,
+        "max_leaf_nodes": 31,
+        "min_samples_leaf": 20,
+        "l2_regularization": 0.0
+      },
+      "training_time_seconds": 56.35,
+      "hypothesis": "Combining diurnal periodicity, non-linear amount, and rail interactions maximizes predictive information.",
+      "validation_results": {
+        "average_precision_pr_auc": 0.352,
+        "roc_auc": 0.9503,
+        "optimal_threshold": 0.99,
+        "precision": 0.4318,
+        "recall": 0.374,
+        "f1_score": 0.4009,
+        "predicted_alerts": 873,
+        "delta_ap_vs_baseline": 0.0405,
+        "delta_f1_vs_baseline": 0.0236,
+        "improved_on_validation": true
+      }
+    },
+    {
+      "experiment_id": "EXP-06",
+      "experiment_name": "Natural Class Weight (Unweighted)",
+      "feature_set": "baseline_8",
+      "feature_count": 8,
+      "features": [
+        "amount",
+        "log1p_amount",
+        "transaction_hour",
+        "type_CASH_IN",
+        "type_CASH_OUT",
+        "type_DEBIT",
+        "type_PAYMENT",
+        "type_TRANSFER"
+      ],
+      "class_weight": "None",
+      "undersample_ratio": null,
+      "training_samples": 6014717,
+      "hyperparameters": {
+        "max_iter": 50,
+        "learning_rate": 0.1,
+        "max_leaf_nodes": 31,
+        "min_samples_leaf": 20,
+        "l2_regularization": 0.0
+      },
+      "training_time_seconds": 11.02,
+      "hypothesis": "Unweighted loss function produces well-calibrated probabilities, reducing false-alarm inflation.",
+      "validation_results": {
+        "average_precision_pr_auc": 0.2404,
+        "roc_auc": 0.7777,
+        "optimal_threshold": 0.3766,
+        "precision": 0.6598,
+        "recall": 0.2212,
+        "f1_score": 0.3314,
+        "predicted_alerts": 338,
+        "delta_ap_vs_baseline": -0.0711,
+        "delta_f1_vs_baseline": -0.0459,
+        "improved_on_validation": false
+      }
+    },
+    {
+      "experiment_id": "EXP-07",
+      "experiment_name": "Custom Class Weight 1:50",
+      "feature_set": "baseline_8",
+      "feature_count": 8,
+      "features": [
+        "amount",
+        "log1p_amount",
+        "transaction_hour",
+        "type_CASH_IN",
+        "type_CASH_OUT",
+        "type_DEBIT",
+        "type_PAYMENT",
+        "type_TRANSFER"
+      ],
+      "class_weight": "{0: 1.0, 1: 50.0}",
+      "undersample_ratio": null,
+      "training_samples": 6014717,
+      "hyperparameters": {
+        "max_iter": 50,
+        "learning_rate": 0.1,
+        "max_leaf_nodes": 31,
+        "min_samples_leaf": 20,
+        "l2_regularization": 0.0
+      },
+      "training_time_seconds": 42.14,
+      "hypothesis": "Moderate 50x weighting avoids extreme 1189x gradient overshoots while penalizing missed frauds.",
+      "validation_results": {
+        "average_precision_pr_auc": 0.3663,
+        "roc_auc": 0.9514,
+        "optimal_threshold": 0.7702,
+        "precision": 0.4044,
+        "recall": 0.3968,
+        "f1_score": 0.4006,
+        "predicted_alerts": 989,
+        "delta_ap_vs_baseline": 0.0548,
+        "delta_f1_vs_baseline": 0.0233,
+        "improved_on_validation": true
+      }
+    },
+    {
+      "experiment_id": "EXP-08",
+      "experiment_name": "Custom Class Weight 1:100",
+      "feature_set": "baseline_8",
+      "feature_count": 8,
+      "features": [
+        "amount",
+        "log1p_amount",
+        "transaction_hour",
+        "type_CASH_IN",
+        "type_CASH_OUT",
+        "type_DEBIT",
+        "type_PAYMENT",
+        "type_TRANSFER"
+      ],
+      "class_weight": "{0: 1.0, 1: 100.0}",
+      "undersample_ratio": null,
+      "training_samples": 6014717,
+      "hyperparameters": {
+        "max_iter": 50,
+        "learning_rate": 0.1,
+        "max_leaf_nodes": 31,
+        "min_samples_leaf": 20,
+        "l2_regularization": 0.0
+      },
+      "training_time_seconds": 41.57,
+      "hypothesis": "100x positive weighting focuses boosting on rare fraud boundaries.",
+      "validation_results": {
+        "average_precision_pr_auc": 0.3413,
+        "roc_auc": 0.9509,
+        "optimal_threshold": 0.8761,
+        "precision": 0.4097,
+        "recall": 0.3938,
+        "f1_score": 0.4016,
+        "predicted_alerts": 969,
+        "delta_ap_vs_baseline": 0.0298,
+        "delta_f1_vs_baseline": 0.0243,
+        "improved_on_validation": true
+      }
+    },
+    {
+      "experiment_id": "EXP-09",
+      "experiment_name": "Training-Only Majority Undersampling (50:1)",
+      "feature_set": "baseline_8",
+      "feature_count": 8,
+      "features": [
+        "amount",
+        "log1p_amount",
+        "transaction_hour",
+        "type_CASH_IN",
+        "type_CASH_OUT",
+        "type_DEBIT",
+        "type_PAYMENT",
+        "type_TRANSFER"
+      ],
+      "class_weight": "balanced",
+      "undersample_ratio": 50,
+      "training_samples": 257907,
+      "hyperparameters": {
+        "max_iter": 50,
+        "learning_rate": 0.1,
+        "max_leaf_nodes": 31,
+        "min_samples_leaf": 20,
+        "l2_regularization": 0.0
+      },
+      "training_time_seconds": 2.31,
+      "hypothesis": "Pruning redundant non-fraud samples from training accelerates gradient convergence and sharpens boundaries.",
+      "validation_results": {
+        "average_precision_pr_auc": 0.284,
+        "roc_auc": 0.951,
+        "optimal_threshold": 0.952,
+        "precision": 0.3154,
+        "recall": 0.4722,
+        "f1_score": 0.3782,
+        "predicted_alerts": 1509,
+        "delta_ap_vs_baseline": -0.0275,
+        "delta_f1_vs_baseline": 0.0009,
+        "improved_on_validation": false
+      }
+    },
+    {
+      "experiment_id": "EXP-10",
+      "experiment_name": "Training-Only Majority Undersampling (20:1)",
+      "feature_set": "baseline_8",
+      "feature_count": 8,
+      "features": [
+        "amount",
+        "log1p_amount",
+        "transaction_hour",
+        "type_CASH_IN",
+        "type_CASH_OUT",
+        "type_DEBIT",
+        "type_PAYMENT",
+        "type_TRANSFER"
+      ],
+      "class_weight": "balanced",
+      "undersample_ratio": 20,
+      "training_samples": 106197,
+      "hyperparameters": {
+        "max_iter": 50,
+        "learning_rate": 0.1,
+        "max_leaf_nodes": 31,
+        "min_samples_leaf": 20,
+        "l2_regularization": 0.0
+      },
+      "training_time_seconds": 0.97,
+      "hypothesis": "Aggressive majority reduction focuses tree splits purely on high-density fraud clusters.",
+      "validation_results": {
+        "average_precision_pr_auc": 0.3107,
+        "roc_auc": 0.9514,
+        "optimal_threshold": 0.958,
+        "precision": 0.3071,
+        "recall": 0.4563,
+        "f1_score": 0.3671,
+        "predicted_alerts": 1498,
+        "delta_ap_vs_baseline": -0.0008,
+        "delta_f1_vs_baseline": -0.0102,
+        "improved_on_validation": false
+      }
+    },
+    {
+      "experiment_id": "EXP-11",
+      "experiment_name": "Regularized Shallow Trees (Depth Control)",
+      "feature_set": "baseline_8",
+      "feature_count": 8,
+      "features": [
+        "amount",
+        "log1p_amount",
+        "transaction_hour",
+        "type_CASH_IN",
+        "type_CASH_OUT",
+        "type_DEBIT",
+        "type_PAYMENT",
+        "type_TRANSFER"
+      ],
+      "class_weight": "balanced",
+      "undersample_ratio": null,
+      "training_samples": 6014717,
+      "hyperparameters": {
+        "max_iter": 100,
+        "learning_rate": 0.05,
+        "max_leaf_nodes": 15,
+        "min_samples_leaf": 50,
+        "l2_regularization": 1.0
+      },
+      "training_time_seconds": 69.33,
+      "hypothesis": "Shallower trees (15 leaves) with smaller learning rate prevent memorization of transient volume fluctuations.",
+      "validation_results": {
+        "average_precision_pr_auc": 0.2938,
+        "roc_auc": 0.9509,
+        "optimal_threshold": 0.9461,
+        "precision": 0.3091,
+        "recall": 0.4643,
+        "f1_score": 0.3711,
+        "predicted_alerts": 1514,
+        "delta_ap_vs_baseline": -0.0177,
+        "delta_f1_vs_baseline": -0.0062,
+        "improved_on_validation": false
+      }
+    },
+    {
+      "experiment_id": "EXP-12",
+      "experiment_name": "High-Capacity Deep Trees (63 Leaves)",
+      "feature_set": "baseline_8",
+      "feature_count": 8,
+      "features": [
+        "amount",
+        "log1p_amount",
+        "transaction_hour",
+        "type_CASH_IN",
+        "type_CASH_OUT",
+        "type_DEBIT",
+        "type_PAYMENT",
+        "type_TRANSFER"
+      ],
+      "class_weight": "balanced",
+      "undersample_ratio": null,
+      "training_samples": 6014717,
+      "hyperparameters": {
+        "max_iter": 100,
+        "learning_rate": 0.1,
+        "max_leaf_nodes": 63,
+        "min_samples_leaf": 10,
+        "l2_regularization": 0.0
+      },
+      "training_time_seconds": 54.79,
+      "hypothesis": "Deeper trees can learn multi-way interaction splits between amount, rail, and hour.",
+      "validation_results": {
+        "average_precision_pr_auc": 0.3228,
+        "roc_auc": 0.9457,
+        "optimal_threshold": 0.968,
+        "precision": 0.3566,
+        "recall": 0.4355,
+        "f1_score": 0.3921,
+        "predicted_alerts": 1231,
+        "delta_ap_vs_baseline": 0.0113,
+        "delta_f1_vs_baseline": 0.0148,
+        "improved_on_validation": true
+      }
+    },
+    {
+      "experiment_id": "EXP-13",
+      "experiment_name": "L2 Regularized Histogram Boosting",
+      "feature_set": "baseline_8",
+      "feature_count": 8,
+      "features": [
+        "amount",
+        "log1p_amount",
+        "transaction_hour",
+        "type_CASH_IN",
+        "type_CASH_OUT",
+        "type_DEBIT",
+        "type_PAYMENT",
+        "type_TRANSFER"
+      ],
+      "class_weight": "balanced",
+      "undersample_ratio": null,
+      "training_samples": 6014717,
+      "hyperparameters": {
+        "max_iter": 75,
+        "learning_rate": 0.08,
+        "max_leaf_nodes": 31,
+        "min_samples_leaf": 30,
+        "l2_regularization": 5.0
+      },
+      "training_time_seconds": 59.19,
+      "hypothesis": "L2 leaf penalty smooths leaf scores, mitigating probability overconfidence.",
+      "validation_results": {
+        "average_precision_pr_auc": 0.3196,
+        "roc_auc": 0.9502,
+        "optimal_threshold": 0.985,
+        "precision": 0.3732,
+        "recall": 0.3929,
+        "f1_score": 0.3828,
+        "predicted_alerts": 1061,
+        "delta_ap_vs_baseline": 0.0081,
+        "delta_f1_vs_baseline": 0.0055,
+        "improved_on_validation": true
+      }
+    },
+    {
+      "experiment_id": "EXP-14",
+      "experiment_name": "Integrated Best Candidate (All Features + Tuned)",
+      "feature_set": "all_engineered",
+      "feature_count": 19,
+      "features": [
+        "amount",
+        "log1p_amount",
+        "transaction_hour",
+        "type_CASH_IN",
+        "type_CASH_OUT",
+        "type_DEBIT",
+        "type_PAYMENT",
+        "type_TRANSFER",
+        "hour_sin",
+        "hour_cos",
+        "is_night_hour",
+        "is_high_risk_rail",
+        "log1p_x_transfer",
+        "log1p_x_cashout",
+        "amount_x_transfer",
+        "amount_x_cashout",
+        "sqrt_amount",
+        "log1p_sq",
+        "is_round_1000"
+      ],
+      "class_weight": "balanced",
+      "undersample_ratio": null,
+      "training_samples": 6014717,
+      "hyperparameters": {
+        "max_iter": 75,
+        "learning_rate": 0.08,
+        "max_leaf_nodes": 31,
+        "min_samples_leaf": 30,
+        "l2_regularization": 2.0
+      },
+      "training_time_seconds": 76.8,
+      "hypothesis": "Synergistic combination of all verified leak-free features with mild L2 regularization and tree shrinkage.",
+      "validation_results": {
+        "average_precision_pr_auc": 0.354,
+        "roc_auc": 0.9501,
+        "optimal_threshold": 0.992,
+        "precision": 0.4291,
+        "recall": 0.3631,
+        "f1_score": 0.3933,
+        "predicted_alerts": 853,
+        "delta_ap_vs_baseline": 0.0425,
+        "delta_f1_vs_baseline": 0.016,
+        "improved_on_validation": true
+      }
+    }
+  ],
+  "figures": {
+    "feature_experiments_pr_curves": "reports/ml_improvement/figures/feature_experiments_pr_curves.png"
+  }
+}

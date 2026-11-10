@@ -1,0 +1,462 @@
+{
+  "timestamp_utc": "2026-10-19T11:33:30Z",
+  "daily_statistics": [
+    {
+      "day": 1,
+      "total_transactions": 574255,
+      "fraud_count": 271,
+      "fraud_rate_pct": 0.0472,
+      "total_amount": 92131865625.65
+    },
+    {
+      "day": 2,
+      "total_transactions": 455238,
+      "fraud_count": 309,
+      "fraud_rate_pct": 0.0679,
+      "total_amount": 71238642397.16
+    },
+    {
+      "day": 3,
+      "total_transactions": 1070,
+      "fraud_count": 310,
+      "fraud_rate_pct": 28.972,
+      "total_amount": 447084472.63
+    },
+    {
+      "day": 4,
+      "total_transactions": 28240,
+      "fraud_count": 262,
+      "fraud_rate_pct": 0.9278,
+      "total_amount": 3830547360.59
+    },
+    {
+      "day": 5,
+      "total_transactions": 9789,
+      "fraud_count": 252,
+      "fraud_rate_pct": 2.5743,
+      "total_amount": 1325133839.05
+    },
+    {
+      "day": 6,
+      "total_transactions": 441005,
+      "fraud_count": 228,
+      "fraud_rate_pct": 0.0517,
+      "total_amount": 73409986368.34
+    },
+    {
+      "day": 7,
+      "total_transactions": 420583,
+      "fraud_count": 272,
+      "fraud_rate_pct": 0.0647,
+      "total_amount": 67070777584.77
+    },
+    {
+      "day": 8,
+      "total_transactions": 449637,
+      "fraud_count": 278,
+      "fraud_rate_pct": 0.0618,
+      "total_amount": 70030598500.48
+    },
+    {
+      "day": 9,
+      "total_transactions": 417919,
+      "fraud_count": 255,
+      "fraud_rate_pct": 0.061,
+      "total_amount": 58067765398.42
+    },
+    {
+      "day": 10,
+      "total_transactions": 392945,
+      "fraud_count": 282,
+      "fraud_rate_pct": 0.0718,
+      "total_amount": 65190352177.02
+    },
+    {
+      "day": 11,
+      "total_transactions": 417859,
+      "fraud_count": 262,
+      "fraud_rate_pct": 0.0627,
+      "total_amount": 60328661711.6
+    },
+    {
+      "day": 12,
+      "total_transactions": 349776,
+      "fraud_count": 298,
+      "fraud_rate_pct": 0.0852,
+      "total_amount": 57988498474.36
+    },
+    {
+      "day": 13,
+      "total_transactions": 428583,
+      "fraud_count": 242,
+      "fraud_rate_pct": 0.0565,
+      "total_amount": 138673068091.95
+    },
+    {
+      "day": 14,
+      "total_transactions": 397876,
+      "fraud_count": 246,
+      "fraud_rate_pct": 0.0618,
+      "total_amount": 100037360294.78
+    },
+    {
+      "day": 15,
+      "total_transactions": 401282,
+      "fraud_count": 250,
+      "fraud_rate_pct": 0.0623,
+      "total_amount": 77472364656.07
+    },
+    {
+      "day": 16,
+      "total_transactions": 375594,
+      "fraud_count": 252,
+      "fraud_rate_pct": 0.0671,
+      "total_amount": 67890541472.4
+    },
+    {
+      "day": 17,
+      "total_transactions": 425766,
+      "fraud_count": 320,
+      "fraud_rate_pct": 0.0752,
+      "total_amount": 74250134002.8
+    },
+    {
+      "day": 18,
+      "total_transactions": 20999,
+      "fraud_count": 268,
+      "fraud_rate_pct": 1.2763,
+      "total_amount": 3711531300.35
+    },
+    {
+      "day": 19,
+      "total_transactions": 11300,
+      "fraud_count": 256,
+      "fraud_rate_pct": 2.2655,
+      "total_amount": 1936895543.14
+    },
+    {
+      "day": 20,
+      "total_transactions": 19727,
+      "fraud_count": 236,
+      "fraud_rate_pct": 1.1963,
+      "total_amount": 3596373218.52
+    },
+    {
+      "day": 21,
+      "total_transactions": 24593,
+      "fraud_count": 272,
+      "fraud_rate_pct": 1.106,
+      "total_amount": 4840421321.64
+    },
+    {
+      "day": 22,
+      "total_transactions": 53437,
+      "fraud_count": 256,
+      "fraud_rate_pct": 0.4791,
+      "total_amount": 9515278618.26
+    },
+    {
+      "day": 23,
+      "total_transactions": 51012,
+      "fraud_count": 216,
+      "fraud_rate_pct": 0.4234,
+      "total_amount": 8194745997.95
+    },
+    {
+      "day": 24,
+      "total_transactions": 32709,
+      "fraud_count": 280,
+      "fraud_rate_pct": 0.856,
+      "total_amount": 5243509370.05
+    },
+    {
+      "day": 25,
+      "total_transactions": 57853,
+      "fraud_count": 240,
+      "fraud_rate_pct": 0.4148,
+      "total_amount": 9177487327.86
+    },
+    {
+      "day": 26,
+      "total_transactions": 13885,
+      "fraud_count": 272,
+      "fraud_rate_pct": 1.9589,
+      "total_amount": 2228709706.33
+    },
+    {
+      "day": 27,
+      "total_transactions": 8578,
+      "fraud_count": 280,
+      "fraud_rate_pct": 3.2642,
+      "total_amount": 1756268796.76
+    },
+    {
+      "day": 28,
+      "total_transactions": 14661,
+      "fraud_count": 248,
+      "fraud_rate_pct": 1.6916,
+      "total_amount": 3006718037.76
+    },
+    {
+      "day": 29,
+      "total_transactions": 54890,
+      "fraud_count": 260,
+      "fraud_rate_pct": 0.4737,
+      "total_amount": 9357636452.07
+    },
+    {
+      "day": 30,
+      "total_transactions": 11287,
+      "fraud_count": 268,
+      "fraud_rate_pct": 2.3744,
+      "total_amount": 1995900406.17
+    },
+    {
+      "day": 31,
+      "total_transactions": 272,
+      "fraud_count": 272,
+      "fraud_rate_pct": 100.0,
+      "total_amount": 448086234.84
+    }
+  ],
+  "baseline_segment_evaluations": {
+    "Train Early (Days 1-6)": {
+      "total_rows": 1509597,
+      "fraud_count": 1632,
+      "fraud_rate_pct": 0.1081,
+      "average_precision_pr_auc": 0.1957,
+      "roc_auc": 0.9537,
+      "performance_at_fixed_thresholds": {
+        "t_0_9": {
+          "precision": 0.0462,
+          "recall": 0.5263,
+          "f1_score": 0.085,
+          "alerts": 18574
+        },
+        "t_0_95": {
+          "precision": 0.0923,
+          "recall": 0.4338,
+          "f1_score": 0.1522,
+          "alerts": 7674
+        },
+        "t_0_966": {
+          "precision": 0.1234,
+          "recall": 0.3891,
+          "f1_score": 0.1874,
+          "alerts": 5144
+        },
+        "t_0_98": {
+          "precision": 0.1524,
+          "recall": 0.3523,
+          "f1_score": 0.2128,
+          "alerts": 3772
+        },
+        "t_0_99": {
+          "precision": 0.2035,
+          "recall": 0.2598,
+          "f1_score": 0.2282,
+          "alerts": 2084
+        }
+      }
+    },
+    "Train Mid (Days 7-12)": {
+      "total_rows": 2448719,
+      "fraud_count": 1647,
+      "fraud_rate_pct": 0.0673,
+      "average_precision_pr_auc": 0.3095,
+      "roc_auc": 0.9563,
+      "performance_at_fixed_thresholds": {
+        "t_0_9": {
+          "precision": 0.0684,
+          "recall": 0.5258,
+          "f1_score": 0.1211,
+          "alerts": 12657
+        },
+        "t_0_95": {
+          "precision": 0.1401,
+          "recall": 0.4378,
+          "f1_score": 0.2123,
+          "alerts": 5145
+        },
+        "t_0_966": {
+          "precision": 0.2537,
+          "recall": 0.4001,
+          "f1_score": 0.3105,
+          "alerts": 2598
+        },
+        "t_0_98": {
+          "precision": 0.3297,
+          "recall": 0.3679,
+          "f1_score": 0.3478,
+          "alerts": 1838
+        },
+        "t_0_99": {
+          "precision": 0.4933,
+          "recall": 0.2902,
+          "f1_score": 0.3654,
+          "alerts": 969
+        }
+      }
+    },
+    "Train Late (Days 13-18)": {
+      "total_rows": 2056401,
+      "fraud_count": 1778,
+      "fraud_rate_pct": 0.0865,
+      "average_precision_pr_auc": 0.3932,
+      "roc_auc": 0.9596,
+      "performance_at_fixed_thresholds": {
+        "t_0_9": {
+          "precision": 0.0455,
+          "recall": 0.5934,
+          "f1_score": 0.0846,
+          "alerts": 23175
+        },
+        "t_0_95": {
+          "precision": 0.1746,
+          "recall": 0.5084,
+          "f1_score": 0.26,
+          "alerts": 5177
+        },
+        "t_0_966": {
+          "precision": 0.3831,
+          "recall": 0.4747,
+          "f1_score": 0.424,
+          "alerts": 2203
+        },
+        "t_0_98": {
+          "precision": 0.466,
+          "recall": 0.4393,
+          "f1_score": 0.4522,
+          "alerts": 1676
+        },
+        "t_0_99": {
+          "precision": 0.6041,
+          "recall": 0.3622,
+          "f1_score": 0.4529,
+          "alerts": 1066
+        }
+      }
+    },
+    "Validation (Days 19-23)": {
+      "total_rows": 151302,
+      "fraud_count": 1008,
+      "fraud_rate_pct": 0.6662,
+      "average_precision_pr_auc": 0.3115,
+      "roc_auc": 0.9509,
+      "performance_at_fixed_thresholds": {
+        "t_0_9": {
+          "precision": 0.2259,
+          "recall": 0.5486,
+          "f1_score": 0.32,
+          "alerts": 2448
+        },
+        "t_0_95": {
+          "precision": 0.3001,
+          "recall": 0.4663,
+          "f1_score": 0.3652,
+          "alerts": 1566
+        },
+        "t_0_966": {
+          "precision": 0.3351,
+          "recall": 0.4315,
+          "f1_score": 0.3773,
+          "alerts": 1298
+        },
+        "t_0_98": {
+          "precision": 0.3356,
+          "recall": 0.3998,
+          "f1_score": 0.3649,
+          "alerts": 1201
+        },
+        "t_0_99": {
+          "precision": 0.364,
+          "recall": 0.3105,
+          "f1_score": 0.3351,
+          "alerts": 860
+        }
+      }
+    },
+    "Early Holdout (Days 24-27)": {
+      "total_rows": 115770,
+      "fraud_count": 1126,
+      "fraud_rate_pct": 0.9726,
+      "average_precision_pr_auc": 0.4133,
+      "roc_auc": 0.9517,
+      "performance_at_fixed_thresholds": {
+        "t_0_9": {
+          "precision": 0.3036,
+          "recall": 0.548,
+          "f1_score": 0.3908,
+          "alerts": 2032
+        },
+        "t_0_95": {
+          "precision": 0.4225,
+          "recall": 0.4769,
+          "f1_score": 0.4481,
+          "alerts": 1271
+        },
+        "t_0_966": {
+          "precision": 0.5299,
+          "recall": 0.4325,
+          "f1_score": 0.4763,
+          "alerts": 919
+        },
+        "t_0_98": {
+          "precision": 0.6207,
+          "recall": 0.3996,
+          "f1_score": 0.4862,
+          "alerts": 725
+        },
+        "t_0_99": {
+          "precision": 0.5938,
+          "recall": 0.3037,
+          "f1_score": 0.4019,
+          "alerts": 576
+        }
+      }
+    },
+    "Late Holdout (Days 28-31)": {
+      "total_rows": 80831,
+      "fraud_count": 1022,
+      "fraud_rate_pct": 1.2644,
+      "average_precision_pr_auc": 0.4909,
+      "roc_auc": 0.9447,
+      "performance_at_fixed_thresholds": {
+        "t_0_9": {
+          "precision": 0.3158,
+          "recall": 0.5391,
+          "f1_score": 0.3983,
+          "alerts": 1745
+        },
+        "t_0_95": {
+          "precision": 0.5849,
+          "recall": 0.4687,
+          "f1_score": 0.5204,
+          "alerts": 819
+        },
+        "t_0_966": {
+          "precision": 0.6423,
+          "recall": 0.4217,
+          "f1_score": 0.5092,
+          "alerts": 671
+        },
+        "t_0_98": {
+          "precision": 0.7833,
+          "recall": 0.3855,
+          "f1_score": 0.5167,
+          "alerts": 503
+        },
+        "t_0_99": {
+          "precision": 0.8057,
+          "recall": 0.3043,
+          "f1_score": 0.4418,
+          "alerts": 386
+        }
+      }
+    }
+  },
+  "figures": {
+    "temporal_daily_dynamics": "C:\\Users\\samit\\OneDrive\\Desktop\\FinSight\\reports\\ml_improvement\\figures\\temporal_daily_dynamics.png",
+    "temporal_segment_pr_curves": "C:\\Users\\samit\\OneDrive\\Desktop\\FinSight\\reports\\ml_improvement\\figures\\temporal_segment_pr_curves.png"
+  }
+}
