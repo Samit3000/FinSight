@@ -1,0 +1,88 @@
+{
+  "artifact": "models/candidates/hgb_baseline8_balanced.joblib",
+  "artifact_sha256": "934cdea8da2890e2cb02cdd6473933c829d4f7a11f82b3c03122c40df94ae8ac",
+  "saved_at_utc": "2026-11-18T10:36:50Z",
+  "selected_threshold": 0.966,
+  "config_name": "hgb_baseline8_balanced",
+  "config": {
+    "model_name": "HistGradientBoosting No Day",
+    "family": "hist_gradient_boosting",
+    "feature_set": "baseline_8",
+    "amount_dtype": "float32",
+    "class_weight": "balanced",
+    "params": {
+      "max_iter": 50,
+      "learning_rate": 0.1,
+      "max_leaf_nodes": 31,
+      "min_samples_leaf": 20,
+      "l2_regularization": 0.0,
+      "random_state": 42
+    },
+    "train_max_step": 450,
+    "threshold_policy": {
+      "name": "validation_f1",
+      "val_min_step": 451,
+      "val_max_step": 550
+    },
+    "selection_history": "Not independent of folds F2 and F3. The 8-feature set (dropping transaction_day) was chosen by comparing AP on the old holdout (steps 551-743, which contains F3's test window 551-650), and the decision threshold and earlier hyperparameter choices used validation steps 451-550 (F2's test window). F2 and F3 results are therefore optimistic for this configuration; F1 (steps 351-450) is the least affected."
+  },
+  "feature_names": [
+    "amount",
+    "log1p_amount",
+    "transaction_hour",
+    "type_CASH_IN",
+    "type_CASH_OUT",
+    "type_DEBIT",
+    "type_PAYMENT",
+    "type_TRANSFER"
+  ],
+  "train_step_range": [
+    1,
+    450
+  ],
+  "training_rows": 6014717,
+  "training_frauds": 5057,
+  "validation_step_range": [
+    451,
+    550
+  ],
+  "threshold_policy": {
+    "name": "validation_f1",
+    "val_min_step": 451,
+    "val_max_step": 550
+  },
+  "validation_metrics": {
+    "average_precision": 0.3115,
+    "roc_auc": 0.9509,
+    "precision": 0.3351,
+    "recall": 0.4315,
+    "f1_score": 0.3773,
+    "average_precision_pr_auc": 0.3115,
+    "alerts": 1298
+  },
+  "final_test_min_step": 651,
+  "score_semantics": "risk score from class-weighted training; not a calibrated probability",
+  "data_path": "data\\processed\\transactions.csv.gz",
+  "data_sha256": "74cba5b396ce21d08f2ffd859bd95f782622a06871ff35f0e4f3f271213294bd",
+  "library_versions": {
+    "python": "3.14.3",
+    "scikit-learn": "1.8.0",
+    "pandas": "3.0.1",
+    "numpy": "2.4.2",
+    "joblib": "1.5.3"
+  },
+  "fit_seconds": 31.4,
+  "verification": {
+    "reference": "models/hist_gradient_boosting_no_day.joblib",
+    "rows_compared": 6281789,
+    "steps_compared": [
+      1,
+      650
+    ],
+    "max_abs_score_difference": 0.0,
+    "same_threshold": true,
+    "alerts_candidate": 12162,
+    "alerts_reference": 12162,
+    "reproduced": true
+  }
+}

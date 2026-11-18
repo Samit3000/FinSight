@@ -3,13 +3,9 @@
 -- Milestone 2: Transaction-Level Warehouse Model & Analytics Schema
 -- ==============================================================================
 
--- Drop tables in reverse dependency order if recreating
-DROP TABLE IF EXISTS fct_risk_evaluations CASCADE;
-DROP TABLE IF EXISTS fct_transactions CASCADE;
-DROP TABLE IF EXISTS dim_customers CASCADE;
-DROP TABLE IF EXISTS dim_merchants CASCADE;
-DROP TABLE IF EXISTS dq_quarantine_records CASCADE;
-DROP TABLE IF EXISTS dq_audit_log CASCADE;
+-- NON-DESTRUCTIVE: this script only creates objects that do not already exist.
+-- Running it against a loaded database is a no-op. It never drops or truncates.
+-- To deliberately rebuild the schema from scratch, see sql/admin/reset_schema.sql.
 
 -- ------------------------------------------------------------------------------
 -- 1. TRANSACTION FACT TABLE: fct_transactions
@@ -17,7 +13,7 @@ DROP TABLE IF EXISTS dq_audit_log CASCADE;
 -- Primary Key Strategy: BIGSERIAL surrogate key (transaction_id) to guarantee
 -- unique transaction addressability without assuming account IDs are unique.
 -- ------------------------------------------------------------------------------
-CREATE TABLE fct_transactions (
+CREATE TABLE IF NOT EXISTS fct_transactions (
     transaction_id BIGSERIAL PRIMARY KEY,
     step INT NOT NULL CHECK (step >= 1),
     type VARCHAR(32) NOT NULL CHECK (type IN ('CASH_OUT', 'TRANSFER', 'PAYMENT', 'CASH_IN', 'DEBIT')),
@@ -44,13 +40,13 @@ CREATE TABLE fct_transactions (
 -- 5. idx_fct_hour_type_fraud: Hourly risk breakdown across rails.
 -- 6. idx_fct_name_orig / idx_fct_name_dest: Distinct account aggregation.
 -- ------------------------------------------------------------------------------
-CREATE INDEX idx_fct_type ON fct_transactions (type);
-CREATE INDEX idx_fct_fraud ON fct_transactions (is_fraud);
-CREATE INDEX idx_fct_type_fraud ON fct_transactions (type, is_fraud);
-CREATE INDEX idx_fct_hour ON fct_transactions (transaction_hour);
-CREATE INDEX idx_fct_hour_type_fraud ON fct_transactions (transaction_hour, type, is_fraud);
-CREATE INDEX idx_fct_name_orig ON fct_transactions (name_orig);
-CREATE INDEX idx_fct_name_dest ON fct_transactions (name_dest);
+CREATE INDEX IF NOT EXISTS idx_fct_type ON fct_transactions (type);
+CREATE INDEX IF NOT EXISTS idx_fct_fraud ON fct_transactions (is_fraud);
+CREATE INDEX IF NOT EXISTS idx_fct_type_fraud ON fct_transactions (type, is_fraud);
+CREATE INDEX IF NOT EXISTS idx_fct_hour ON fct_transactions (transaction_hour);
+CREATE INDEX IF NOT EXISTS idx_fct_hour_type_fraud ON fct_transactions (transaction_hour, type, is_fraud);
+CREATE INDEX IF NOT EXISTS idx_fct_name_orig ON fct_transactions (name_orig);
+CREATE INDEX IF NOT EXISTS idx_fct_name_dest ON fct_transactions (name_dest);
 
 -- ------------------------------------------------------------------------------
 -- Table & Column Documentation:
@@ -99,7 +95,7 @@ COMMENT ON COLUMN fct_transactions.is_flagged_fraud IS
 -- 2. PIPELINE EXECUTION AUDIT LOG: dq_audit_log
 -- Audit log tracking batch ingestion runs, row accounting, and durations.
 -- ------------------------------------------------------------------------------
-CREATE TABLE dq_audit_log (
+CREATE TABLE IF NOT EXISTS dq_audit_log (
     batch_id VARCHAR(64) PRIMARY KEY,
     source_file VARCHAR(256) NOT NULL,
     total_rows_read INT NOT NULL,

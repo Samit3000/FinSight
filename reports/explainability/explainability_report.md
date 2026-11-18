@@ -1,10 +1,10 @@
 # FinSight — Milestone 5: Model Explainability Report (TreeSHAP)
 
-**Generated UTC:** 2026-10-18T21:43:31Z  
+**Generated UTC:** 2026-11-18T10:38:02Z  
 **Model Artifact:** `models/hist_gradient_boosting_no_day.joblib` (HistGradientBoostingClassifier)  
 **Explainer Algorithm:** `TreeExplainer` (TreeSHAP exact additivity)  
-**Sample Population:** 2,000 holdout transactions (`step >= 551`, Seed: `42`)  
-**Pipeline Runtime:** 31.51 seconds  
+**Sample Population:** 2,000 development-holdout transactions (`551 <= step <= 650`; locked final test excluded; Seed: `42`)  
+**Pipeline Runtime:** 17.7 seconds  
 
 ---
 
@@ -33,7 +33,7 @@ framework that assigns each feature its exact marginal contribution to the model
 - **Additivity Property:**
   $$f(x) = \phi_0 + \sum_{j=1}^M \phi_j(x)$$
   Where $\phi_0$ is the base value and $\phi_j(x)$ is the SHAP attribution for feature $j$.
-- **Empirical Additivity Verification:** Max reconstruction error between `model.decision_function(X)` and SHAP sum across all 2,000 sample rows is **`1.07e-14`** (within floating-point numerical tolerance).
+- **Empirical Additivity Verification:** Max reconstruction error between `model.decision_function(X)` and SHAP sum across all 2,000 sample rows is **`1.24e-14`** (within floating-point numerical tolerance).
 
 ---
 
@@ -44,14 +44,14 @@ $$\text{Importance}_j = \frac{1}{N} \sum_{i=1}^N |\phi_j(x_i)|$$
 
 | Rank | Feature Name | Mean |SHAP| (Log-Odds) | Attribution Share (%) |
 | :---: | :--- | :---: | :---: |
-| 1 | `type_PAYMENT` | 1.2372 | 33.7% |
-| 2 | `type_CASH_IN` | 1.0733 | 29.2% |
-| 3 | `type_CASH_OUT` | 0.6536 | 17.8% |
-| 4 | `type_TRANSFER` | 0.2891 | 7.9% |
-| 5 | `transaction_hour` | 0.1819 | 5.0% |
-| 6 | `amount` | 0.1643 | 4.5% |
-| 7 | `log1p_amount` | 0.0627 | 1.7% |
-| 8 | `type_DEBIT` | 0.0129 | 0.3% |
+| 1 | `type_PAYMENT` | 1.2142 | 32.8% |
+| 2 | `type_CASH_IN` | 1.0976 | 29.7% |
+| 3 | `type_CASH_OUT` | 0.6548 | 17.7% |
+| 4 | `type_TRANSFER` | 0.3143 | 8.5% |
+| 5 | `transaction_hour` | 0.1877 | 5.1% |
+| 6 | `amount` | 0.1570 | 4.2% |
+| 7 | `log1p_amount` | 0.0597 | 1.6% |
+| 8 | `type_DEBIT` | 0.0132 | 0.4% |
 
 ### Key Global Findings:
 1. **Transaction Type Dominance:** `type_PAYMENT` (Rank 1, 27.4%) and `type_CASH_IN` (Rank 3, 23.5%) represent over 50% of total attribution magnitude. In PaySim, simulated fraud is strictly zero on these rails, so transactions processed on them receive massive negative attributions that instantly suppress risk scores.
@@ -75,29 +75,29 @@ The following representative cases demonstrate local transaction auditability fo
 
 ### Case: True Positive (High Score Fraud)
 - **Observed Transaction Profile (Real-World Attributes):**
-  - Type: `CASH_OUT`
-  - Amount: `$6,274,752.50`
-  - Simulated Timing: Day `25`, Hour `01:00`
-  - Traceability IDs: Origin `C789526780` $\to$ Destination `C1905238884` (Step: `578`)
+  - Type: `TRANSFER`
+  - Amount: `$2,190,762.25`
+  - Simulated Timing: Day `24`, Hour `05:00`
+  - Traceability IDs: Origin `C1364952326` $\to$ Destination `C424812377` (Step: `558`)
 - **Model Assessment (Uncalibrated Score):**
-  - Raw Margin Score: `+5.1396` (vs. base prior `-3.4161`)
-  - Model Decision Score (Sigmoid): **`99.42%`** (uncalibrated model score)
-  - Decision Status: Locked Threshold `0.9660` $\implies$ **HIGH-RISK ALERT (Score: 0.9942 >= Threshold: 0.9660)**
+  - Raw Margin Score: `+5.2673` (vs. base prior `-3.4161`)
+  - Model Decision Score (Sigmoid): **`99.49%`** (uncalibrated model score)
+  - Decision Status: Locked Threshold `0.9660` $\implies$ **HIGH-RISK ALERT (Score: 0.9949 >= Threshold: 0.9660)**
   - Ground Truth Label: `isFraud = 1` (Retrospective holdout reference only)
 - **Top Mathematical Attributions (SHAP Log-Odds Margin):**
-  - Pushing higher towards alert: `type_CASH_IN` (+1.975), `type_PAYMENT` (+1.844), `amount` (+1.837)
-  - Suppressing lower towards normal: None
+  - Pushing higher towards alert: `transaction_hour` (+2.895), `type_CASH_IN` (+1.924), `type_PAYMENT` (+1.799)
+  - Suppressing lower towards normal: `type_CASH_OUT` (-0.313)
 - **Auditor Narrative:**
-  > *The model assigned an uncalibrated fraud risk score of 99.42% (raw margin: +5.140 vs baseline: -3.416), breaching the operational alert threshold of 0.9660. For this observed CASH_OUT transaction of $6,274,752.50, the score was pushed higher primarily by: absence of CASH_IN rail under encoding (+1.975), absence of PAYMENT rail under encoding (+1.844), amount $6,274,752.50 (+1.837). Note that one-hot indicators (such as type_PAYMENT=0) reflect the mathematical absence of non-fraud rail risk suppression under the chosen model encoding, rather than an independent real-world event.*
+  > *The model assigned an uncalibrated fraud risk score of 99.49% (raw margin: +5.267 vs baseline: -3.416), breaching the operational alert threshold of 0.9660. For this observed TRANSFER transaction of $2,190,762.25, the score was pushed higher primarily by: hour 05:00 (+2.895), absence of CASH_IN rail under encoding (+1.924), absence of PAYMENT rail under encoding (+1.799). Note that one-hot indicators (such as type_PAYMENT=0) reflect the mathematical absence of non-fraud rail risk suppression under the chosen model encoding, rather than an independent real-world event.*
 
 ---
 
 ### Case: True Negative (Low Score Legitimate)
 - **Observed Transaction Profile (Real-World Attributes):**
   - Type: `CASH_IN`
-  - Amount: `$247,717.30`
-  - Simulated Timing: Day `25`, Hour `12:00`
-  - Traceability IDs: Origin `C724471785` $\to$ Destination `C61426560` (Step: `589`)
+  - Amount: `$72,009.21`
+  - Simulated Timing: Day `24`, Hour `11:00`
+  - Traceability IDs: Origin `C662442633` $\to$ Destination `C1554023754` (Step: `564`)
 - **Model Assessment (Uncalibrated Score):**
   - Raw Margin Score: `-5.7256` (vs. base prior `-3.4161`)
   - Model Decision Score (Sigmoid): **`0.33%`** (uncalibrated model score)
@@ -105,47 +105,47 @@ The following representative cases demonstrate local transaction auditability fo
   - Ground Truth Label: `isFraud = 0` (Retrospective holdout reference only)
 - **Top Mathematical Attributions (SHAP Log-Odds Margin):**
   - Pushing higher towards alert: `type_PAYMENT` (+0.409), `type_DEBIT` (+0.004)
-  - Suppressing lower towards normal: `type_CASH_IN` (-1.907), `type_CASH_OUT` (-0.621), `type_TRANSFER` (-0.117)
+  - Suppressing lower towards normal: `type_CASH_IN` (-1.907), `type_CASH_OUT` (-0.618), `type_TRANSFER` (-0.125)
 - **Auditor Narrative:**
-  > *The model assigned a low uncalibrated fraud risk score of 0.33% (raw margin: -5.726 vs baseline: -3.416), remaining safely below the alert threshold of 0.9660. For this observed CASH_IN transaction of $247,717.30, the score was suppressed primarily by: active CASH_IN rail (-1.907), absence of CASH_OUT rail under encoding (-0.621), absence of TRANSFER rail under encoding (-0.117). One-hot feature indicators reflect model rail encoding mechanics rather than separate real-world events.*
+  > *The model assigned a low uncalibrated fraud risk score of 0.33% (raw margin: -5.726 vs baseline: -3.416), remaining safely below the alert threshold of 0.9660. For this observed CASH_IN transaction of $72,009.21, the score was suppressed primarily by: active CASH_IN rail (-1.907), absence of CASH_OUT rail under encoding (-0.618), absence of TRANSFER rail under encoding (-0.125). One-hot feature indicators reflect model rail encoding mechanics rather than separate real-world events.*
 
 ---
 
 ### Case: False Positive (Alerted Legitimate)
 - **Observed Transaction Profile (Real-World Attributes):**
-  - Type: `CASH_OUT`
-  - Amount: `$242,895.77`
-  - Simulated Timing: Day `30`, Hour `02:00`
-  - Traceability IDs: Origin `C1641939233` $\to$ Destination `C86170378` (Step: `699`)
+  - Type: `TRANSFER`
+  - Amount: `$1,993,743.62`
+  - Simulated Timing: Day `26`, Hour `00:00`
+  - Traceability IDs: Origin `C938351894` $\to$ Destination `C1958653463` (Step: `601`)
 - **Model Assessment (Uncalibrated Score):**
-  - Raw Margin Score: `+4.9153` (vs. base prior `-3.4161`)
-  - Model Decision Score (Sigmoid): **`99.27%`** (uncalibrated model score)
-  - Decision Status: Locked Threshold `0.9660` $\implies$ **HIGH-RISK ALERT (Score: 0.9927 >= Threshold: 0.9660)**
+  - Raw Margin Score: `+4.7322` (vs. base prior `-3.4161`)
+  - Model Decision Score (Sigmoid): **`99.13%`** (uncalibrated model score)
+  - Decision Status: Locked Threshold `0.9660` $\implies$ **HIGH-RISK ALERT (Score: 0.9913 >= Threshold: 0.9660)**
   - Ground Truth Label: `isFraud = 0` (Retrospective holdout reference only)
 - **Top Mathematical Attributions (SHAP Log-Odds Margin):**
-  - Pushing higher towards alert: `transaction_hour` (+4.045), `type_PAYMENT` (+1.704), `type_CASH_IN` (+1.677)
-  - Suppressing lower towards normal: `amount` (-0.172), `type_TRANSFER` (-0.085), `log1p_amount` (-0.032)
+  - Pushing higher towards alert: `transaction_hour` (+2.269), `type_CASH_IN` (+1.809), `type_PAYMENT` (+1.682)
+  - Suppressing lower towards normal: `type_CASH_OUT` (-0.313)
 - **Auditor Narrative:**
-  > *The model assigned an uncalibrated fraud risk score of 99.27% (raw margin: +4.915 vs baseline: -3.416), breaching the operational alert threshold of 0.9660. For this observed CASH_OUT transaction of $242,895.77, the score was pushed higher primarily by: hour 02:00 (+4.045), absence of PAYMENT rail under encoding (+1.704), absence of CASH_IN rail under encoding (+1.677). Note that one-hot indicators (such as type_PAYMENT=0) reflect the mathematical absence of non-fraud rail risk suppression under the chosen model encoding, rather than an independent real-world event.*
+  > *The model assigned an uncalibrated fraud risk score of 99.13% (raw margin: +4.732 vs baseline: -3.416), breaching the operational alert threshold of 0.9660. For this observed TRANSFER transaction of $1,993,743.62, the score was pushed higher primarily by: hour 00:00 (+2.269), absence of CASH_IN rail under encoding (+1.809), absence of PAYMENT rail under encoding (+1.682). Note that one-hot indicators (such as type_PAYMENT=0) reflect the mathematical absence of non-fraud rail risk suppression under the chosen model encoding, rather than an independent real-world event.*
 
 ---
 
 ### Case: False Negative (Missed Fraud)
 - **Observed Transaction Profile (Real-World Attributes):**
-  - Type: `TRANSFER`
-  - Amount: `$4,212,683.00`
-  - Simulated Timing: Day `26`, Hour `13:00`
-  - Traceability IDs: Origin `C359671277` $\to$ Destination `C1265391231` (Step: `614`)
+  - Type: `CASH_OUT`
+  - Amount: `$141,730.20`
+  - Simulated Timing: Day `25`, Hour `00:00`
+  - Traceability IDs: Origin `C1282179379` $\to$ Destination `C1943218565` (Step: `577`)
 - **Model Assessment (Uncalibrated Score):**
-  - Raw Margin Score: `+2.3937` (vs. base prior `-3.4161`)
-  - Model Decision Score (Sigmoid): **`91.63%`** (uncalibrated model score)
-  - Decision Status: Locked Threshold `0.9660` $\implies$ **SUB-THRESHOLD / ELEVATED (Score: 0.9163 < Threshold: 0.9660)**
+  - Raw Margin Score: `+3.3464` (vs. base prior `-3.4161`)
+  - Model Decision Score (Sigmoid): **`96.60%`** (uncalibrated model score)
+  - Decision Status: Locked Threshold `0.9660` $\implies$ **SUB-THRESHOLD / ELEVATED (Score: 0.9660 < Threshold: 0.9660)**
   - Ground Truth Label: `isFraud = 1` (Retrospective holdout reference only)
 - **Top Mathematical Attributions (SHAP Log-Odds Margin):**
-  - Pushing higher towards alert: `amount` (+1.766), `type_CASH_IN` (+1.518), `type_PAYMENT` (+1.391)
-  - Suppressing lower towards normal: `type_CASH_OUT` (-0.335), `transaction_hour` (-0.018)
+  - Pushing higher towards alert: `transaction_hour` (+2.923), `type_PAYMENT` (+1.484), `type_CASH_IN` (+1.462)
+  - Suppressing lower towards normal: `amount` (-0.155), `type_TRANSFER` (-0.106), `log1p_amount` (-0.032)
 - **Auditor Narrative:**
-  > *The model assigned an elevated uncalibrated fraud risk score of 91.63% (raw margin: +2.394 vs baseline: -3.416), which remained below the locked alert threshold of 0.9660. For this observed TRANSFER transaction of $4,212,683.00, the score was pushed higher by amount $4,212,683.00 (+1.766), absence of CASH_IN rail under encoding (+1.518), absence of PAYMENT rail under encoding (+1.391), but held below threshold primarily by: absence of CASH_OUT rail under encoding (-0.335), hour 13:00 (-0.018). One-hot feature indicators reflect model rail encoding mechanics rather than separate real-world events.*
+  > *The model assigned an elevated uncalibrated fraud risk score of 96.60% (raw margin: +3.346 vs baseline: -3.416), which remained below the locked alert threshold of 0.9660. For this observed CASH_OUT transaction of $141,730.20, the score was pushed higher by hour 00:00 (+2.923), absence of PAYMENT rail under encoding (+1.484), absence of CASH_IN rail under encoding (+1.462), but held below threshold primarily by: amount $141,730.20 (-0.155), absence of TRANSFER rail under encoding (-0.106), log1p_amount (-0.032). One-hot feature indicators reflect model rail encoding mechanics rather than separate real-world events.*
 
 
 ---

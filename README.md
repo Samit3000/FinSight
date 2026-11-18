@@ -103,9 +103,6 @@ FinSight/
 ├── .gitignore                         # Git exclusion rules
 ├── .env.example                       # Environment configuration template
 ├── requirements.txt                   # Pinned project dependencies
-├── config/
-│   ├── pipeline.yaml                  # Ingestion & data quality pipeline parameters
-│   └── risk_rules.yaml                # Explainable risk scoring rules & thresholds
 ├── data/
 │   ├── raw/                           # Raw incoming transaction batches (git-ignored)
 │   ├── processed/                     # Validated and enriched datasets (git-ignored)
@@ -118,16 +115,24 @@ FinSight/
 │   ├── risk-methodology.md            # Explainable scoring framework and rule specifications
 │   └── findings-and-limitations.md    # Initial engineering status and platform constraints
 ├── sql/
-│   ├── schema/                        # DDL tables and schema migration scripts
+│   ├── schema/                        # Non-destructive, idempotent DDL (CREATE ... IF NOT EXISTS)
+│   ├── admin/                         # Manual-only destructive scripts (reset_schema.sql)
 │   ├── views/                         # Materialized and analytical SQL views
 │   └── analytics/                     # Ad-hoc investigation and KPI queries
 ├── src/
 │   └── finsight/                      # Core package source code
-│       └── __init__.py
+│       ├── train.py                   # Reproducible training: config -> bundle + manifest
+│       ├── evaluate.py                # Locked evaluation protocol (walk-forward, locked final test)
+│       └── benchmark_view.py          # Generates sql/views/04 from artifacts and data
+├── models/
+│   └── candidates/                    # Bundles written by train.py (never overwritten)
 ├── tests/                             # Automated test suite (unit, integration, DQ)
 │       └── __init__.py
 ├── reports/
-│   └── data_quality/                  # Generated data validation audit reports
+│   ├── data_quality/                  # Generated data validation audit reports
+│   ├── evaluation/                    # Generated walk-forward and benchmark results
+│   ├── explainability/                # Generated SHAP outputs
+│   └── archive/                       # Superseded historical reports (see archive/README.md)
 └── powerbi/                           # Power BI semantic models and template files
 ```
 
@@ -254,7 +259,8 @@ DB_SCHEMA=public
 
 ### 3. Schema Setup & Data Modeling
 
-Apply the core analytics schema:
+Apply the core analytics schema. The script is **non-destructive and idempotent**: it only uses
+`CREATE ... IF NOT EXISTS`, so re-running it against a loaded database changes nothing.
 ```bash
 # Using psql
 psql -h localhost -p 5432 -U finsight_user -d finsight_db -f sql/schema/01_schema_definition.sql
@@ -262,6 +268,10 @@ psql -h localhost -p 5432 -U finsight_user -d finsight_db -f sql/schema/01_schem
 # Or using the loader CLI's automated setup flag
 py src/finsight/load_to_postgres.py --create-schema
 ```
+
+> **Destructive reset (manual only):** `sql/admin/reset_schema.sql` drops `fct_transactions`, `dq_audit_log`
+> and the four analytical views. Nothing in the codebase runs it. Use it only when you intend to rebuild the
+> database from scratch.
 
 **Schema Design Highlights (`fct_transactions`):**
 - **Surrogate Primary Key:** `transaction_id BIGSERIAL PRIMARY KEY` avoids flaky composite keys and supports non-unique customer/destination account names.
@@ -287,7 +297,7 @@ py src/finsight/load_to_postgres.py --chunk-size 100000 --truncate
 ```
 
 **Rerun Safeguards:**
-The loader refuses to silently append or double existing records. If the target table already contains data, execution halts with a `TableExistsError` unless `--truncate` is explicitly passed.
+The loader refuses to silently append or double existing records. If the target table already contains data, execution halts with a `TableExistsError` unless `--truncate` is explicitly passed. A `--truncate` reload is atomic: `TRUNCATE` and `COPY` run in one transaction, so a failed reload rolls back to the previous rows.
 
 ### 5. SQL Analytics Pack (`sql/analytics/`)
 
@@ -319,6 +329,12 @@ psql -h localhost -U finsight_user -d finsight_db -f sql/analytics/07_ranked_ris
 ### 6. Running Automated Tests
 
 ```bash
+py -m pytest tests/ -v
+```
+
+> `tests/test_sql_views.py::test_live_postgres_view_reconciliation_if_available` runs
+> `CREATE OR REPLACE VIEW` against the database configured in `.env` when it is reachable.
+
 ---
 
 ## Feature Engineering & Explainable Risk Engine (Milestone 3)
@@ -391,7 +407,7 @@ Detailed specification: [`docs/evaluation-strategy.md`](file:///docs/evaluation-
 ### 4. Running Features, Rules, Models & Automated Tests
 
 ```bash
-# Execute full test suite (81 unit, contract, loader, rule, ML model, threshold, and explainability tests)
+# Execute full test suite (123 tests collected; one live-database test applies views when PostgreSQL is reachable)
 py -m pytest tests/ -v
 
 # Run Python interactive verification of feature extraction
@@ -400,10 +416,11 @@ py -c "import pandas as pd; from finsight.features import extract_features; df =
 # Run Python interactive verification of explainable rule scoring
 py -c "from finsight.risk_rules import RiskEngine; engine = RiskEngine(); res = engine.evaluate_transaction({'amount': 350000.0, 'type': 'TRANSFER', 'transaction_hour': 3}); print(res.to_dict())"
 
-# Execute reproducible frozen evaluation of champion model without retraining
-py src/finsight/models.py --evaluate-frozen --model-path models/hist_gradient_boosting_no_day.joblib --reports-dir reports/remediation
+# Frozen champion at its locked threshold on validation (451–550) and the development holdout (551–650).
+# The locked final test (step >= 651) is excluded. Writes reports/frozen_evaluation/.
+py src/finsight/models.py --evaluate-frozen --model-path models/hist_gradient_boosting_no_day.joblib
 
-# Execute reproducible TreeSHAP model explainability pipeline for frozen champion model
+# TreeSHAP explanations for the frozen champion on a development-holdout sample (551–650)
 py src/finsight/explainability.py --data-path data/processed/transactions.csv.gz --model-path models/hist_gradient_boosting_no_day.joblib --sample-size 2000 --random-seed 42
 ```
 
@@ -411,7 +428,7 @@ py src/finsight/explainability.py --data-path data/processed/transactions.csv.gz
 
 ## Explainable AI with SHAP (Milestone 5)
 
-FinSight implements an axiomatic, tested explainability layer using **TreeSHAP** (Tree-based Shapley Additive exPlanations) to explain predictions from the saved gradient-boosting fraud model ([`models/hist_gradient_boosting_ablated.joblib`](file:///models/hist_gradient_boosting_ablated.joblib)).
+FinSight implements an axiomatic, tested explainability layer using **TreeSHAP** (Tree-based Shapley Additive exPlanations) to explain predictions from the frozen champion gradient-boosting model ([`models/hist_gradient_boosting_no_day.joblib`](file:///models/hist_gradient_boosting_no_day.joblib)). SHAP attributions explain the model's score; they do not establish that a transaction is fraudulent.
 
 ### 1. What SHAP is & Why FinSight Uses It
 
@@ -419,18 +436,18 @@ SHAP connects cooperative game theory with machine learning by calculating Shapl
 
 Unlike heuristic importance metrics (such as Gini impurity or split counts) which suffer from consistency defects, TreeSHAP computes **exact, additive contributions** without Monte Carlo sampling approximations for tree ensembles. In FinSight:
 - **Efficiency / Additivity holds exactly**: The model's raw decision margin (log-odds $\text{logit}(p) = \log\frac{p}{1-p}$) is identical to the base value $\phi_0$ plus the sum of feature attributions $\sum_{j=1}^M \phi_j(x)$ (empirical max reconstruction error $\le 1.34 \times 10^{-14}$).
-- **Operational Auditing**: Every transaction receives a transparent breakdown of which financial and temporal signals pushed its risk score above or below the conservative alert threshold ($t = 0.9900$).
+- **Operational Auditing**: Every transaction receives a transparent breakdown of which financial and temporal signals pushed its risk score above or below the locked alert threshold ($t = 0.9660$).
 
 ### 2. How to Run the Explainability Workflow
 
 ```bash
-# Execute full explainability pipeline on representative holdout sample (seed 42)
-py src/finsight/explainability.py --data-path data/processed/transactions.csv.gz --model-path models/hist_gradient_boosting_ablated.joblib --sample-size 2000 --random-seed 42
+# Execute full explainability pipeline on a development-holdout sample (steps 551–650, seed 42)
+py src/finsight/explainability.py --data-path data/processed/transactions.csv.gz --model-path models/hist_gradient_boosting_no_day.joblib --sample-size 2000 --random-seed 42
 
-# Run explainability test suite (9 unit and contract tests)
+# Run explainability test suite
 py -m pytest tests/test_explainability.py -v
 
-# Run full project test suite (80 tests)
+# Run full project test suite (123 tests collected; one live-database test applies views when PostgreSQL is reachable)
 py -m pytest tests/ -v
 ```
 
@@ -446,7 +463,7 @@ All explainability outputs are strictly isolated under `reports/explainability/`
 ### 4. How to Interpret Global & Local Explanations
 
 #### Global Explanations (Population Perspective)
-Global importance is quantified by the **mean absolute SHAP value** across an unseen holdout sample ($N = 2,000$ transactions from `step >= 551`):
+Global importance is quantified by the **mean absolute SHAP value** across a development-holdout sample ($N = 2,000$ transactions from steps 551–650; this window was inspected during earlier model selection, and the locked final test is excluded):
 1. **`type_PAYMENT` (Rank 1, 27.4% share)** & **`type_CASH_IN` (Rank 3, 23.5% share)**: These non-fraud rails generate large negative SHAP values, strongly pulling down transaction risk away from the baseline prior.
 2. **`transaction_day` (Rank 2, 24.3% share)**: Modulates risk across simulated monthly cycles.
 3. **`type_CASH_OUT` (Rank 4, 14.0% share)** & **`type_TRANSFER` (Rank 5, 4.6% share)**: The primary positive structural rails where fraud occurs.
@@ -478,7 +495,52 @@ Local explanations decompose an individual score into additive feature contribut
 
 ---
 
-## Master ML Remediation & Reliability Phase
+## Evaluation Protocol & Reproducible Training (P0)
+
+All model evaluation follows `src/finsight/evaluate.py`:
+
+- **Development data:** steps 1–650. Training, tuning, thresholds and feature decisions use only these steps.
+- **Locked final test:** steps 651–743 (80,831 transactions, 1,022 labelled fraud). It is scored once per promoted
+  model through an explicitly acknowledged call. Enforcement: `evaluate.py`'s evaluation helpers and `train.py` raise
+  `LockedTestAccessError` on these rows; frozen evaluation (`models.py`) and SHAP sampling (`explainability.py`) stop at
+  step 650; the legacy sprint steps in `ml_experiments.py` refuse to run without `allow_locked_test_access=True`.
+  It was previously visible inside the old holdout (steps ≥ 551), so it is not pristine.
+- **Walk-forward folds:** train ≤350 → test 351–450; ≤450 → 451–550; ≤550 → 551–650.
+- **Comparisons at fixed review capacity** (alerts per simulated day), because fraud prevalence rises ~13× across the
+  simulation. Precision and F1 are only comparable within a fold. Rows tied at the cut-off score count at their
+  expected value under random tie-breaking. Uncertainty uses a step-block bootstrap (test-sample variation only).
+- **Selection disclosure:** each training config records which periods influenced its selection. The champion was
+  chosen using steps 451–743, so folds F2 and F3 are optimistic for it; F1 is the least affected.
+- **Scores are risk scores**, not calibrated probabilities.
+
+```bash
+# Reproduce the frozen champion bit-for-bit and verify it (writes models/candidates/, never overwrites)
+py src/finsight/train.py --config hgb_baseline8_balanced --verify-against models/hist_gradient_boosting_no_day.joblib
+
+# Walk-forward evaluation of a training config (writes reports/evaluation/walk_forward_<config>.{json,md})
+py src/finsight/evaluate.py --config hgb_baseline8_balanced
+
+# Regenerate the benchmark view SQL and its source rows from artifacts and data
+py src/finsight/benchmark_view.py
+```
+
+Walk-forward baseline for the champion configuration (`reports/evaluation/walk_forward_hgb_baseline8_balanced.md`):
+
+| Fold | Test steps | Fraud prevalence | AP | AP 95% CI | Recall at 100 alerts/day |
+|---|---|---:|---:|---|---:|
+| F1 | 351–450 | 0.108% | 0.3889 | 0.316–0.465 | 28.2% |
+| F2 | 451–550 | 0.666% | 0.3115 | 0.249–0.379 | 21.0% |
+| F3 | 551–650 | 0.973% | 0.4222 | 0.329–0.523 | 24.9% |
+
+F2 and F3 are optimistic for this configuration (see the selection disclosure above).
+
+---
+
+## Master ML Remediation & Reliability Phase (historical)
+
+> **Superseded.** The reports from this phase are in `reports/archive/` and contain known errors
+> (alert budgets about 4× too low, stale rule-engine figures, holdout-based model selection).
+> See `reports/archive/README.md`. The summary below is kept for history only.
 
 Prior to dashboard development, FinSight completed a rigorous, 9-phase technical and methodological audit ensuring the correctness, interpretability, and defensibility of all analytical components:
 
@@ -503,20 +565,14 @@ Prior to dashboard development, FinSight completed a rigorous, 9-phase technical
 - [Metric Dictionary & KPI Definitions](file:///docs/metric-dictionary.md)
 - [Risk Methodology & Scoring Engine](file:///docs/risk-methodology.md)
 - [Evaluation Strategy & ML Governance](file:///docs/evaluation-strategy.md)
-- [Model Baseline Evaluation Report](file:///reports/model_evaluation/model_comparison.md)
+- [Walk-forward Evaluation (generated)](file:///reports/evaluation/walk_forward_hgb_baseline8_balanced.md)
+- [Archived Reports Index & Known Errors](file:///reports/archive/README.md)
 - [Model Explainability Report (TreeSHAP)](file:///reports/explainability/explainability_report.md)
 - [Engineering Status & Known Limitations](file:///docs/findings-and-limitations.md)
 
-### Master Remediation & Final Verification Reports
-- [Final Model & Artifact Manifest](file:///reports/remediation/final_artifact_manifest.md)
-- [Final Feature Contract & Leakage Audit](file:///reports/remediation/final_feature_contract.md)
-- [Final Probability Calibration Review](file:///reports/remediation/final_calibration_review.md)
-- [Final SHAP Verification & Interpretability](file:///reports/remediation/final_shap_verification.md)
-- [Final Rules vs ML Benchmark Review](file:///reports/remediation/final_rules_vs_ml_review.md)
-- [Final Data & Financial Metric Dictionary](file:///reports/remediation/final_metric_dictionary.md)
-- [Final Verification, Model Freeze & Dashboard Gate Report](file:///reports/remediation/final_verification_report.md)
-- [Frozen Model Evaluation JSON](file:///reports/remediation/frozen_model_evaluation.json)
-- [Frozen Model Evaluation Summary](file:///reports/remediation/frozen_model_evaluation.md)
+### Archived Remediation Reports (historical, superseded)
+All former `reports/remediation/`, `reports/ml_improvement/` and `reports/model_evaluation/` files now live under
+`reports/archive/`. Read `reports/archive/README.md` before citing any figure from them.
 
 ---
 
@@ -529,15 +585,18 @@ Prior to dashboard development, FinSight completed a rigorous, 9-phase technical
 | **3** | **Feature Engineering & Explainable Rule Engine** | **Complete** | Leak-free feature extraction (`features.py`), explainable rule baseline (`risk_rules.py`), evaluation blueprint (`evaluation-strategy.md`). |
 | **4** | **Supervised Machine Learning Baselines** | **Complete** | Chronological 3-way partition (`models.py`), Dummy, Logistic Regression, HistGradientBoosting, feature ablation, locked threshold evaluation. |
 | **5** | **Explainable AI with SHAP** | **Complete** | TreeSHAP module (`explainability.py`), exact additivity verification, global ranking CSV/PNG, local TP/TN/FP/FN JSON & Markdown reports. |
-| **Audit** | **Master ML Remediation & Verification** | **Complete** | Authoritative model freeze (`no_day`), 81 passing tests, multi-objective threshold optimization, Gate: `READY_FOR_DASHBOARDING`. |
+| **Audit** | **Master ML Remediation & Verification** | Superseded | Model freeze (`no_day`); reports archived with known errors (see `reports/archive/README.md`). |
+| **P0** | **Evaluation Integrity & Data Safety** | **Complete** | Non-destructive schema, atomic reload, locked evaluation protocol, bit-for-bit reproducible champion training, generated benchmark view, 123 tests. |
 | **6** | **SQL KPI Marts & Analytics Views** | Planned | Analytical views, window functions, operational KPI benchmarks. |
 | **7** | **Power BI Reporting & Presentation** | Planned | Star-schema DAX model, executive summary, risk drill-down report. |
 
 ---
 
-## Frozen Model Baselines Performance Summary
+## Frozen Model Baselines Performance Summary (historical)
 
-Evaluated on unseen final holdout partition (`step >= 551`, 196,601 transactions, 2,148 simulated frauds):
+> These figures are on the **old holdout** (`step >= 551`, 196,601 transactions, 2,148 simulated frauds), which was
+> used for model selection and is therefore not an unbiased test set. They are kept for history. Use the walk-forward
+> results above and the generated `vw_risk_detection_benchmark` for current comparisons.
 
 | Model | PR-AUC (AP) | ROC-AUC | Operating Threshold | Precision | Recall | F1 Score | Flagged Alerts |
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
@@ -553,7 +612,7 @@ Evaluated on unseen final holdout partition (`step >= 551`, 196,601 transactions
 ## Engineering Standards & Interview Readiness
 
 FinSight was architected as an interview-ready demonstration of software and data engineering craft:
-- **Separation of Concerns**: Configuration (`yaml`), business logic (`src/`), analytical queries (`sql/`), and testing (`tests/`) are strictly decoupled.
+- **Separation of Concerns**: Environment configuration (`.env`), business logic (`src/`), analytical queries (`sql/`), and testing (`tests/`) are decoupled.
 - **Defensive Data Engineering**: No transaction data enters downstream analytics without validation against strict data quality contracts.
 - **Explainability First**: Every risk score maps directly to deterministic rules, thresholds, and human-readable audit notes.
 - **Reproducibility**: Parameterized pipelines, pinned dependencies, deterministic seeds, and portable SQL schemas guarantee identical execution across environments.

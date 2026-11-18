@@ -1,0 +1,137 @@
+{
+  "generated_utc": "2026-11-18T10:29:13Z",
+  "data_sha256": "74cba5b396ce21d08f2ffd859bd95f782622a06871ff35f0e4f3f271213294bd",
+  "champion_artifact_sha256": "56a40585aabf5b548faf3a6f62d685721e1c62ea7880b1ee0847f209fb99c534",
+  "partitions": {
+    "validation": [
+      451,
+      550
+    ],
+    "development_holdout": [
+      551,
+      650
+    ]
+  },
+  "rows": [
+    {
+      "evaluation_partition": "validation",
+      "system_name": "HistGradientBoosting (frozen champion, 8 features)",
+      "operating_point": "t = 0.9660 (validation F1-optimal)",
+      "true_positives": 435,
+      "false_positives": 863,
+      "false_negatives": 573,
+      "true_negatives": 149431,
+      "alerts_per_day": 311.5,
+      "average_precision": 0.3115,
+      "roc_auc": 0.9509
+    },
+    {
+      "evaluation_partition": "validation",
+      "system_name": "Logistic Regression (legacy 10-feature artifact)",
+      "operating_point": "t = 0.9009 (validation F1-optimal)",
+      "true_positives": 279,
+      "false_positives": 2528,
+      "false_negatives": 729,
+      "true_negatives": 147766,
+      "alerts_per_day": 673.7,
+      "average_precision": 0.1104,
+      "roc_auc": 0.9156
+    },
+    {
+      "evaluation_partition": "validation",
+      "system_name": "Rule Engine (HIGH tier)",
+      "operating_point": "score >= 70",
+      "true_positives": 166,
+      "false_positives": 258,
+      "false_negatives": 842,
+      "true_negatives": 150036,
+      "alerts_per_day": 101.8,
+      "average_precision": null,
+      "roc_auc": null
+    },
+    {
+      "evaluation_partition": "validation",
+      "system_name": "Rule Engine (MEDIUM + HIGH tiers)",
+      "operating_point": "score >= 30",
+      "true_positives": 740,
+      "false_positives": 37522,
+      "false_negatives": 268,
+      "true_negatives": 112772,
+      "alerts_per_day": 9182.9,
+      "average_precision": null,
+      "roc_auc": null
+    },
+    {
+      "evaluation_partition": "validation",
+      "system_name": "Dummy baseline (never alerts)",
+      "operating_point": "no alerts",
+      "true_positives": 0,
+      "false_positives": 0,
+      "false_negatives": 1008,
+      "true_negatives": 150294,
+      "alerts_per_day": 0.0,
+      "average_precision": 0.0067,
+      "roc_auc": 0.5
+    },
+    {
+      "evaluation_partition": "development_holdout",
+      "system_name": "HistGradientBoosting (frozen champion, 8 features)",
+      "operating_point": "t = 0.9660 (validation F1-optimal)",
+      "true_positives": 487,
+      "false_positives": 432,
+      "false_negatives": 639,
+      "true_negatives": 114212,
+      "alerts_per_day": 220.6,
+      "average_precision": 0.4133,
+      "roc_auc": 0.9517
+    },
+    {
+      "evaluation_partition": "development_holdout",
+      "system_name": "Logistic Regression (legacy 10-feature artifact)",
+      "operating_point": "t = 0.9009 (validation F1-optimal)",
+      "true_positives": 318,
+      "false_positives": 1091,
+      "false_negatives": 808,
+      "true_negatives": 113553,
+      "alerts_per_day": 338.2,
+      "average_precision": 0.1649,
+      "roc_auc": 0.9178
+    },
+    {
+      "evaluation_partition": "development_holdout",
+      "system_name": "Rule Engine (HIGH tier)",
+      "operating_point": "score >= 70",
+      "true_positives": 202,
+      "false_positives": 100,
+      "false_negatives": 924,
+      "true_negatives": 114544,
+      "alerts_per_day": 72.5,
+      "average_precision": null,
+      "roc_auc": null
+    },
+    {
+      "evaluation_partition": "development_holdout",
+      "system_name": "Rule Engine (MEDIUM + HIGH tiers)",
+      "operating_point": "score >= 30",
+      "true_positives": 825,
+      "false_positives": 28177,
+      "false_negatives": 301,
+      "true_negatives": 86467,
+      "alerts_per_day": 6960.5,
+      "average_precision": null,
+      "roc_auc": null
+    },
+    {
+      "evaluation_partition": "development_holdout",
+      "system_name": "Dummy baseline (never alerts)",
+      "operating_point": "no alerts",
+      "true_positives": 0,
+      "false_positives": 0,
+      "false_negatives": 1126,
+      "true_negatives": 114644,
+      "alerts_per_day": 0.0,
+      "average_precision": 0.0097,
+      "roc_auc": 0.5
+    }
+  ]
+}

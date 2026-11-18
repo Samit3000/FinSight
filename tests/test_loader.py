@@ -120,7 +120,7 @@ def test_sql_schema_ddl_syntax_and_contents():
     assert ddl_path.exists()
     sql_text = ddl_path.read_text(encoding="utf-8")
 
-    assert "CREATE TABLE fct_transactions" in sql_text
+    assert "CREATE TABLE IF NOT EXISTS fct_transactions" in sql_text
     assert "transaction_id BIGSERIAL PRIMARY KEY" in sql_text
     assert "transaction_hour INT NOT NULL CHECK" in sql_text
     assert "transaction_day INT NOT NULL CHECK" in sql_text

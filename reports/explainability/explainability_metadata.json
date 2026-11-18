@@ -4,8 +4,8 @@
   "explainer_type": "TreeExplainer",
   "explanation_output": "raw (margin log-odds score; mapped to probability via sigmoid)",
   "sample_size": 2000,
-  "sample_fraud_count": 17,
-  "fraud_prevalence_pct": 0.85,
+  "sample_fraud_count": 22,
+  "fraud_prevalence_pct": 1.1,
   "decision_threshold": 0.966,
   "random_seed": 42,
   "feature_count": 8,
@@ -21,6 +21,6 @@
   ],
   "base_value_log_odds": -3.416074,
   "base_value_probability": 0.031797,
-  "max_reconstruction_error": 1.0658141036401503e-14,
-  "generated_at_utc": "2026-10-18T21:43:31Z"
+  "max_reconstruction_error": 1.2434497875801753e-14,
+  "generated_at_utc": "2026-11-18T10:38:02Z"
 }

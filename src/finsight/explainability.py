@@ -45,6 +45,7 @@ _src_root = str(Path(__file__).resolve().parent.parent)
 if _src_root not in sys.path:
     sys.path.insert(0, _src_root)
 
+from finsight.evaluate import FINAL_TEST_MIN_STEP
 from finsight.features import (
     FeatureEngineeringError,
     extract_features,
@@ -496,14 +497,19 @@ def sample_holdout_for_explanation(
     sample_size: int = DEFAULT_SAMPLE_SIZE,
     random_state: int = DEFAULT_RANDOM_SEED,
     min_step: int = 551,
+    max_step: int = FINAL_TEST_MIN_STEP - 1,
 ) -> pd.DataFrame:
-    """Stream and deterministically sample transactions from the final holdout partition.
+    """Stream and deterministically sample transactions from the development holdout (551–650).
+
+    The locked final test (step >= FINAL_TEST_MIN_STEP) is never sampled: local explanations
+    select true/false positive/negative cases using labels, which would expose locked-test labels.
 
     Args:
         data_path: Path to processed transactions CSV/CSV.gz.
         sample_size: Number of transactions to sample.
         random_state: Deterministic random seed.
-        min_step: Minimum step for final holdout partition (default: 551).
+        min_step: Minimum step of the sampled window (default: 551).
+        max_step: Maximum step of the sampled window (default: 650; must be < 651).
 
     Returns:
         pd.DataFrame containing the sampled holdout transactions.
@@ -515,7 +521,11 @@ def sample_holdout_for_explanation(
     if not path.exists():
         raise ExplainabilityError(f"Data file not found at: {path}")
 
-    logger.info("Sampling %d records from holdout partition (step >= %d)...", sample_size, min_step)
+    if max_step >= FINAL_TEST_MIN_STEP:
+        raise ExplainabilityError(
+            f"max_step={max_step} reaches the locked final test (step >= {FINAL_TEST_MIN_STEP})."
+        )
+    logger.info("Sampling %d records from development holdout (%d <= step <= %d)...", sample_size, min_step, max_step)
     usecols = ["step", "type", "amount", "nameOrig", "nameDest", "isFraud"]
     dtypes = {
         "step": "int16",
@@ -527,12 +537,12 @@ def sample_holdout_for_explanation(
     chunks: List[pd.DataFrame] = []
     # Stream in chunks to maintain low memory profile
     for chunk in pd.read_csv(path, usecols=usecols, dtype=dtypes, chunksize=250000):
-        holdout_slice = chunk[chunk["step"] >= min_step]
+        holdout_slice = chunk[(chunk["step"] >= min_step) & (chunk["step"] <= max_step)]
         if len(holdout_slice) > 0:
             chunks.append(holdout_slice)
 
     if not chunks:
-        raise ExplainabilityError(f"No transactions found with step >= {min_step} in {path}.")
+        raise ExplainabilityError(f"No transactions found with {min_step} <= step <= {max_step} in {path}.")
 
     full_holdout = pd.concat(chunks, ignore_index=True)
     n_available = len(full_holdout)
@@ -603,7 +613,7 @@ def run_explainability_pipeline(
     """Execute end-to-end Milestone 5 Explainability workflow.
 
     1. Loads the ablated gradient-boosting model bundle.
-    2. Samples a reproducible holdout partition slice (step >= 551).
+    2. Samples a reproducible development-holdout slice (551 <= step <= 650; locked test excluded).
     3. Extracts canonical features with zero leakage.
     4. Computes exact TreeSHAP attributions and validates additivity.
     5. Produces global importance CSV, summary beeswarm plot, and markdown report.
@@ -803,7 +813,7 @@ def _generate_markdown_report(
 **Generated UTC:** {meta.generated_at_utc}  
 **Model Artifact:** `{meta.model_artifact}` ({meta.estimator_class})  
 **Explainer Algorithm:** `{meta.explainer_type}` (TreeSHAP exact additivity)  
-**Sample Population:** {meta.sample_size:,} holdout transactions (`step >= 551`, Seed: `{meta.random_seed}`)  
+**Sample Population:** {meta.sample_size:,} development-holdout transactions (`551 <= step <= 650`; locked final test excluded; Seed: `{meta.random_seed}`)  
 **Pipeline Runtime:** {elapsed_seconds} seconds  
 
 ---
