@@ -407,7 +407,7 @@ Detailed specification: [`docs/evaluation-strategy.md`](file:///docs/evaluation-
 ### 4. Running Features, Rules, Models & Automated Tests
 
 ```bash
-# Execute full test suite (149 tests collected; one live-database test applies views when PostgreSQL is reachable)
+# Execute full test suite (161 tests collected; one live-database test applies views when PostgreSQL is reachable)
 py -m pytest tests/ -v
 
 # Run Python interactive verification of feature extraction
@@ -447,7 +447,7 @@ py src/finsight/explainability.py --data-path data/processed/transactions.csv.gz
 # Run explainability test suite
 py -m pytest tests/test_explainability.py -v
 
-# Run full project test suite (149 tests collected; one live-database test applies views when PostgreSQL is reachable)
+# Run full project test suite (161 tests collected; one live-database test applies views when PostgreSQL is reachable)
 py -m pytest tests/ -v
 ```
 
@@ -619,6 +619,33 @@ A fixed threshold does not hold the review load steady: it ran 15% over target i
 transaction volume and the score distribution shift between windows. Results are development-only; no model has been
 promoted and the locked test has not been read.
 
+### Priority review queue (P1.4.2)
+
+`src/finsight/review_queue.py` simulates a real-time review queue for E4:
+- Transactions scoring at or above a floor enter a queue.
+- Analysts review K/24 items per hour, always the highest score first (oldest first among equal scores).
+- An item that waits longer than its deadline (6, 12 or 24 hours) expires unreviewed.
+- An optional escalation sends the very highest scores to an automatic hold.
+
+The P1.4.1 investigation (`reports/evaluation/p141_rolling_cap.md`) motivated this design. As in P1.3 and P1.4, a
+rule fixed in code chooses on F1 and F2, then F3 reports the choice once (its fourth use).
+
+```bash
+py src/finsight/review_queue.py --stage selection      # reports/evaluation/p142_selection.{json,md}
+py src/finsight/review_queue.py --stage confirmation   # reports/evaluation/p142_confirmation.{json,md}
+```
+
+Recall at 100 reviews/day (whole-day load CV in brackets):
+
+| Policy | F1 | F2 | F3 (confirmation) |
+|---|---|---|---|
+| B fixed threshold | 35.6% (0.15, 114/day) | 24.8% (0.05, 64/day) | 31.4% (0.21) |
+| D2 threshold + first-come cap | 32.0% (0) | 24.8% (0.05, 64/day) | 28.6% (0.09) |
+| Q12 queue, 12-hour deadline (chosen queue) | 31.2% (0.02) | 34.2% (0) | 33.8% (0.03) |
+
+The rule chose Q12. It did **not** replace B as the reference policy, because on F1 its recall was 0.8 points below
+D2. Results are development-only; nothing has been promoted and the locked test has not been read.
+
 ---
 
 ## Master ML Remediation & Reliability Phase (historical)
@@ -675,6 +702,8 @@ All former `reports/remediation/`, `reports/ml_improvement/` and `reports/model_
 | **P1.2** | **Recipient History Feature** | **Complete** | Leakage-safe recipient prior count (`features.py`), history-aware training configs for P1.3 candidates, 12 leakage tests. |
 | **P1.3** | **Candidate Comparison** | **Complete** | Five configs on identical folds; F1/F2 screening, pre-declared shortlist, F3 confirmation; nothing promoted. |
 | **P1.4** | **Alert Policy** | **Complete** | Prospective thresholds for E4; fixed threshold (B) chosen on F1/F2, F3 reported once; volume drift documented. |
+| **P1.4.1** | **Rolling Cap Investigation** | **Complete** | First-come caps lose fraud when the budget runs out; ranking within the day does not. Report only. |
+| **P1.4.2** | **Priority Review Queue** | **Complete** | Queue with deadlines simulated; Q12 chosen; B stays the reference (F1 shortfall vs D2). |
 | **6** | **SQL KPI Marts & Analytics Views** | Planned | Analytical views, window functions, operational KPI benchmarks. |
 | **7** | **Power BI Reporting & Presentation** | Planned | Star-schema DAX model, executive summary, risk drill-down report. |
 
