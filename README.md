@@ -124,8 +124,8 @@ FinSight/
 │       ├── train.py                   # Reproducible training: config -> bundle + manifest
 │       ├── evaluate.py                # Locked evaluation protocol (walk-forward, locked final test)
 │       └── benchmark_view.py          # Generates sql/views/04 from artifacts and data
-├── models/
-│   └── candidates/                    # Bundles written by train.py (never overwritten)
+├── models/                            # Authoritative frozen artifacts (champion: hist_gradient_boosting_no_day.joblib)
+│   └── candidates/                    # Committed train.py manifests; retrained .joblib bundles stay local (git-ignored)
 ├── tests/                             # Automated test suite (unit, integration, DQ)
 │       └── __init__.py
 ├── reports/
@@ -514,7 +514,11 @@ All model evaluation follows `src/finsight/evaluate.py`:
 - **Scores are risk scores**, not calibrated probabilities.
 
 ```bash
-# Reproduce the frozen champion bit-for-bit and verify it (writes models/candidates/, never overwrites)
+# Reproduce the frozen champion bit-for-bit and verify it against models/hist_gradient_boosting_no_day.joblib.
+# Writes a local, git-ignored bundle to models/candidates/ (never overwrites). The committed
+# models/candidates/hgb_baseline8_balanced.manifest.json records the config, data hash, library versions and the
+# successful verification. Its artifact_sha256 refers to that run's bundle, which embeds a save timestamp, so a
+# retrain is verified by --verify-against (identical scores and threshold), not by file hash.
 py src/finsight/train.py --config hgb_baseline8_balanced --verify-against models/hist_gradient_boosting_no_day.joblib
 
 # Walk-forward evaluation of a training config (writes reports/evaluation/walk_forward_<config>.{json,md})
