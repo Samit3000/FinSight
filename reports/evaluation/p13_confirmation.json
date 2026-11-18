@@ -1,0 +1,945 @@
+{
+  "labels": [
+    "E0",
+    "E1",
+    "E2",
+    "E3",
+    "E4"
+  ],
+  "folds": [
+    "F3"
+  ],
+  "results": {
+    "E0": {
+      "F3": {
+        "rows": 115770,
+        "labelled_fraud": 1126,
+        "fraud_prevalence_pct": 0.9726,
+        "steps": [
+          551,
+          650
+        ],
+        "simulated_days": 4.167,
+        "average_precision": 0.4222,
+        "average_precision_ci95": [
+          0.3288,
+          0.523
+        ],
+        "roc_auc": 0.952,
+        "mean_score": 0.1761,
+        "at_alert_budget": {
+          "50_per_day": {
+            "alerts_per_day_budget": 50,
+            "alerts": 208,
+            "score_cutoff": 0.993713,
+            "rows_tied_at_cutoff": 80,
+            "tied_rows_reviewed": 10,
+            "tie_policy": "expected value under random tie-breaking",
+            "true_positives": 176.25,
+            "false_positives": 31.75,
+            "false_negatives": 949.75,
+            "true_negatives": 114612.25,
+            "precision": 0.8474,
+            "recall": 0.1565,
+            "f1_score": 0.2642
+          },
+          "100_per_day": {
+            "alerts_per_day_budget": 100,
+            "alerts": 417,
+            "score_cutoff": 0.992651,
+            "rows_tied_at_cutoff": 169,
+            "tied_rows_reviewed": 53,
+            "tie_policy": "expected value under random tie-breaking",
+            "true_positives": 280.17,
+            "false_positives": 136.83,
+            "false_negatives": 845.83,
+            "true_negatives": 114507.17,
+            "precision": 0.6719,
+            "recall": 0.2488,
+            "f1_score": 0.3632
+          },
+          "200_per_day": {
+            "alerts_per_day_budget": 200,
+            "alerts": 833,
+            "score_cutoff": 0.97677,
+            "rows_tied_at_cutoff": 4,
+            "tied_rows_reviewed": 4,
+            "tie_policy": "expected value under random tie-breaking",
+            "true_positives": 469.0,
+            "false_positives": 364.0,
+            "false_negatives": 657.0,
+            "true_negatives": 114280.0,
+            "precision": 0.563,
+            "recall": 0.4165,
+            "f1_score": 0.4788
+          }
+        },
+        "breakdown_at_100_per_day": {
+          "alerts_per_day_budget": 100,
+          "by_hour_band": [
+            {
+              "segment": "00-05",
+              "rows": 3110,
+              "fraud": 310,
+              "true_positives": 208.17,
+              "false_negatives": 101.83,
+              "false_positives": 136.83,
+              "recall": 0.6715
+            },
+            {
+              "segment": "06-08",
+              "rows": 3506,
+              "fraud": 126,
+              "true_positives": 26.0,
+              "false_negatives": 100.0,
+              "false_positives": 0.0,
+              "recall": 0.2063
+            },
+            {
+              "segment": "09-17",
+              "rows": 69137,
+              "fraud": 408,
+              "true_positives": 25.0,
+              "false_negatives": 383.0,
+              "false_positives": 0.0,
+              "recall": 0.0613
+            },
+            {
+              "segment": "18-23",
+              "rows": 40017,
+              "fraud": 282,
+              "true_positives": 21.0,
+              "false_negatives": 261.0,
+              "false_positives": 0.0,
+              "recall": 0.0745
+            }
+          ],
+          "by_recipient_prior_count": [
+            {
+              "segment": "0",
+              "rows": 51571,
+              "fraud": 714,
+              "true_positives": 176.08,
+              "false_negatives": 537.92,
+              "false_positives": 12.51,
+              "recall": 0.2466
+            },
+            {
+              "segment": "1-5",
+              "rows": 30236,
+              "fraud": 239,
+              "true_positives": 57.39,
+              "false_negatives": 181.61,
+              "false_positives": 43.49,
+              "recall": 0.2401
+            },
+            {
+              "segment": "6-20",
+              "rows": 27099,
+              "fraud": 136,
+              "true_positives": 37.08,
+              "false_negatives": 98.92,
+              "false_positives": 60.13,
+              "recall": 0.2726
+            },
+            {
+              "segment": "21+",
+              "rows": 6864,
+              "fraud": 37,
+              "true_positives": 9.63,
+              "false_negatives": 27.37,
+              "false_positives": 20.7,
+              "recall": 0.2602
+            }
+          ]
+        },
+        "fit_seconds": 57.7,
+        "features": [
+          "amount",
+          "log1p_amount",
+          "transaction_hour",
+          "type_CASH_IN",
+          "type_CASH_OUT",
+          "type_DEBIT",
+          "type_PAYMENT",
+          "type_TRANSFER"
+        ],
+        "n_iter": 50,
+        "train_rows": 6166019,
+        "train_fraud": 6065
+      }
+    },
+    "E1": {
+      "F3": {
+        "rows": 115770,
+        "labelled_fraud": 1126,
+        "fraud_prevalence_pct": 0.9726,
+        "steps": [
+          551,
+          650
+        ],
+        "simulated_days": 4.167,
+        "average_precision": 0.6249,
+        "average_precision_ci95": [
+          0.534,
+          0.7164
+        ],
+        "roc_auc": 0.9771,
+        "mean_score": 0.1182,
+        "at_alert_budget": {
+          "50_per_day": {
+            "alerts_per_day_budget": 50,
+            "alerts": 208,
+            "score_cutoff": 0.993498,
+            "rows_tied_at_cutoff": 50,
+            "tied_rows_reviewed": 11,
+            "tie_policy": "expected value under random tie-breaking",
+            "true_positives": 204.24,
+            "false_positives": 3.76,
+            "false_negatives": 921.76,
+            "true_negatives": 114640.24,
+            "precision": 0.9819,
+            "recall": 0.1814,
+            "f1_score": 0.3062
+          },
+          "100_per_day": {
+            "alerts_per_day_budget": 100,
+            "alerts": 417,
+            "score_cutoff": 0.991451,
+            "rows_tied_at_cutoff": 5,
+            "tied_rows_reviewed": 1,
+            "tie_policy": "expected value under random tie-breaking",
+            "true_positives": 342.0,
+            "false_positives": 75.0,
+            "false_negatives": 784.0,
+            "true_negatives": 114569.0,
+            "precision": 0.8201,
+            "recall": 0.3037,
+            "f1_score": 0.4433
+          },
+          "200_per_day": {
+            "alerts_per_day_budget": 200,
+            "alerts": 833,
+            "score_cutoff": 0.975532,
+            "rows_tied_at_cutoff": 5,
+            "tied_rows_reviewed": 5,
+            "tie_policy": "expected value under random tie-breaking",
+            "true_positives": 584.0,
+            "false_positives": 249.0,
+            "false_negatives": 542.0,
+            "true_negatives": 114395.0,
+            "precision": 0.7011,
+            "recall": 0.5187,
+            "f1_score": 0.5962
+          }
+        },
+        "breakdown_at_100_per_day": {
+          "alerts_per_day_budget": 100,
+          "by_hour_band": [
+            {
+              "segment": "00-05",
+              "rows": 3110,
+              "fraud": 310,
+              "true_positives": 239.0,
+              "false_negatives": 71.0,
+              "false_positives": 75.0,
+              "recall": 0.771
+            },
+            {
+              "segment": "06-08",
+              "rows": 3506,
+              "fraud": 126,
+              "true_positives": 21.0,
+              "false_negatives": 105.0,
+              "false_positives": 0.0,
+              "recall": 0.1667
+            },
+            {
+              "segment": "09-17",
+              "rows": 69137,
+              "fraud": 408,
+              "true_positives": 46.0,
+              "false_negatives": 362.0,
+              "false_positives": 0.0,
+              "recall": 0.1127
+            },
+            {
+              "segment": "18-23",
+              "rows": 40017,
+              "fraud": 282,
+              "true_positives": 36.0,
+              "false_negatives": 246.0,
+              "false_positives": 0.0,
+              "recall": 0.1277
+            }
+          ],
+          "by_recipient_prior_count": [
+            {
+              "segment": "0",
+              "rows": 51571,
+              "fraud": 714,
+              "true_positives": 209.0,
+              "false_negatives": 505.0,
+              "false_positives": 19.0,
+              "recall": 0.2927
+            },
+            {
+              "segment": "1-5",
+              "rows": 30236,
+              "fraud": 239,
+              "true_positives": 83.0,
+              "false_negatives": 156.0,
+              "false_positives": 45.0,
+              "recall": 0.3473
+            },
+            {
+              "segment": "6-20",
+              "rows": 27099,
+              "fraud": 136,
+              "true_positives": 38.0,
+              "false_negatives": 98.0,
+              "false_positives": 11.0,
+              "recall": 0.2794
+            },
+            {
+              "segment": "21+",
+              "rows": 6864,
+              "fraud": 37,
+              "true_positives": 12.0,
+              "false_negatives": 25.0,
+              "false_positives": 0.0,
+              "recall": 0.3243
+            }
+          ]
+        },
+        "fit_seconds": 54.0,
+        "features": [
+          "amount",
+          "log1p_amount",
+          "transaction_hour",
+          "type_CASH_IN",
+          "type_CASH_OUT",
+          "type_DEBIT",
+          "type_PAYMENT",
+          "type_TRANSFER",
+          "recipient_prior_in_count"
+        ],
+        "n_iter": 50,
+        "train_rows": 6166019,
+        "train_fraud": 6065
+      }
+    },
+    "E2": {
+      "F3": {
+        "rows": 115770,
+        "labelled_fraud": 1126,
+        "fraud_prevalence_pct": 0.9726,
+        "steps": [
+          551,
+          650
+        ],
+        "simulated_days": 4.167,
+        "average_precision": 0.4621,
+        "average_precision_ci95": [
+          0.3776,
+          0.5537
+        ],
+        "roc_auc": 0.9526,
+        "mean_score": 0.0312,
+        "at_alert_budget": {
+          "50_per_day": {
+            "alerts_per_day_budget": 50,
+            "alerts": 208,
+            "score_cutoff": 0.96571,
+            "rows_tied_at_cutoff": 3,
+            "tied_rows_reviewed": 3,
+            "tie_policy": "expected value under random tie-breaking",
+            "true_positives": 195.0,
+            "false_positives": 13.0,
+            "false_negatives": 931.0,
+            "true_negatives": 114631.0,
+            "precision": 0.9375,
+            "recall": 0.1732,
+            "f1_score": 0.2924
+          },
+          "100_per_day": {
+            "alerts_per_day_budget": 100,
+            "alerts": 417,
+            "score_cutoff": 0.93622,
+            "rows_tied_at_cutoff": 3,
+            "tied_rows_reviewed": 1,
+            "tie_policy": "expected value under random tie-breaking",
+            "true_positives": 315.33,
+            "false_positives": 101.67,
+            "false_negatives": 810.67,
+            "true_negatives": 114542.33,
+            "precision": 0.7562,
+            "recall": 0.28,
+            "f1_score": 0.4087
+          },
+          "200_per_day": {
+            "alerts_per_day_budget": 200,
+            "alerts": 833,
+            "score_cutoff": 0.721799,
+            "rows_tied_at_cutoff": 12,
+            "tied_rows_reviewed": 7,
+            "tie_policy": "expected value under random tie-breaking",
+            "true_positives": 469.58,
+            "false_positives": 363.42,
+            "false_negatives": 656.42,
+            "true_negatives": 114280.58,
+            "precision": 0.5637,
+            "recall": 0.417,
+            "f1_score": 0.4794
+          }
+        },
+        "breakdown_at_100_per_day": {
+          "alerts_per_day_budget": 100,
+          "by_hour_band": [
+            {
+              "segment": "00-05",
+              "rows": 3110,
+              "fraud": 310,
+              "true_positives": 191.33,
+              "false_negatives": 118.67,
+              "false_positives": 99.67,
+              "recall": 0.6172
+            },
+            {
+              "segment": "06-08",
+              "rows": 3506,
+              "fraud": 126,
+              "true_positives": 22.0,
+              "false_negatives": 104.0,
+              "false_positives": 2.0,
+              "recall": 0.1746
+            },
+            {
+              "segment": "09-17",
+              "rows": 69137,
+              "fraud": 408,
+              "true_positives": 61.0,
+              "false_negatives": 347.0,
+              "false_positives": 0.0,
+              "recall": 0.1495
+            },
+            {
+              "segment": "18-23",
+              "rows": 40017,
+              "fraud": 282,
+              "true_positives": 41.0,
+              "false_negatives": 241.0,
+              "false_positives": 0.0,
+              "recall": 0.1454
+            }
+          ],
+          "by_recipient_prior_count": [
+            {
+              "segment": "0",
+              "rows": 51571,
+              "fraud": 714,
+              "true_positives": 172.0,
+              "false_negatives": 542.0,
+              "false_positives": 15.0,
+              "recall": 0.2409
+            },
+            {
+              "segment": "1-5",
+              "rows": 30236,
+              "fraud": 239,
+              "true_positives": 82.33,
+              "false_negatives": 156.67,
+              "false_positives": 35.33,
+              "recall": 0.3445
+            },
+            {
+              "segment": "6-20",
+              "rows": 27099,
+              "fraud": 136,
+              "true_positives": 45.0,
+              "false_negatives": 91.0,
+              "false_positives": 39.33,
+              "recall": 0.3309
+            },
+            {
+              "segment": "21+",
+              "rows": 6864,
+              "fraud": 37,
+              "true_positives": 16.0,
+              "false_negatives": 21.0,
+              "false_positives": 12.0,
+              "recall": 0.4324
+            }
+          ]
+        },
+        "fit_seconds": 48.7,
+        "features": [
+          "amount",
+          "log1p_amount",
+          "transaction_hour",
+          "type_CASH_IN",
+          "type_CASH_OUT",
+          "type_DEBIT",
+          "type_PAYMENT",
+          "type_TRANSFER"
+        ],
+        "n_iter": 50,
+        "train_rows": 6166019,
+        "train_fraud": 6065
+      }
+    },
+    "E3": {
+      "F3": {
+        "rows": 115770,
+        "labelled_fraud": 1126,
+        "fraud_prevalence_pct": 0.9726,
+        "steps": [
+          551,
+          650
+        ],
+        "simulated_days": 4.167,
+        "average_precision": 0.653,
+        "average_precision_ci95": [
+          0.5728,
+          0.729
+        ],
+        "roc_auc": 0.9768,
+        "mean_score": 0.023,
+        "at_alert_budget": {
+          "50_per_day": {
+            "alerts_per_day_budget": 50,
+            "alerts": 208,
+            "score_cutoff": 0.975748,
+            "rows_tied_at_cutoff": 2,
+            "tied_rows_reviewed": 1,
+            "tie_policy": "expected value under random tie-breaking",
+            "true_positives": 206.0,
+            "false_positives": 2.0,
+            "false_negatives": 920.0,
+            "true_negatives": 114642.0,
+            "precision": 0.9904,
+            "recall": 0.1829,
+            "f1_score": 0.3088
+          },
+          "100_per_day": {
+            "alerts_per_day_budget": 100,
+            "alerts": 417,
+            "score_cutoff": 0.946268,
+            "rows_tied_at_cutoff": 1,
+            "tied_rows_reviewed": 1,
+            "tie_policy": "expected value under random tie-breaking",
+            "true_positives": 375.0,
+            "false_positives": 42.0,
+            "false_negatives": 751.0,
+            "true_negatives": 114602.0,
+            "precision": 0.8993,
+            "recall": 0.333,
+            "f1_score": 0.4861
+          },
+          "200_per_day": {
+            "alerts_per_day_budget": 200,
+            "alerts": 833,
+            "score_cutoff": 0.75557,
+            "rows_tied_at_cutoff": 23,
+            "tied_rows_reviewed": 16,
+            "tie_policy": "expected value under random tie-breaking",
+            "true_positives": 583.17,
+            "false_positives": 249.83,
+            "false_negatives": 542.83,
+            "true_negatives": 114394.17,
+            "precision": 0.7001,
+            "recall": 0.5179,
+            "f1_score": 0.5954
+          }
+        },
+        "breakdown_at_100_per_day": {
+          "alerts_per_day_budget": 100,
+          "by_hour_band": [
+            {
+              "segment": "00-05",
+              "rows": 3110,
+              "fraud": 310,
+              "true_positives": 224.0,
+              "false_negatives": 86.0,
+              "false_positives": 39.0,
+              "recall": 0.7226
+            },
+            {
+              "segment": "06-08",
+              "rows": 3506,
+              "fraud": 126,
+              "true_positives": 18.0,
+              "false_negatives": 108.0,
+              "false_positives": 0.0,
+              "recall": 0.1429
+            },
+            {
+              "segment": "09-17",
+              "rows": 69137,
+              "fraud": 408,
+              "true_positives": 59.0,
+              "false_negatives": 349.0,
+              "false_positives": 1.0,
+              "recall": 0.1446
+            },
+            {
+              "segment": "18-23",
+              "rows": 40017,
+              "fraud": 282,
+              "true_positives": 74.0,
+              "false_negatives": 208.0,
+              "false_positives": 2.0,
+              "recall": 0.2624
+            }
+          ],
+          "by_recipient_prior_count": [
+            {
+              "segment": "0",
+              "rows": 51571,
+              "fraud": 714,
+              "true_positives": 240.0,
+              "false_negatives": 474.0,
+              "false_positives": 20.0,
+              "recall": 0.3361
+            },
+            {
+              "segment": "1-5",
+              "rows": 30236,
+              "fraud": 239,
+              "true_positives": 83.0,
+              "false_negatives": 156.0,
+              "false_positives": 21.0,
+              "recall": 0.3473
+            },
+            {
+              "segment": "6-20",
+              "rows": 27099,
+              "fraud": 136,
+              "true_positives": 38.0,
+              "false_negatives": 98.0,
+              "false_positives": 1.0,
+              "recall": 0.2794
+            },
+            {
+              "segment": "21+",
+              "rows": 6864,
+              "fraud": 37,
+              "true_positives": 14.0,
+              "false_negatives": 23.0,
+              "false_positives": 0.0,
+              "recall": 0.3784
+            }
+          ]
+        },
+        "fit_seconds": 51.1,
+        "features": [
+          "amount",
+          "log1p_amount",
+          "transaction_hour",
+          "type_CASH_IN",
+          "type_CASH_OUT",
+          "type_DEBIT",
+          "type_PAYMENT",
+          "type_TRANSFER",
+          "recipient_prior_in_count"
+        ],
+        "n_iter": 50,
+        "train_rows": 6166019,
+        "train_fraud": 6065
+      }
+    },
+    "E4": {
+      "F3": {
+        "rows": 115770,
+        "labelled_fraud": 1126,
+        "fraud_prevalence_pct": 0.9726,
+        "steps": [
+          551,
+          650
+        ],
+        "simulated_days": 4.167,
+        "average_precision": 0.653,
+        "average_precision_ci95": [
+          0.5728,
+          0.729
+        ],
+        "roc_auc": 0.9768,
+        "mean_score": 0.023,
+        "at_alert_budget": {
+          "50_per_day": {
+            "alerts_per_day_budget": 50,
+            "alerts": 208,
+            "score_cutoff": 0.975748,
+            "rows_tied_at_cutoff": 2,
+            "tied_rows_reviewed": 1,
+            "tie_policy": "expected value under random tie-breaking",
+            "true_positives": 206.0,
+            "false_positives": 2.0,
+            "false_negatives": 920.0,
+            "true_negatives": 114642.0,
+            "precision": 0.9904,
+            "recall": 0.1829,
+            "f1_score": 0.3088
+          },
+          "100_per_day": {
+            "alerts_per_day_budget": 100,
+            "alerts": 417,
+            "score_cutoff": 0.946268,
+            "rows_tied_at_cutoff": 1,
+            "tied_rows_reviewed": 1,
+            "tie_policy": "expected value under random tie-breaking",
+            "true_positives": 375.0,
+            "false_positives": 42.0,
+            "false_negatives": 751.0,
+            "true_negatives": 114602.0,
+            "precision": 0.8993,
+            "recall": 0.333,
+            "f1_score": 0.4861
+          },
+          "200_per_day": {
+            "alerts_per_day_budget": 200,
+            "alerts": 833,
+            "score_cutoff": 0.75557,
+            "rows_tied_at_cutoff": 23,
+            "tied_rows_reviewed": 16,
+            "tie_policy": "expected value under random tie-breaking",
+            "true_positives": 583.17,
+            "false_positives": 249.83,
+            "false_negatives": 542.83,
+            "true_negatives": 114394.17,
+            "precision": 0.7001,
+            "recall": 0.5179,
+            "f1_score": 0.5954
+          }
+        },
+        "breakdown_at_100_per_day": {
+          "alerts_per_day_budget": 100,
+          "by_hour_band": [
+            {
+              "segment": "00-05",
+              "rows": 3110,
+              "fraud": 310,
+              "true_positives": 224.0,
+              "false_negatives": 86.0,
+              "false_positives": 39.0,
+              "recall": 0.7226
+            },
+            {
+              "segment": "06-08",
+              "rows": 3506,
+              "fraud": 126,
+              "true_positives": 18.0,
+              "false_negatives": 108.0,
+              "false_positives": 0.0,
+              "recall": 0.1429
+            },
+            {
+              "segment": "09-17",
+              "rows": 69137,
+              "fraud": 408,
+              "true_positives": 59.0,
+              "false_negatives": 349.0,
+              "false_positives": 1.0,
+              "recall": 0.1446
+            },
+            {
+              "segment": "18-23",
+              "rows": 40017,
+              "fraud": 282,
+              "true_positives": 74.0,
+              "false_negatives": 208.0,
+              "false_positives": 2.0,
+              "recall": 0.2624
+            }
+          ],
+          "by_recipient_prior_count": [
+            {
+              "segment": "0",
+              "rows": 51571,
+              "fraud": 714,
+              "true_positives": 240.0,
+              "false_negatives": 474.0,
+              "false_positives": 20.0,
+              "recall": 0.3361
+            },
+            {
+              "segment": "1-5",
+              "rows": 30236,
+              "fraud": 239,
+              "true_positives": 83.0,
+              "false_negatives": 156.0,
+              "false_positives": 21.0,
+              "recall": 0.3473
+            },
+            {
+              "segment": "6-20",
+              "rows": 27099,
+              "fraud": 136,
+              "true_positives": 38.0,
+              "false_negatives": 98.0,
+              "false_positives": 1.0,
+              "recall": 0.2794
+            },
+            {
+              "segment": "21+",
+              "rows": 6864,
+              "fraud": 37,
+              "true_positives": 14.0,
+              "false_negatives": 23.0,
+              "false_positives": 0.0,
+              "recall": 0.3784
+            }
+          ]
+        },
+        "fit_seconds": 49.7,
+        "features": [
+          "amount",
+          "transaction_hour",
+          "type_CASH_IN",
+          "type_CASH_OUT",
+          "type_DEBIT",
+          "type_PAYMENT",
+          "type_TRANSFER",
+          "recipient_prior_in_count"
+        ],
+        "n_iter": 50,
+        "train_rows": 6166019,
+        "train_fraud": 6065
+      }
+    }
+  },
+  "paired_ap_differences": {
+    "E1-E0": {
+      "isolates": "recipient count (balanced weights)",
+      "F3": {
+        "point": 0.2027,
+        "ci95": [
+          0.1684,
+          0.2356
+        ],
+        "share_of_resamples_not_better": 0.0
+      }
+    },
+    "E2-E0": {
+      "isolates": "class weight 1:50 (no recipient count)",
+      "F3": {
+        "point": 0.04,
+        "ci95": [
+          0.0181,
+          0.0552
+        ],
+        "share_of_resamples_not_better": 0.0
+      }
+    },
+    "E3-E1": {
+      "isolates": "class weight 1:50 (with recipient count)",
+      "F3": {
+        "point": 0.0281,
+        "ci95": [
+          0.008,
+          0.0461
+        ],
+        "share_of_resamples_not_better": 0.0
+      }
+    },
+    "E3-E2": {
+      "isolates": "recipient count (class weight 1:50)",
+      "F3": {
+        "point": 0.1908,
+        "ci95": [
+          0.1648,
+          0.2185
+        ],
+        "share_of_resamples_not_better": 0.0
+      }
+    },
+    "E4-E3": {
+      "isolates": "removing log1p_amount",
+      "F3": {
+        "point": 0.0,
+        "ci95": [
+          0.0,
+          0.0
+        ],
+        "share_of_resamples_not_better": 1.0
+      }
+    },
+    "E3-E0": {
+      "isolates": "recipient count + class weight 1:50 combined",
+      "F3": {
+        "point": 0.2308,
+        "ci95": [
+          0.1879,
+          0.2613
+        ],
+        "share_of_resamples_not_better": 0.0
+      }
+    },
+    "E4-E0": {
+      "isolates": "recipient count + class weight 1:50 - log1p_amount combined",
+      "F3": {
+        "point": 0.2308,
+        "ci95": [
+          0.1879,
+          0.2613
+        ],
+        "share_of_resamples_not_better": 0.0
+      }
+    }
+  },
+  "meta": {
+    "stage": "confirmation",
+    "generated_utc": "2026-11-18T18:19:22Z",
+    "data_sha256": "74cba5b396ce21d08f2ffd859bd95f782622a06871ff35f0e4f3f271213294bd",
+    "n_boot": 300,
+    "final_test_min_step": 651,
+    "max_step_loaded": 650,
+    "configs": {
+      "E0": "hgb_baseline8_balanced",
+      "E1": "hgb_baseline8_rcpt_balanced",
+      "E2": "hgb_baseline8_cw50_f32",
+      "E3": "hgb_baseline8_rcpt_cw50",
+      "E4": "hgb_baseline7_rcpt_cw50"
+    },
+    "disclosure": "F1 and F2 are screening folds. F3 is the least-used fold, not an independent one: the recipient count was discovered by analysing the frozen champion's errors on steps 451-650 (which includes F3's test window), the champion configuration E0 was chosen using steps 551-743, and the 1:50 class weight was chosen on 451-550 and compared on 551-743. F2 is the most reused fold. The locked test (651-743) was not read in P1.3 (no labels, predictions or metrics) and gives no evidence here.",
+    "runtime_seconds": 358
+  },
+  "shortlist": [
+    "E1",
+    "E3",
+    "E4"
+  ],
+  "confirmation_rule": "A shortlisted candidate is confirmed on F3 only if the paired 95% CI of AP(candidate) - AP(E0) lies entirely above 0 and tie-aware recall at 100 and 200 alerts/day is not lower than E0's on F3. Confirmation is not promotion: promotion and the single locked-test evaluation need separate approval.",
+  "confirmation_decision": {
+    "E1": {
+      "dAP": 0.2027,
+      "ci95": [
+        0.1684,
+        0.2356
+      ],
+      "recall_100": "0.304 vs 0.249",
+      "recall_200": "0.519 vs 0.416",
+      "confirmed": true
+    },
+    "E3": {
+      "dAP": 0.2308,
+      "ci95": [
+        0.1879,
+        0.2613
+      ],
+      "recall_100": "0.333 vs 0.249",
+      "recall_200": "0.518 vs 0.416",
+      "confirmed": true
+    },
+    "E4": {
+      "dAP": 0.2308,
+      "ci95": [
+        0.1879,
+        0.2613
+      ],
+      "recall_100": "0.333 vs 0.249",
+      "recall_200": "0.518 vs 0.416",
+      "confirmed": true
+    }
+  }
+}

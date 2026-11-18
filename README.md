@@ -407,7 +407,7 @@ Detailed specification: [`docs/evaluation-strategy.md`](file:///docs/evaluation-
 ### 4. Running Features, Rules, Models & Automated Tests
 
 ```bash
-# Execute full test suite (123 tests collected; one live-database test applies views when PostgreSQL is reachable)
+# Execute full test suite (149 tests collected; one live-database test applies views when PostgreSQL is reachable)
 py -m pytest tests/ -v
 
 # Run Python interactive verification of feature extraction
@@ -447,7 +447,7 @@ py src/finsight/explainability.py --data-path data/processed/transactions.csv.gz
 # Run explainability test suite
 py -m pytest tests/test_explainability.py -v
 
-# Run full project test suite (123 tests collected; one live-database test applies views when PostgreSQL is reachable)
+# Run full project test suite (149 tests collected; one live-database test applies views when PostgreSQL is reachable)
 py -m pytest tests/ -v
 ```
 
@@ -538,6 +538,87 @@ Walk-forward baseline for the champion configuration (`reports/evaluation/walk_f
 
 F2 and F3 are optimistic for this configuration (see the selection disclosure above).
 
+### Recipient history feature (P1.2)
+
+`features.compute_recipient_prior_in_count` counts the transactions a recipient (`nameDest`) received in **strictly
+earlier steps**. P1.1 error analysis found it to be the only non-artifact signal that separates the champion's missed
+fraud from similar legitimate transfers (63% of fraud goes to a recipient with no prior incoming transactions,
+against about 15% of legitimate TRANSFER/CASH_OUT).
+
+Leakage boundaries, each covered by `tests/test_recipient_history.py`:
+
+- Only `nameDest` and `step` are read. Labels, amounts and balances never are.
+- Every row of the current step is excluded, not only the row itself, because row order within an hourly step is
+  not a timestamp.
+- A row's value depends only on earlier steps, so later rows never change it. Unseen recipients get 0.
+- History is computed on the whole chronological frame (`train.load_development_data` / `add_history_features`)
+  before any training, validation or fold slicing. `train.build_features` refuses a frame without it rather than
+  recomputing on a window.
+
+P1.3 comparison configs (all use the champion's float32 amount path and hyperparameters; none promoted):
+
+| Config | Change from champion |
+|---|---|
+| `hgb_baseline8_cw50_f32` | class weight 1:50 only (comparability baseline) |
+| `hgb_baseline8_rcpt_balanced` | + `recipient_prior_in_count` |
+| `hgb_baseline8_rcpt_cw50` | + `recipient_prior_in_count`, class weight 1:50 |
+| `hgb_baseline7_rcpt_cw50` | + `recipient_prior_in_count`, class weight 1:50, without `log1p_amount` |
+
+No fold is independent evidence for this feature. It was discovered by analysing the champion's errors on
+steps 451–650 (which includes F3) and screened on F1 and F2. In P1.3, F1 and F2 are screening folds and F3 only
+confirms shortlisted candidates; F3 is the least-used fold, not an independent one. The locked test (651–743)
+stays sealed during P1.3 and is not used as evidence; it is reserved for a single approved final evaluation and is
+itself not pristine, because it sat inside the pre-P0 holdout.
+
+### Candidate comparison (P1.3)
+
+`src/finsight/compare_candidates.py` runs the five comparison configs through identical folds and metrics in two
+recorded stages. Screening on F1 and F2 applies a shortlist rule fixed in code before F3 is touched; confirmation
+then reads that shortlist and evaluates it on F3. Neither stage overwrites an existing report, writes a model file or
+reads steps 651–743.
+
+```bash
+py src/finsight/compare_candidates.py --stage screening      # reports/evaluation/p13_screening.{json,md}
+py src/finsight/compare_candidates.py --stage confirmation   # reports/evaluation/p13_confirmation.{json,md}
+```
+
+Average precision by fold (F1 and F2 are screening results; F3 is a confirmation result and not independent):
+
+| Config | F1 | F2 | F3 | Recall at 100 alerts/day (F1 / F2 / F3) |
+|---|---:|---:|---:|---|
+| E0 champion config | 0.3889 | 0.3115 | 0.4222 | 28.2% / 21.0% / 24.9% |
+| E1 + recipient count | 0.4952 | 0.4717 | 0.6249 | 30.8% / 24.5% / 30.4% |
+| E2 class weight 1:50 | 0.4189 | 0.3663 | 0.4621 | 30.6% / 24.6% / 28.0% |
+| E3 + recipient count, class weight 1:50 | 0.5092 | 0.5162 | 0.6530 | 32.8% / 31.0% / 33.3% |
+| E4 = E3 without `log1p_amount` | 0.5092 | 0.5162 | 0.6530 | identical to E3 |
+
+No model has been promoted. The locked test has not been read.
+
+### Alert policy (P1.4)
+
+`src/finsight/alert_policy.py` tests whether the P1.3 ranking result works as a prospective policy for E4. In each fold,
+the model is trained on all but the last 100 training steps. Thresholds are fixed on those 100 steps and applied
+unchanged to the test window. The policy is chosen on F1 and F2 by a rule declared in code, and F3 reports it once
+(its second use, after P1.3).
+
+```bash
+py src/finsight/alert_policy.py --stage selection      # reports/evaluation/p14_selection.{json,md}
+py src/finsight/alert_policy.py --stage confirmation   # reports/evaluation/p14_confirmation.{json,md}
+```
+
+Chosen policy: **B, one fixed threshold** (target 100 alerts/day). Neither hour-band split passed the rule in both F1
+and F2.
+
+| Fold | Realised alerts/day | Whole-day range | Precision | Recall |
+|---|---:|---|---:|---:|
+| F1 | 114.5 | 106–144 | 0.864 | 35.6% |
+| F2 | 64.1 | 62–69 | 0.936 | 24.8% |
+| F3 (confirmation) | 97.9 | 81–131 | 0.865 | 31.4% |
+
+A fixed threshold does not hold the review load steady: it ran 15% over target in F1 and 36% under in F2, because
+transaction volume and the score distribution shift between windows. Results are development-only; no model has been
+promoted and the locked test has not been read.
+
 ---
 
 ## Master ML Remediation & Reliability Phase (historical)
@@ -591,6 +672,9 @@ All former `reports/remediation/`, `reports/ml_improvement/` and `reports/model_
 | **5** | **Explainable AI with SHAP** | **Complete** | TreeSHAP module (`explainability.py`), exact additivity verification, global ranking CSV/PNG, local TP/TN/FP/FN JSON & Markdown reports. |
 | **Audit** | **Master ML Remediation & Verification** | Superseded | Model freeze (`no_day`); reports archived with known errors (see `reports/archive/README.md`). |
 | **P0** | **Evaluation Integrity & Data Safety** | **Complete** | Non-destructive schema, atomic reload, locked evaluation protocol, bit-for-bit reproducible champion training, generated benchmark view, 123 tests. |
+| **P1.2** | **Recipient History Feature** | **Complete** | Leakage-safe recipient prior count (`features.py`), history-aware training configs for P1.3 candidates, 12 leakage tests. |
+| **P1.3** | **Candidate Comparison** | **Complete** | Five configs on identical folds; F1/F2 screening, pre-declared shortlist, F3 confirmation; nothing promoted. |
+| **P1.4** | **Alert Policy** | **Complete** | Prospective thresholds for E4; fixed threshold (B) chosen on F1/F2, F3 reported once; volume drift documented. |
 | **6** | **SQL KPI Marts & Analytics Views** | Planned | Analytical views, window functions, operational KPI benchmarks. |
 | **7** | **Power BI Reporting & Presentation** | Planned | Star-schema DAX model, executive summary, risk drill-down report. |
 

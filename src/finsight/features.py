@@ -429,3 +429,64 @@ def chronological_split(
     )
 
     return train_df, test_df
+
+
+# ------------------------------------------------------------------------------
+# Recipient history (P1.2)
+# ------------------------------------------------------------------------------
+RECIPIENT_PRIOR_IN_COUNT = "recipient_prior_in_count"
+
+
+def compute_recipient_prior_in_count(
+    df: pd.DataFrame,
+    dest_col: Optional[str] = None,
+    step_col: str = "step",
+) -> pd.Series:
+    """Number of transactions the row's recipient received in all strictly earlier steps.
+
+    Leakage boundaries:
+    - Only the recipient identifier and `step` are read; labels, balances and amounts never are.
+    - Every row of the current step is excluded (not only the row itself). `step` is an hourly
+      tick and row order within a step is not a timestamp, so same-step rows are treated as
+      contemporaneous and unknown at scoring time.
+    - A row's value depends only on rows with a smaller step, so computing on a longer frame
+      never changes earlier values. History may (and should) cross partition boundaries:
+      earlier unlabelled transactions are legitimately known when later rows are scored.
+    - Recipients never seen before get 0.
+
+    Callers must pass the whole chronological frame (every step from the start of the
+    data up to the rows being scored), not a single training or test window: a window
+    that starts later silently drops history.
+
+    Args:
+        df: Transactions with a recipient column (`nameDest` or `name_dest`) and `step`.
+        dest_col: Recipient column; auto-detected when None.
+        step_col: Hourly step column.
+
+    Returns:
+        pd.Series of int64 named `recipient_prior_in_count`, aligned with `df.index`.
+    """
+    if dest_col is None:
+        dest_col = next((c for c in ("nameDest", "name_dest") if c in df.columns), None)
+        if dest_col is None:
+            raise FeatureEngineeringError("DataFrame missing recipient column ('nameDest' or 'name_dest').")
+    for c in (dest_col, step_col):
+        if c not in df.columns:
+            raise FeatureEngineeringError(f"DataFrame missing required column '{c}'.")
+    if df[dest_col].isnull().any():
+        raise FeatureEngineeringError(f"Column '{dest_col}' contains nulls.")
+    steps = pd.to_numeric(df[step_col], errors="coerce")
+    if steps.isnull().any():
+        raise FeatureEngineeringError(f"Column '{step_col}' contains non-numeric values.")
+    if len(df) == 0:
+        return pd.Series([], index=df.index, dtype="int64", name=RECIPIENT_PRIOR_IN_COUNT)
+
+    codes, _ = pd.factorize(df[dest_col])
+    steps_arr = steps.to_numpy(dtype=np.int64)
+    # Rows per (recipient, step), sorted by recipient then step.
+    per_step = pd.Series(1, index=pd.MultiIndex.from_arrays([codes, steps_arr])).groupby(level=[0, 1]).size()
+    # Cumulative count up to and including each step, minus that step's own rows
+    # = count over strictly earlier steps of the same recipient.
+    prior = per_step.groupby(level=0).cumsum() - per_step
+    values = prior.reindex(pd.MultiIndex.from_arrays([codes, steps_arr])).to_numpy(dtype=np.int64)
+    return pd.Series(values, index=df.index, dtype="int64", name=RECIPIENT_PRIOR_IN_COUNT)

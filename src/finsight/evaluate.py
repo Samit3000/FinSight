@@ -433,7 +433,7 @@ def render_walk_forward_markdown(title: str, results: Dict[str, Any], meta: Dict
 
 
 def main() -> None:
-    from finsight.train import MODEL_CONFIGS, build_features, fit_model, file_sha256
+    from finsight.train import MODEL_CONFIGS, build_features, fit_model, file_sha256, load_development_data
 
     parser = argparse.ArgumentParser(description="FinSight walk-forward evaluation (development data only)")
     parser.add_argument("--config", default="hgb_baseline8_balanced", choices=sorted(MODEL_CONFIGS))
@@ -444,7 +444,7 @@ def main() -> None:
     logging.basicConfig(level=logging.INFO, format="%(asctime)s [%(levelname)s] %(name)s: %(message)s")
 
     cfg = MODEL_CONFIGS[args.config]
-    df = pd.read_csv(args.data_path, usecols=["step", "type", "amount", "transaction_hour", "isFraud"])
+    df = load_development_data(Path(args.data_path), cfg)  # history computed before fold slicing
     results = run_walk_forward(
         df,
         fit_fn=lambda tr, y: fit_model(cfg, build_features(tr, cfg), y),

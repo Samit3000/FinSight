@@ -44,7 +44,7 @@ if _src_root not in sys.path:
     sys.path.insert(0, _src_root)
 
 from finsight.evaluate import FINAL_TEST_MIN_STEP, assert_development_steps, development_frame
-from finsight.features import extract_features
+from finsight.features import RECIPIENT_PRIOR_IN_COUNT, compute_recipient_prior_in_count, extract_features
 from finsight.ml_experiments import BASELINE_8_FEATURES, extract_extended_features
 from finsight.models import find_optimal_threshold
 
@@ -54,6 +54,20 @@ _HGB_DEFAULTS: Dict[str, Any] = {
     "max_iter": 50, "learning_rate": 0.1, "max_leaf_nodes": 31,
     "min_samples_leaf": 20, "l2_regularization": 0.0, "random_state": 42,
 }
+
+_RCPT_SELECTION_HISTORY = (
+    "Not independent of folds F1, F2 or F3. The recipient prior count was discovered in P1.1 error "
+    "analysis of the champion's errors on steps 451-650, which includes F3's test window 551-650, and was "
+    "screened on F1 (351-450) and F2 (451-550); the P0 audit had also inspected 451-550. In P1.3, F1 and F2 "
+    "are screening folds and F3 only confirms shortlisted candidates; F3 is the least-used fold but not "
+    "independent, and the champion it is compared with was chosen using steps 551-743. The locked test "
+    "(651-743) is sealed during P1.3 and provides no evidence for this selection; it is reserved for a single "
+    "final evaluation after approval, and it is not pristine either because it sat inside the pre-P0 holdout."
+)
+_CW50_NOTE = (
+    " The 1:50 class weight was chosen on validation steps 451-550 (EXP-07) and compared on 551-743 by the "
+    "old promotion gate, so F2 and F3 are also not independent of the class-weight choice."
+)
 
 MODEL_CONFIGS: Dict[str, Dict[str, Any]] = {
     # Exact configuration of the frozen champion models/hist_gradient_boosting_no_day.joblib
@@ -94,6 +108,63 @@ MODEL_CONFIGS: Dict[str, Dict[str, Any]] = {
             "for this configuration; F1 (steps 351-450) is the least affected."
         ),
     },
+    # ---- P1.3 comparison set (none of these has been trained as a bundle or promoted) ----
+    # Every config below uses the champion's float32 input path and hyperparameters, so each
+    # pair differs by exactly one change.
+    "hgb_baseline8_cw50_f32": {  # E2 = E0 + class weight 1:50 (comparability baseline)
+        "model_name": "HistGradientBoosting baseline8 (class weight 1:50, champion preprocessing)",
+        "family": "hist_gradient_boosting",
+        "feature_set": "baseline_8",
+        "amount_dtype": "float32",
+        "class_weight": {0: 1.0, 1: 50.0},
+        "params": dict(_HGB_DEFAULTS),
+        "train_max_step": 450,
+        "threshold_policy": {"name": "validation_f1", "val_min_step": 451, "val_max_step": 550},
+        "selection_history": (
+            "Class-weight-only comparison baseline for P1.3: identical to the champion except class weight 1:50. "
+            "Differs from hgb_baseline8_cw50 (the EXP-07 reproduction) only in using the champion's float32 "
+            "amount path." + _CW50_NOTE
+        ),
+    },
+    "hgb_baseline8_rcpt_balanced": {  # E1 = E0 + recipient prior count
+        "model_name": "HistGradientBoosting baseline8 + recipient prior count",
+        "family": "hist_gradient_boosting",
+        "feature_set": "baseline_8",
+        "amount_dtype": "float32",
+        "history_features": [RECIPIENT_PRIOR_IN_COUNT],
+        "class_weight": "balanced",
+        "params": dict(_HGB_DEFAULTS),
+        "train_max_step": 450,
+        "threshold_policy": {"name": "validation_f1", "val_min_step": 451, "val_max_step": 550},
+        "selection_history": _RCPT_SELECTION_HISTORY,
+    },
+    "hgb_baseline8_rcpt_cw50": {  # E3 = E1 + class weight 1:50
+        "model_name": "HistGradientBoosting baseline8 + recipient prior count (class weight 1:50)",
+        "family": "hist_gradient_boosting",
+        "feature_set": "baseline_8",
+        "amount_dtype": "float32",
+        "history_features": [RECIPIENT_PRIOR_IN_COUNT],
+        "class_weight": {0: 1.0, 1: 50.0},
+        "params": dict(_HGB_DEFAULTS),
+        "train_max_step": 450,
+        "threshold_policy": {"name": "validation_f1", "val_min_step": 451, "val_max_step": 550},
+        "selection_history": _RCPT_SELECTION_HISTORY + _CW50_NOTE,
+    },
+    "hgb_baseline7_rcpt_cw50": {  # E4 = E3 - log1p_amount (monotone duplicate of amount)
+        "model_name": "HistGradientBoosting baseline7 + recipient prior count (class weight 1:50)",
+        "family": "hist_gradient_boosting",
+        "feature_set": "baseline_8",
+        "amount_dtype": "float32",
+        "drop_features": ["log1p_amount"],
+        "history_features": [RECIPIENT_PRIOR_IN_COUNT],
+        "class_weight": {0: 1.0, 1: 50.0},
+        "params": dict(_HGB_DEFAULTS),
+        "train_max_step": 450,
+        "threshold_policy": {"name": "validation_f1", "val_min_step": 451, "val_max_step": 550},
+        "selection_history": _RCPT_SELECTION_HISTORY + _CW50_NOTE + (
+            " Dropping log1p_amount changed AP by exactly 0.0000 on F1 and F2 in P1.1 screening."
+        ),
+    },
 }
 
 
@@ -105,14 +176,61 @@ def file_sha256(path: Path) -> str:
     return h.hexdigest()
 
 
+def required_columns(cfg: Dict[str, Any]) -> list[str]:
+    """Raw columns a configuration needs (labels included)."""
+    cols = ["step", "type", "amount", "transaction_hour", "isFraud"]
+    if cfg.get("history_features"):
+        cols.append("nameDest")
+    return cols
+
+
+def add_history_features(df: pd.DataFrame, cfg: Dict[str, Any]) -> pd.DataFrame:
+    """Add the configuration's history columns, computed over the whole frame passed in.
+
+    Call this on the full chronological development frame *before* slicing into training,
+    validation or fold windows; history values only depend on strictly earlier steps.
+    """
+    hist = cfg.get("history_features") or []
+    unknown = set(hist) - {RECIPIENT_PRIOR_IN_COUNT}
+    if unknown:
+        raise ValueError(f"Unsupported history features: {sorted(unknown)}")
+    if not hist:
+        return df
+    return df.assign(**{RECIPIENT_PRIOR_IN_COUNT: compute_recipient_prior_in_count(df)})
+
+
+def load_development_data(data_path: Path, cfg: Dict[str, Any]) -> pd.DataFrame:
+    """Read development rows (locked test dropped first) and add history features."""
+    df = development_frame(pd.read_csv(data_path, usecols=required_columns(cfg)))
+    return add_history_features(df, cfg)
+
+
 def build_features(df: pd.DataFrame, cfg: Dict[str, Any]) -> pd.DataFrame:
-    """Build the configured feature matrix, honouring the config's numeric input path."""
+    """Build the configured feature matrix, honouring the config's numeric input path.
+
+    History columns are never computed here, because `df` is usually a window; they must
+    already be present (see `add_history_features`).
+    """
     if cfg.get("amount_dtype") == "float32":
         if cfg["feature_set"] != "baseline_8":
             raise ValueError("float32 input path is only defined for baseline_8")
         legacy = df[["step", "type", "amount"]].assign(amount=df["amount"].astype("float32"))
-        return extract_features(legacy, include_merchant_flag=False)[list(BASELINE_8_FEATURES)]
-    return extract_extended_features(df, cfg["feature_set"])
+        X = extract_features(legacy, include_merchant_flag=False)[list(BASELINE_8_FEATURES)]
+    else:
+        X = extract_extended_features(df, cfg["feature_set"])
+    drop = cfg.get("drop_features") or []
+    if drop:
+        X = X.drop(columns=drop)
+    hist = cfg.get("history_features") or []
+    missing = [c for c in hist if c not in df.columns]
+    if missing:
+        raise ValueError(
+            f"History features {missing} are missing; compute them on the full chronological frame "
+            "with add_history_features() before slicing."
+        )
+    for c in hist:
+        X[c] = df[c].to_numpy()
+    return X
 
 
 def fit_model(cfg: Dict[str, Any], X: pd.DataFrame, y: np.ndarray) -> HistGradientBoostingClassifier:
@@ -137,7 +255,7 @@ def train_bundle(
         if p.exists() and not overwrite:
             raise FileExistsError(f"{p} already exists; refusing to overwrite (pass --overwrite deliberately).")
 
-    df = development_frame(pd.read_csv(data_path, usecols=["step", "type", "amount", "transaction_hour", "isFraud"]))
+    df = load_development_data(data_path, cfg)
     train = df[df["step"] <= cfg["train_max_step"]]
     pol = cfg["threshold_policy"]
     val = df[(df["step"] >= pol["val_min_step"]) & (df["step"] <= pol["val_max_step"])]
@@ -206,7 +324,7 @@ def verify_against(candidate: Path, reference: Path, data_path: Path) -> Dict[st
     cfg = a["metadata"]["config"]
     if a["feature_names"] != b["feature_names"]:
         return {"reproduced": False, "reason": "feature lists differ"}
-    df = development_frame(pd.read_csv(data_path, usecols=["step", "type", "amount", "transaction_hour", "isFraud"]))
+    df = load_development_data(data_path, cfg)
     X = build_features(df, cfg)[a["feature_names"]]
     sa, sb = a["model"].predict_proba(X)[:, 1], b["model"].predict_proba(X)[:, 1]
     max_diff = float(np.max(np.abs(sa - sb)))
