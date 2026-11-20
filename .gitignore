@@ -81,3 +81,6 @@ logs/
 # Power BI local cache and user state
 *.pbix.temp
 ~*
+
+# Retrained candidate bundles are reproducible from their committed manifests; keep binaries local
+models/candidates/*.joblib

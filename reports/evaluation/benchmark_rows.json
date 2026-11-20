@@ -1,0 +1,194 @@
+{
+  "generated_utc": "2026-11-20T06:43:49Z",
+  "data_sha256": "74cba5b396ce21d08f2ffd859bd95f782622a06871ff35f0e4f3f271213294bd",
+  "previous_champion_artifact_sha256": "56a40585aabf5b548faf3a6f62d685721e1c62ea7880b1ee0847f209fb99c534",
+  "active_champion_artifact_sha256": "296132a5f5433b5cc7141b9698bb7e95729011a7673a6da36ce779665a5f3821",
+  "sealed_rows_source": {
+    "path": "reports/final_test/p15_final_test.json",
+    "sha256": "607aace19fa9516f4d2170fea98081df31221da92fea2214be4979656723066c"
+  },
+  "partitions": {
+    "validation": [
+      451,
+      550
+    ],
+    "development_holdout": [
+      551,
+      650
+    ],
+    "sealed_final_test": [
+      651,
+      743
+    ]
+  },
+  "rows": [
+    {
+      "evaluation_partition": "validation",
+      "system_name": "HistGradientBoosting (previous champion, 8 features)",
+      "operating_point": "t = 0.9660 (validation F1-optimal)",
+      "true_positives": 435,
+      "false_positives": 863,
+      "false_negatives": 573,
+      "true_negatives": 149431,
+      "alerts_per_day": 311.5,
+      "average_precision": 0.3115,
+      "roc_auc": 0.9509
+    },
+    {
+      "evaluation_partition": "validation",
+      "system_name": "Logistic Regression (legacy 10-feature artifact)",
+      "operating_point": "t = 0.9009 (validation F1-optimal)",
+      "true_positives": 279,
+      "false_positives": 2528,
+      "false_negatives": 729,
+      "true_negatives": 147766,
+      "alerts_per_day": 673.7,
+      "average_precision": 0.1104,
+      "roc_auc": 0.9156
+    },
+    {
+      "evaluation_partition": "validation",
+      "system_name": "Rule Engine (HIGH tier)",
+      "operating_point": "score >= 70",
+      "true_positives": 166,
+      "false_positives": 258,
+      "false_negatives": 842,
+      "true_negatives": 150036,
+      "alerts_per_day": 101.8,
+      "average_precision": null,
+      "roc_auc": null
+    },
+    {
+      "evaluation_partition": "validation",
+      "system_name": "Rule Engine (MEDIUM + HIGH tiers)",
+      "operating_point": "score >= 30",
+      "true_positives": 740,
+      "false_positives": 37522,
+      "false_negatives": 268,
+      "true_negatives": 112772,
+      "alerts_per_day": 9182.9,
+      "average_precision": null,
+      "roc_auc": null
+    },
+    {
+      "evaluation_partition": "validation",
+      "system_name": "Dummy baseline (never alerts)",
+      "operating_point": "no alerts",
+      "true_positives": 0,
+      "false_positives": 0,
+      "false_negatives": 1008,
+      "true_negatives": 150294,
+      "alerts_per_day": 0.0,
+      "average_precision": 0.0067,
+      "roc_auc": 0.5
+    },
+    {
+      "evaluation_partition": "development_holdout",
+      "system_name": "HistGradientBoosting (previous champion, 8 features)",
+      "operating_point": "t = 0.9660 (validation F1-optimal)",
+      "true_positives": 487,
+      "false_positives": 432,
+      "false_negatives": 639,
+      "true_negatives": 114212,
+      "alerts_per_day": 220.6,
+      "average_precision": 0.4133,
+      "roc_auc": 0.9517
+    },
+    {
+      "evaluation_partition": "development_holdout",
+      "system_name": "Logistic Regression (legacy 10-feature artifact)",
+      "operating_point": "t = 0.9009 (validation F1-optimal)",
+      "true_positives": 318,
+      "false_positives": 1091,
+      "false_negatives": 808,
+      "true_negatives": 113553,
+      "alerts_per_day": 338.2,
+      "average_precision": 0.1649,
+      "roc_auc": 0.9178
+    },
+    {
+      "evaluation_partition": "development_holdout",
+      "system_name": "Rule Engine (HIGH tier)",
+      "operating_point": "score >= 70",
+      "true_positives": 202,
+      "false_positives": 100,
+      "false_negatives": 924,
+      "true_negatives": 114544,
+      "alerts_per_day": 72.5,
+      "average_precision": null,
+      "roc_auc": null
+    },
+    {
+      "evaluation_partition": "development_holdout",
+      "system_name": "Rule Engine (MEDIUM + HIGH tiers)",
+      "operating_point": "score >= 30",
+      "true_positives": 825,
+      "false_positives": 28177,
+      "false_negatives": 301,
+      "true_negatives": 86467,
+      "alerts_per_day": 6960.5,
+      "average_precision": null,
+      "roc_auc": null
+    },
+    {
+      "evaluation_partition": "development_holdout",
+      "system_name": "Dummy baseline (never alerts)",
+      "operating_point": "no alerts",
+      "true_positives": 0,
+      "false_positives": 0,
+      "false_negatives": 1126,
+      "true_negatives": 114644,
+      "alerts_per_day": 0.0,
+      "average_precision": 0.0097,
+      "roc_auc": 0.5
+    },
+    {
+      "evaluation_partition": "sealed_final_test",
+      "system_name": "HistGradientBoosting E4 (active champion, recipient count)",
+      "operating_point": "t = 0.9463 (100 alerts/day, set on steps 551-650)",
+      "true_positives": 346,
+      "false_positives": 4,
+      "false_negatives": 676,
+      "true_negatives": 79805,
+      "alerts_per_day": 90.3,
+      "average_precision": 0.6966,
+      "roc_auc": 0.9728
+    },
+    {
+      "evaluation_partition": "sealed_final_test",
+      "system_name": "HistGradientBoosting (champion configuration retrained on steps 1-550)",
+      "operating_point": "t = 0.9927 (100 alerts/day, set on steps 551-650)",
+      "true_positives": 293,
+      "false_positives": 55,
+      "false_negatives": 729,
+      "true_negatives": 79754,
+      "alerts_per_day": 89.8,
+      "average_precision": 0.4962,
+      "roc_auc": 0.9451
+    },
+    {
+      "evaluation_partition": "sealed_final_test",
+      "system_name": "HistGradientBoosting (previous champion, 8 features)",
+      "operating_point": "t = 0.9660 (validation F1-optimal)",
+      "true_positives": 431,
+      "false_positives": 240,
+      "false_negatives": 591,
+      "true_negatives": 79569,
+      "alerts_per_day": 173.2,
+      "average_precision": 0.4909,
+      "roc_auc": 0.9447
+    },
+    {
+      "evaluation_partition": "sealed_final_test",
+      "system_name": "Rule Engine (HIGH tier)",
+      "operating_point": "score >= 70",
+      "true_positives": 200,
+      "false_positives": 56,
+      "false_negatives": 822,
+      "true_negatives": 79753,
+      "alerts_per_day": 66.1,
+      "average_precision": null,
+      "roc_auc": null
+    }
+  ]
+}

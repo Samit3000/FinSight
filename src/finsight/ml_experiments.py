@@ -78,6 +78,41 @@ logger = logging.getLogger("finsight.ml_experiments")
 
 
 # ==============================================================================
+# Locked-test fence for the legacy ML sprint (P0)
+# ==============================================================================
+# The functions decorated below read labels of the old holdout (step > 550), which
+# includes the locked final test (step >= 651, see src/finsight/evaluate.py). They are
+# superseded by evaluate.py / train.py and refuse to run unless the caller explicitly
+# passes allow_locked_test_access=True (or runs inside a call that did).
+import contextvars as _contextvars
+import functools as _functools
+
+from finsight.evaluate import LockedTestAccessError
+
+_LOCKED_TEST_ACCESS_ALLOWED: "_contextvars.ContextVar[bool]" = _contextvars.ContextVar(
+    "finsight_legacy_locked_test_access", default=False
+)
+
+
+def _legacy_locked_test_reader(func):
+    @_functools.wraps(func)
+    def wrapper(*args, allow_locked_test_access: bool = False, **kwargs):
+        if not (allow_locked_test_access or _LOCKED_TEST_ACCESS_ALLOWED.get()):
+            raise LockedTestAccessError(
+                f"{func.__name__} is a legacy sprint step that reads labels from the locked final test "
+                "(step >= 651). Use src/finsight/evaluate.py, or pass allow_locked_test_access=True "
+                "deliberately for historical reproduction only."
+            )
+        token = _LOCKED_TEST_ACCESS_ALLOWED.set(True)
+        try:
+            return func(*args, **kwargs)
+        finally:
+            _LOCKED_TEST_ACCESS_ALLOWED.reset(token)
+
+    return wrapper
+
+
+# ==============================================================================
 # 1. Feature Engineering Definitions & Extractors
 # ==============================================================================
 
@@ -350,6 +385,7 @@ def train_model_variant(
 # 4. Phase 1 — Baseline Reproduction & Forensic Audit
 # ==============================================================================
 
+@_legacy_locked_test_reader
 def audit_baseline_model(
     model_path: Union[str, Path] = "models/hist_gradient_boosting_no_day.joblib",
     df: Optional[pd.DataFrame] = None,
@@ -561,6 +597,7 @@ def audit_baseline_model(
 # 5. Phase 2 — Fair Algorithm Benchmark Runner
 # ==============================================================================
 
+@_legacy_locked_test_reader
 def run_model_benchmarks(
     df: pd.DataFrame,
     figures_dir: Union[str, Path] = "reports/ml_improvement/figures",
@@ -700,6 +737,7 @@ def run_model_benchmarks(
 # 6. Phase 3 — Feature Engineering & Imbalance Experiments
 # ==============================================================================
 
+@_legacy_locked_test_reader
 def run_feature_and_imbalance_experiments(
     df: pd.DataFrame,
     figures_dir: Union[str, Path] = "reports/ml_improvement/figures",
@@ -1054,6 +1092,7 @@ def run_feature_and_imbalance_experiments(
 # 7. Phase 4 — Temporal Robustness & Chronological Drift Analysis
 # ==============================================================================
 
+@_legacy_locked_test_reader
 def run_temporal_robustness_analysis(
     df: pd.DataFrame,
     baseline_model_path: Union[str, Path] = "models/hist_gradient_boosting_no_day.joblib",
@@ -1225,6 +1264,7 @@ def run_temporal_robustness_analysis(
 # 8. Phase 5 — Champion Selection & Deliverables Generator
 # ==============================================================================
 
+@_legacy_locked_test_reader
 def execute_full_ml_sprint(
     data_path: Union[str, Path] = "data/processed/transactions.csv.gz",
     champion_path: Union[str, Path] = "models/hist_gradient_boosting_no_day.joblib",
@@ -1346,100 +1386,25 @@ def execute_full_ml_sprint(
     with open(rep_dir / "temporal_robustness.json", "w", encoding="utf-8") as f:
         json.dump(phase4_temporal, f, indent=2)
 
-    # Phase 5: Evaluate Top Candidate on Holdout (One-Time Evaluation)
+    # Phase 5: Candidate gate (validation-only).
+    # P0 evaluation protocol: candidate promotion decisions must never read holdout or
+    # locked-test labels. The previous gate compared candidate vs champion holdout AP,
+    # which turned the holdout into a selection set. A validation winner is now only
+    # nominated for walk-forward evaluation (src/finsight/evaluate.py); it is not
+    # promoted here.
     candidate_holdout_eval = None
     if top_candidate is not None:
-        train_mask = df["step"] <= DEFAULT_TRAIN_STEP
-        holdout_mask = df["step"] > DEFAULT_VAL_STEP
-        train_df = df[train_mask]
-        holdout_df = df[holdout_mask]
-        y_train = train_df["isFraud"].values.astype(int)
-        y_holdout = holdout_df["isFraud"].values.astype(int)
-
-        if "_model" not in top_candidate:
-            logger.info("Fitting top candidate model (%s: %s) for holdout evaluation...", top_candidate["experiment_id"], top_candidate["experiment_name"])
-            fset_key = top_candidate["feature_set"]
-            cw_str = top_candidate["class_weight"]
-            if cw_str == "None":
-                cw = None
-            elif cw_str == "balanced":
-                cw = "balanced"
-            else:
-                try:
-                    import ast
-                    cw = ast.literal_eval(cw_str)
-                except Exception:
-                    cw = {0: 1.0, 1: 50.0}
-
-            X_tr = extract_extended_features(train_df, fset_key)
-            X_h = extract_extended_features(holdout_df, fset_key)
-            cand_m, fit_sec = train_model_variant(
-                "hist_gradient_boosting",
-                X_tr,
-                y_train,
-                class_weight=cw,
-                random_state=RANDOM_SEED,
-                **top_candidate["hyperparameters"],
-            )
-            top_candidate["_model"] = cand_m
-            top_candidate["_X_h"] = X_h
-            top_candidate["_val_t"] = top_candidate["validation_results"]["optimal_threshold"]
-
-        cand_model = top_candidate["_model"]
-        cand_X_h = top_candidate["_X_h"]
-        cand_val_t = top_candidate.get("_val_t", top_candidate["validation_results"]["optimal_threshold"])
-
-        t0 = time.time()
-        cand_holdout_prob = cand_model.predict_proba(cand_X_h)[:, 1]
-        cand_inf_sec = time.time() - t0
-
-        candidate_holdout_eval = evaluate_predictions(
-            y_holdout,
-            cand_holdout_prob,
-            threshold=cand_val_t,
-            model_name=top_candidate["experiment_name"],
-            dataset_name="holdout",
-        )
-        candidate_holdout_eval["inference_latency_ms_per_1k"] = round(cand_inf_sec / len(cand_X_h) * 1000 * 1000, 3)
-
-    # Determine Gate Decision
-    # Baseline Holdout AP = 0.4479, F1 = 0.4912
-    # If candidate improves validation AP by >= 0.01 and maintains or improves F1 without excessive alerts,
-    # and holdout confirms stability, then MODEL_IMPROVED; otherwise evaluate dataset constraints.
-    gate_decision = "MODEL_NOT_IMPROVED"
-    gate_rationale = ""
-
-    if top_candidate is not None and candidate_holdout_eval is not None:
         cand_val_ap = top_candidate["validation_results"]["average_precision_pr_auc"]
-        cand_h_ap = candidate_holdout_eval["metrics"]["average_precision_pr_auc"]
-        base_h_ap = phase1_audit["holdout_evaluation"]["metrics"]["average_precision_pr_auc"]
-
-        if cand_val_ap > baseline_val_ap + 0.005:
-            if cand_h_ap >= base_h_ap:
-                gate_decision = "MODEL_IMPROVED"
-                gate_rationale = (
-                    f"Candidate '{top_candidate['experiment_name']}' demonstrated genuine improvement: "
-                    f"Validation AP increased from {baseline_val_ap:.4f} to {cand_val_ap:.4f} (+{cand_val_ap - baseline_val_ap:.4f}), "
-                    f"and Holdout AP increased from {base_h_ap:.4f} to {cand_h_ap:.4f} (+{cand_h_ap - base_h_ap:.4f})."
-                )
-            else:
-                gate_decision = "MODEL_NOT_IMPROVED"
-                gate_rationale = (
-                    f"Candidate '{top_candidate['experiment_name']}' improved on validation ({cand_val_ap:.4f} vs {baseline_val_ap:.4f}), "
-                    f"but failed to maintain superiority on unseen holdout ({cand_h_ap:.4f} vs {base_h_ap:.4f}). "
-                    f"Per non-negotiable governance, the existing champion is retained."
-                )
-        else:
-            gate_decision = "MODEL_NOT_IMPROVED"
-            gate_rationale = "No candidate demonstrated statistically meaningful improvement on validation data."
-    else:
-        # Check if dataset itself imposes severe information bottleneck
-        gate_decision = "DATASET_REASSESSMENT_RECOMMENDED"
+        gate_decision = "CANDIDATE_NOMINATED_FOR_WALK_FORWARD"
         gate_rationale = (
-            "PaySim dataset mechanics impose severe structural ceilings: 100% of frauds are restricted to TRANSFER/CASH_OUT, "
-            "origin accounts have 0 recurrence (preventing velocity profiling), and balance fields contain synthetic liquidation leakage. "
-            "Within the strict leak-free feature space, further substantial gains are constrained by simulator mechanics."
+            f"Candidate '{top_candidate['experiment_name']}' improved validation AP from "
+            f"{baseline_val_ap:.4f} to {cand_val_ap:.4f} (+{cand_val_ap - baseline_val_ap:.4f}). "
+            "Promotion requires the walk-forward protocol in src/finsight/evaluate.py; "
+            "holdout and locked-test labels were not used for this decision."
         )
+    else:
+        gate_decision = "MODEL_NOT_IMPROVED"
+        gate_rationale = "No candidate met the validation improvement criteria."
 
     logger.info("Sprint Completion Gate: %s", gate_decision)
     logger.info("Gate Rationale: %s", gate_rationale)
@@ -1819,17 +1784,18 @@ def _write_phase5_champion_report(
     cand_delta_f1 = f"{top_cand['validation_results']['delta_f1_vs_baseline']:+.4f}" if top_cand else "0.0000"
     cand_t_str = f"{top_cand.get('_val_t', top_cand['validation_results']['optimal_threshold']):.4f}" if top_cand else "0.9660"
 
-    cand_h_ap_str = f"{cand_h['metrics']['average_precision_pr_auc']:.4f}" if cand_h else "0.4479"
-    cand_h_f1_str = f"{cand_h['metrics']['f1_score']:.4f}" if cand_h else "0.4912"
-    cand_h_p_str = f"{cand_h['metrics']['precision']*100:.2f}%" if cand_h else "57.74%"
-    cand_h_r_str = f"{cand_h['metrics']['recall']*100:.2f}%" if cand_h else "42.74%"
-    cand_alerts_str = f"{cand_h['predicted_positive_count']:,} alerts" if cand_h else "1,590 alerts"
-    cand_lat_str = f"{cand_h['inference_latency_ms_per_1k']:.2f} ms / 1k tx" if cand_h else f"{audit['holdout_inference_latency_ms_per_1k']:.2f} ms / 1k tx"
+    na = "not evaluated (locked protocol)"
+    cand_h_ap_str = f"{cand_h['metrics']['average_precision_pr_auc']:.4f}" if cand_h else na
+    cand_h_f1_str = f"{cand_h['metrics']['f1_score']:.4f}" if cand_h else na
+    cand_h_p_str = f"{cand_h['metrics']['precision']*100:.2f}%" if cand_h else na
+    cand_h_r_str = f"{cand_h['metrics']['recall']*100:.2f}%" if cand_h else na
+    cand_alerts_str = f"{cand_h['predicted_positive_count']:,} alerts" if cand_h else na
+    cand_lat_str = f"{cand_h['inference_latency_ms_per_1k']:.2f} ms / 1k tx" if cand_h else na
 
     base_h_ap = base_h["metrics"]["average_precision_pr_auc"]
     base_h_f1 = base_h["metrics"]["f1_score"]
-    delta_h_ap = f"{(cand_h['metrics']['average_precision_pr_auc'] - base_h_ap):+.4f}" if cand_h else "+0.0000"
-    delta_h_f1 = f"{(cand_h['metrics']['f1_score'] - base_h_f1):+.4f}" if cand_h else "+0.0000"
+    delta_h_ap = f"{(cand_h['metrics']['average_precision_pr_auc'] - base_h_ap):+.4f}" if cand_h else "n/a"
+    delta_h_f1 = f"{(cand_h['metrics']['f1_score'] - base_h_f1):+.4f}" if cand_h else "n/a"
 
     md = f"""# FinSight — Phase 5: Champion Selection Rationale & Completion Gate
 
@@ -1962,5 +1928,6 @@ pytest tests/ -v
 
 if __name__ == "__main__":
     logging.basicConfig(level=logging.INFO, format="%(asctime)s [%(levelname)s] %(name)s: %(message)s")
-    execute_full_ml_sprint()
+    # Legacy sprint reads locked-test labels; it only runs with an explicit opt-in flag.
+    execute_full_ml_sprint(allow_locked_test_access="--allow-locked-test-access" in sys.argv)
 

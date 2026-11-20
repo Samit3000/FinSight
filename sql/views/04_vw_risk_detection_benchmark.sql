@@ -1,54 +1,41 @@
 -- ==============================================================================
 -- FinSight Analytical Mart: Risk Detection Benchmark Performance
 -- View Name: vw_risk_detection_benchmark
--- Grain: One row per evaluation partition, system/model identifier, and operating point.
 --
--- Description:
--- Performance comparison of supervised machine learning models, heuristic rule
--- tiers, and naive baselines evaluated on identical chronological partitions.
+-- GENERATED FILE — DO NOT EDIT BY HAND.
+-- Regenerate with: py src/finsight/benchmark_view.py
+-- Generated (UTC): 2026-11-20T06:43:49Z
+-- Data file SHA-256: 74cba5b396ce21d08f2ffd859bd95f782622a06871ff35f0e4f3f271213294bd
+-- Source rows: reports/evaluation/benchmark_rows.json
 --
--- Methodological Integrity:
--- - All metrics are computed from transaction-level evaluation records.
--- - Confusion matrices represent complete, non-aggregated evaluation populations:
---   * Holdout Partition (step >= 551): Exactly 196,601 transactions (2,148 frauds).
---   * Validation Partition (451 <= step <= 550): Exactly 151,302 transactions (1,008 frauds).
--- - TP + FP + FN + TN strictly equals the total partition population for every row.
--- - Average Precision and ROC-AUC are populated ONLY for supervised ML models
---   generating complete continuous risk probabilities; set to NULL for discrete rules.
---
--- Source: Reproducible model evaluation outputs & verified rule audit records.
--- Idempotency: CREATE OR REPLACE VIEW
+-- Grain: one row per evaluation partition x system x operating point.
+-- Partitions: validation = steps 451-550; development_holdout = steps 551-650 (scored by the script);
+-- sealed_final_test = steps 651-743, copied from the recorded one-time P1.5 result, never re-scored.
+-- Active champion: E4 (models/champion.json); it appears only in sealed_final_test, its one held-out period.
+-- Fraud prevalence differs between partitions, so precision/F1 are comparable
+-- only within a partition. Rule flags and model alerts are not confirmed fraud.
+-- average_precision / roc_auc are NULL for discrete rule tiers.
 -- ==============================================================================
 
 CREATE OR REPLACE VIEW vw_risk_detection_benchmark AS
 WITH raw_benchmark_data (
-    evaluation_partition,
-    system_name,
-    operating_point,
-    true_positives,
-    false_positives,
-    false_negatives,
-    true_negatives,
-    average_precision,
-    roc_auc
+    evaluation_partition, system_name, operating_point, true_positives, false_positives, false_negatives, true_negatives, alerts_per_day, average_precision, roc_auc
 ) AS (
     VALUES
-        -- 1. Frozen Champion: HistGradientBoosting (No Day) on Holdout
-        ('holdout', 'HistGradientBoosting (Champion No Day)', 't = 0.9660 (Val F1 Optimal)', 918, 672, 1230, 193781, 0.4479, 0.9487),
-        -- 2. Frozen Champion: HistGradientBoosting (No Day) on Validation
-        ('validation', 'HistGradientBoosting (Champion No Day)', 't = 0.9660 (Val F1 Optimal)', 435, 863, 573, 149431, 0.3115, 0.9509),
-        -- 3. Baseline Model: HistGradientBoosting (9-feat) on Holdout
-        ('holdout', 'HistGradientBoosting (Baseline 9-feat)', 't = 0.9900 (Val Capacity Constrained)', 737, 331, 1411, 194122, 0.3836, 0.9185),
-        -- 4. Baseline Model: HistGradientBoosting (9-feat) on Holdout (Unconstrained)
-        ('holdout', 'HistGradientBoosting (Baseline 9-feat)', 't = 0.9830 (Val F1 Optimal)', 845, 551, 1303, 193902, 0.3836, 0.9185),
-        -- 5. Linear Baseline: Logistic Regression (Balanced) on Holdout
-        ('holdout', 'Logistic Regression (Balanced)', 't = 0.9009 (Val F1 Optimal)', 626, 1950, 1522, 192503, 0.1805, 0.9152),
-        -- 6. Heuristic Rule Engine: HIGH Tier (Score >= 70) on Holdout
-        ('holdout', 'Heuristic Rule Engine (HIGH Tier)', 'Score >= 70 (HIGH Tier)', 402, 156, 1746, 194297, NULL, NULL),
-        -- 7. Heuristic Rule Engine: MED+HIGH Tier (Score >= 30) on Holdout
-        ('holdout', 'Heuristic Rule Engine (MED+HIGH Tier)', 'Score >= 30 (MED+HIGH Tier)', 1717, 47213, 431, 147240, NULL, NULL),
-        -- 8. Naive Baseline: Dummy Majority Classifier on Holdout
-        ('holdout', 'Dummy Majority Baseline', 't = 0.5000 (Always Negative)', 0, 0, 2148, 194453, 0.0109, 0.5000)
+        ('validation', 'HistGradientBoosting (previous champion, 8 features)', 't = 0.9660 (validation F1-optimal)', 435, 863, 573, 149431, 311.5, 0.3115, 0.9509),
+        ('validation', 'Logistic Regression (legacy 10-feature artifact)', 't = 0.9009 (validation F1-optimal)', 279, 2528, 729, 147766, 673.7, 0.1104, 0.9156),
+        ('validation', 'Rule Engine (HIGH tier)', 'score >= 70', 166, 258, 842, 150036, 101.8, NULL, NULL),
+        ('validation', 'Rule Engine (MEDIUM + HIGH tiers)', 'score >= 30', 740, 37522, 268, 112772, 9182.9, NULL, NULL),
+        ('validation', 'Dummy baseline (never alerts)', 'no alerts', 0, 0, 1008, 150294, 0.0, 0.0067, 0.5),
+        ('development_holdout', 'HistGradientBoosting (previous champion, 8 features)', 't = 0.9660 (validation F1-optimal)', 487, 432, 639, 114212, 220.6, 0.4133, 0.9517),
+        ('development_holdout', 'Logistic Regression (legacy 10-feature artifact)', 't = 0.9009 (validation F1-optimal)', 318, 1091, 808, 113553, 338.2, 0.1649, 0.9178),
+        ('development_holdout', 'Rule Engine (HIGH tier)', 'score >= 70', 202, 100, 924, 114544, 72.5, NULL, NULL),
+        ('development_holdout', 'Rule Engine (MEDIUM + HIGH tiers)', 'score >= 30', 825, 28177, 301, 86467, 6960.5, NULL, NULL),
+        ('development_holdout', 'Dummy baseline (never alerts)', 'no alerts', 0, 0, 1126, 114644, 0.0, 0.0097, 0.5),
+        ('sealed_final_test', 'HistGradientBoosting E4 (active champion, recipient count)', 't = 0.9463 (100 alerts/day, set on steps 551-650)', 346, 4, 676, 79805, 90.3, 0.6966, 0.9728),
+        ('sealed_final_test', 'HistGradientBoosting (champion configuration retrained on steps 1-550)', 't = 0.9927 (100 alerts/day, set on steps 551-650)', 293, 55, 729, 79754, 89.8, 0.4962, 0.9451),
+        ('sealed_final_test', 'HistGradientBoosting (previous champion, 8 features)', 't = 0.9660 (validation F1-optimal)', 431, 240, 591, 79569, 173.2, 0.4909, 0.9447),
+        ('sealed_final_test', 'Rule Engine (HIGH tier)', 'score >= 70', 200, 56, 822, 79753, 66.1, NULL, NULL)
 )
 SELECT
     evaluation_partition,
@@ -60,45 +47,19 @@ SELECT
     true_negatives,
     (true_positives + false_positives + false_negatives + true_negatives) AS total_evaluation_population,
     (true_positives + false_positives) AS alert_count,
-    ROUND(
-        COALESCE(
-            (CAST(true_positives + false_positives AS NUMERIC) / 
-             NULLIF(true_positives + false_positives + false_negatives + true_negatives, 0)) * 100,
-            0.0
-        ),
-        4
-    ) AS alert_rate_pct,
-    ROUND(
-        COALESCE(
-            CAST(true_positives AS NUMERIC) / NULLIF(true_positives + false_positives, 0),
-            0.0
-        ),
-        4
-    ) AS precision,
-    ROUND(
-        COALESCE(
-            CAST(true_positives AS NUMERIC) / NULLIF(true_positives + false_negatives, 0),
-            0.0
-        ),
-        4
-    ) AS recall,
-    ROUND(
-        COALESCE(
-            2.0 * (CAST(true_positives AS NUMERIC) / NULLIF(true_positives + false_positives, 0)) * 
-                  (CAST(true_positives AS NUMERIC) / NULLIF(true_positives + false_negatives, 0)) / 
-            NULLIF(
-                (CAST(true_positives AS NUMERIC) / NULLIF(true_positives + false_positives, 0)) + 
-                (CAST(true_positives AS NUMERIC) / NULLIF(true_positives + false_negatives, 0)),
-                0
-            ),
-            0.0
-        ),
-        4
-    ) AS f1_score,
+    ROUND(COALESCE(CAST(true_positives + false_positives AS NUMERIC)
+        / NULLIF(true_positives + false_positives + false_negatives + true_negatives, 0) * 100, 0.0), 4) AS alert_rate_pct,
+    ROUND(COALESCE(CAST(true_positives AS NUMERIC) / NULLIF(true_positives + false_positives, 0), 0.0), 4) AS precision,
+    ROUND(COALESCE(CAST(true_positives AS NUMERIC) / NULLIF(true_positives + false_negatives, 0), 0.0), 4) AS recall,
+    ROUND(COALESCE(2.0 * true_positives / NULLIF(2.0 * true_positives + false_positives + false_negatives, 0), 0.0), 4) AS f1_score,
+    -- Keep the existing view's column types (unconstrained NUMERIC). PostgreSQL's
+    -- CREATE OR REPLACE VIEW rejects any type/typmod change on existing columns;
+    -- new columns may only be appended at the end.
     ROUND(average_precision, 4) AS average_precision,
-    ROUND(roc_auc, 4) AS roc_auc
+    ROUND(roc_auc, 4) AS roc_auc,
+    ROUND(alerts_per_day, 1) AS alerts_per_day
 FROM raw_benchmark_data
 ORDER BY evaluation_partition ASC, f1_score DESC;
 
 COMMENT ON VIEW vw_risk_detection_benchmark IS
-'Comparative evaluation benchmarks across machine learning models, heuristic rule tiers, and baselines on frozen validation and holdout partitions.';
+'Generated by src/finsight/benchmark_view.py. Validation (451-550) and development holdout (551-650) scored by the script; sealed final test (651-743) copied from the recorded P1.5 result.';

@@ -1,0 +1,308 @@
+{
+  "meta": {
+    "generated_utc": "2026-11-18T10:36:00Z",
+    "config_name": "hgb_baseline8_balanced",
+    "config": {
+      "model_name": "HistGradientBoosting No Day",
+      "family": "hist_gradient_boosting",
+      "feature_set": "baseline_8",
+      "amount_dtype": "float32",
+      "class_weight": "balanced",
+      "params": {
+        "max_iter": 50,
+        "learning_rate": 0.1,
+        "max_leaf_nodes": 31,
+        "min_samples_leaf": 20,
+        "l2_regularization": 0.0,
+        "random_state": 42
+      },
+      "train_max_step": 450,
+      "threshold_policy": {
+        "name": "validation_f1",
+        "val_min_step": 451,
+        "val_max_step": 550
+      },
+      "selection_history": "Not independent of folds F2 and F3. The 8-feature set (dropping transaction_day) was chosen by comparing AP on the old holdout (steps 551-743, which contains F3's test window 551-650), and the decision threshold and earlier hyperparameter choices used validation steps 451-550 (F2's test window). F2 and F3 results are therefore optimistic for this configuration; F1 (steps 351-450) is the least affected."
+    },
+    "selection_history": "Not independent of folds F2 and F3. The 8-feature set (dropping transaction_day) was chosen by comparing AP on the old holdout (steps 551-743, which contains F3's test window 551-650), and the decision threshold and earlier hyperparameter choices used validation steps 451-550 (F2's test window). F2 and F3 results are therefore optimistic for this configuration; F1 (steps 351-450) is the least affected.",
+    "data_sha256": "74cba5b396ce21d08f2ffd859bd95f782622a06871ff35f0e4f3f271213294bd",
+    "final_test_min_step": 651
+  },
+  "folds": {
+    "F1": {
+      "rows": 1070802,
+      "labelled_fraud": 1156,
+      "fraud_prevalence_pct": 0.108,
+      "steps": [
+        351,
+        450
+      ],
+      "simulated_days": 4.167,
+      "average_precision": 0.3889,
+      "average_precision_ci95": [
+        0.3164,
+        0.4654
+      ],
+      "roc_auc": 0.9478,
+      "mean_score": 0.1707,
+      "at_alert_budget": {
+        "25_per_day": {
+          "alerts_per_day_budget": 25,
+          "alerts": 104,
+          "score_cutoff": 0.994399,
+          "rows_tied_at_cutoff": 123,
+          "tied_rows_reviewed": 30,
+          "tie_policy": "expected value under random tie-breaking",
+          "true_positives": 101.56,
+          "false_positives": 2.44,
+          "false_negatives": 1054.44,
+          "true_negatives": 1069643.56,
+          "precision": 0.9765,
+          "recall": 0.0879,
+          "f1_score": 0.1612
+        },
+        "50_per_day": {
+          "alerts_per_day_budget": 50,
+          "alerts": 208,
+          "score_cutoff": 0.99417,
+          "rows_tied_at_cutoff": 5,
+          "tied_rows_reviewed": 5,
+          "tie_policy": "expected value under random tie-breaking",
+          "true_positives": 196.0,
+          "false_positives": 12.0,
+          "false_negatives": 960.0,
+          "true_negatives": 1069634.0,
+          "precision": 0.9423,
+          "recall": 0.1696,
+          "f1_score": 0.2874
+        },
+        "100_per_day": {
+          "alerts_per_day_budget": 100,
+          "alerts": 417,
+          "score_cutoff": 0.99279,
+          "rows_tied_at_cutoff": 110,
+          "tied_rows_reviewed": 50,
+          "tie_policy": "expected value under random tie-breaking",
+          "true_positives": 325.73,
+          "false_positives": 91.27,
+          "false_negatives": 830.27,
+          "true_negatives": 1069554.73,
+          "precision": 0.7811,
+          "recall": 0.2818,
+          "f1_score": 0.4141
+        },
+        "200_per_day": {
+          "alerts_per_day_budget": 200,
+          "alerts": 833,
+          "score_cutoff": 0.984973,
+          "rows_tied_at_cutoff": 64,
+          "tied_rows_reviewed": 8,
+          "tie_policy": "expected value under random tie-breaking",
+          "true_positives": 470.75,
+          "false_positives": 362.25,
+          "false_negatives": 685.25,
+          "true_negatives": 1069283.75,
+          "precision": 0.5651,
+          "recall": 0.4072,
+          "f1_score": 0.4734
+        }
+      },
+      "train_rows": 4943915,
+      "train_fraud": 3901,
+      "fit_seconds": 32.3
+    },
+    "F2": {
+      "rows": 151302,
+      "labelled_fraud": 1008,
+      "fraud_prevalence_pct": 0.6662,
+      "steps": [
+        451,
+        550
+      ],
+      "simulated_days": 4.167,
+      "average_precision": 0.3115,
+      "average_precision_ci95": [
+        0.249,
+        0.3788
+      ],
+      "roc_auc": 0.9509,
+      "mean_score": 0.1747,
+      "at_alert_budget": {
+        "25_per_day": {
+          "alerts_per_day_budget": 25,
+          "alerts": 104,
+          "score_cutoff": 0.994869,
+          "rows_tied_at_cutoff": 60,
+          "tied_rows_reviewed": 23,
+          "tie_policy": "expected value under random tie-breaking",
+          "true_positives": 94.03,
+          "false_positives": 9.97,
+          "false_negatives": 913.97,
+          "true_negatives": 150284.03,
+          "precision": 0.9042,
+          "recall": 0.0933,
+          "f1_score": 0.1691
+        },
+        "50_per_day": {
+          "alerts_per_day_budget": 50,
+          "alerts": 208,
+          "score_cutoff": 0.994245,
+          "rows_tied_at_cutoff": 118,
+          "tied_rows_reviewed": 18,
+          "tie_policy": "expected value under random tie-breaking",
+          "true_positives": 140.86,
+          "false_positives": 67.14,
+          "false_negatives": 867.14,
+          "true_negatives": 150226.86,
+          "precision": 0.6772,
+          "recall": 0.1397,
+          "f1_score": 0.2317
+        },
+        "100_per_day": {
+          "alerts_per_day_budget": 100,
+          "alerts": 417,
+          "score_cutoff": 0.99272,
+          "rows_tied_at_cutoff": 298,
+          "tied_rows_reviewed": 62,
+          "tie_policy": "expected value under random tie-breaking",
+          "true_positives": 211.36,
+          "false_positives": 205.64,
+          "false_negatives": 796.64,
+          "true_negatives": 150088.36,
+          "precision": 0.5069,
+          "recall": 0.2097,
+          "f1_score": 0.2966
+        },
+        "200_per_day": {
+          "alerts_per_day_budget": 200,
+          "alerts": 833,
+          "score_cutoff": 0.990444,
+          "rows_tied_at_cutoff": 40,
+          "tied_rows_reviewed": 15,
+          "tie_policy": "expected value under random tie-breaking",
+          "true_positives": 303.5,
+          "false_positives": 529.5,
+          "false_negatives": 704.5,
+          "true_negatives": 149764.5,
+          "precision": 0.3643,
+          "recall": 0.3011,
+          "f1_score": 0.3297
+        }
+      },
+      "train_rows": 6014717,
+      "train_fraud": 5057,
+      "fit_seconds": 36.8
+    },
+    "F3": {
+      "rows": 115770,
+      "labelled_fraud": 1126,
+      "fraud_prevalence_pct": 0.9726,
+      "steps": [
+        551,
+        650
+      ],
+      "simulated_days": 4.167,
+      "average_precision": 0.4222,
+      "average_precision_ci95": [
+        0.3288,
+        0.523
+      ],
+      "roc_auc": 0.952,
+      "mean_score": 0.1761,
+      "at_alert_budget": {
+        "25_per_day": {
+          "alerts_per_day_budget": 25,
+          "alerts": 104,
+          "score_cutoff": 0.994761,
+          "rows_tied_at_cutoff": 100,
+          "tied_rows_reviewed": 58,
+          "tie_policy": "expected value under random tie-breaking",
+          "true_positives": 95.88,
+          "false_positives": 8.12,
+          "false_negatives": 1030.12,
+          "true_negatives": 114635.88,
+          "precision": 0.9219,
+          "recall": 0.0852,
+          "f1_score": 0.1559
+        },
+        "50_per_day": {
+          "alerts_per_day_budget": 50,
+          "alerts": 208,
+          "score_cutoff": 0.993713,
+          "rows_tied_at_cutoff": 80,
+          "tied_rows_reviewed": 10,
+          "tie_policy": "expected value under random tie-breaking",
+          "true_positives": 176.25,
+          "false_positives": 31.75,
+          "false_negatives": 949.75,
+          "true_negatives": 114612.25,
+          "precision": 0.8474,
+          "recall": 0.1565,
+          "f1_score": 0.2642
+        },
+        "100_per_day": {
+          "alerts_per_day_budget": 100,
+          "alerts": 417,
+          "score_cutoff": 0.992651,
+          "rows_tied_at_cutoff": 169,
+          "tied_rows_reviewed": 53,
+          "tie_policy": "expected value under random tie-breaking",
+          "true_positives": 280.17,
+          "false_positives": 136.83,
+          "false_negatives": 845.83,
+          "true_negatives": 114507.17,
+          "precision": 0.6719,
+          "recall": 0.2488,
+          "f1_score": 0.3632
+        },
+        "200_per_day": {
+          "alerts_per_day_budget": 200,
+          "alerts": 833,
+          "score_cutoff": 0.97677,
+          "rows_tied_at_cutoff": 4,
+          "tied_rows_reviewed": 4,
+          "tie_policy": "expected value under random tie-breaking",
+          "true_positives": 469.0,
+          "false_positives": 364.0,
+          "false_negatives": 657.0,
+          "true_negatives": 114280.0,
+          "precision": 0.563,
+          "recall": 0.4165,
+          "f1_score": 0.4788
+        }
+      },
+      "train_rows": 6166019,
+      "train_fraud": 6065,
+      "fit_seconds": 36.5
+    }
+  },
+  "fold_definitions": [
+    {
+      "name": "F1",
+      "train_max_step": 350,
+      "test_min_step": 351,
+      "test_max_step": 450
+    },
+    {
+      "name": "F2",
+      "train_max_step": 450,
+      "test_min_step": 451,
+      "test_max_step": 550
+    },
+    {
+      "name": "F3",
+      "train_max_step": 550,
+      "test_min_step": 551,
+      "test_max_step": 650
+    }
+  ],
+  "summary": {
+    "average_precision_by_fold": {
+      "F1": 0.3889,
+      "F2": 0.3115,
+      "F3": 0.4222
+    },
+    "average_precision_min": 0.3115,
+    "average_precision_mean": 0.3742
+  }
+}

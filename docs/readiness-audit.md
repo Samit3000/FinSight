@@ -1,5 +1,7 @@
 # FinSight — Final Readiness Audit & Implementation Handoff Report
 
+> **Status (2026-11-20): historical.** This audit (2026-10-17) recorded the state before ingestion and modelling were built. References to `config/*.yaml` are obsolete (removed in P0). See [`current-state.md`](current-state.md).
+
 **Document Status:** Complete & Final  
 **Date:** 2026-10-17  
 **Role:** Senior Engineering Lead  

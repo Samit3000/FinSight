@@ -306,8 +306,10 @@ def load_dataset(
                         "Resetting table '%s' (truncating %d existing rows) as requested by --truncate...",
                         table_name, existing_rows
                     )
+                    # Deliberately NOT committed here. PostgreSQL TRUNCATE is transactional,
+                    # so it is committed together with the COPY below. If the reload fails,
+                    # the rollback in the except-block restores the previous rows.
                     cur.execute(f"TRUNCATE TABLE {table_name} RESTART IDENTITY;")
-                    conn.commit()
 
         # Schema initialization (only if requested and table does not exist)
         if create_schema and ddl_path:

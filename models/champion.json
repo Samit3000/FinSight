@@ -1,0 +1,41 @@
+{
+  "active": {
+    "name": "E4",
+    "model_name": "HistGradientBoosting baseline7 + recipient prior count (class weight 1:50)",
+    "artifact": "models/hgb_e4_recipient.joblib",
+    "artifact_sha256": "296132a5f5433b5cc7141b9698bb7e95729011a7673a6da36ce779665a5f3821",
+    "config_name": "hgb_baseline7_rcpt_cw50",
+    "rebuild_config": "hgb_e4_final",
+    "train_steps": [1, 550],
+    "calibration_steps": [551, 650],
+    "operating_point": {
+      "policy": "fixed threshold calibrated to 100 alerts per simulated day on steps 551-650",
+      "alerts_per_day": 100,
+      "threshold": 0.9462684948346494
+    },
+    "thresholds_by_alerts_per_day": {"50": 0.9757477864456432, "100": 0.9462684948346494, "200": 0.7555695802864354},
+    "review_queue_floor_by_alerts_per_day": {"50": 0.7555695802864354, "100": 0.4978711266512462, "200": 0.1203064679011944},
+    "recommended_review_design": "12-hour priority queue (P1.4.2); not the official policy",
+    "score_semantics": "risk score from class-weighted training; not a calibrated probability",
+    "promoted_on": "2026-11-20",
+    "evidence": {
+      "report": "reports/final_test/p15_final_test.md",
+      "preregistration": "reports/final_test/p15_preregistration.json",
+      "sealed_test_average_precision": 0.6966,
+      "sealed_test_average_precision_ci95": [0.638, 0.765],
+      "baseline_E0_average_precision": 0.4962,
+      "paired_ap_difference_ci95": [0.1441, 0.2308],
+      "decision": "PROMOTE E4"
+    },
+    "caveats": "Sealed steps 651-743 have now been used once and must not be used for further selection; they were inside the pre-P0 holdout, so they are not pristine."
+  },
+  "previous": {
+    "name": "frozen champion (8 features)",
+    "artifact": "models/hist_gradient_boosting_no_day.joblib",
+    "artifact_sha256": "56a40585aabf5b548faf3a6f62d685721e1c62ea7880b1ee0847f209fb99c534",
+    "config_name": "hgb_baseline8_balanced",
+    "threshold": 0.966,
+    "sealed_test_average_precision": 0.4909,
+    "retired_on": "2026-11-20"
+  }
+}

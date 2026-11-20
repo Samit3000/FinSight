@@ -9,7 +9,8 @@ Governance & Leakage Boundaries:
 1. Chronological Partitioning:
    - Model Training: step <= 450 (Days 1–19).
    - Validation: 450 < step <= 550 (Days 19–23).
-   - Final Holdout: step > 550 (Days 23–31).
+   - Development Holdout: 550 < step < 651. Steps >= 651 are the locked final test
+     (src/finsight/evaluate.py) and are excluded from every function in this module.
 2. Preprocessing Isolation:
    - All transformers (e.g. StandardScaler) are fit strictly and exclusively on the
      model-training partition (`step <= 450`).
@@ -55,6 +56,7 @@ _src_root = str(Path(__file__).resolve().parent.parent)
 if _src_root not in sys.path:
     sys.path.insert(0, _src_root)
 
+from finsight.evaluate import FINAL_TEST_MIN_STEP, development_frame
 from finsight.features import (
     CANONICAL_FEATURE_COLUMNS,
     FeatureEngineeringError,
@@ -609,6 +611,8 @@ def run_milestone4_training_and_evaluation(
         "isFraud": "int8",
     }
     df = pd.read_csv(data_path, usecols=usecols, dtype=dtypes)
+    # Locked final test (steps >= FINAL_TEST_MIN_STEP) is never loaded into this legacy workflow.
+    df = development_frame(df)
 
     # 1. Feature matrices with canonical features
     X_train, y_train, X_val, y_val, X_test, y_test, partition_meta = prepare_partitioned_datasets(
@@ -703,7 +707,9 @@ def run_milestone4_training_and_evaluation(
     }
 
     # Evaluate Final Holdout using LOCKED thresholds from validation
-    logger.info("Evaluating Final Holdout Partition (step > %d) with locked thresholds...", val_step)
+    logger.info(
+        "Evaluating development holdout (%d < step < %d) with locked thresholds...", val_step, FINAL_TEST_MIN_STEP
+    )
     dummy_test_prob = dummy.predict_proba(X_test)[:, 1]
     results["holdout_evaluations"]["dummy_baseline"] = evaluate_predictions(
         y_test, dummy_test_prob, threshold=dummy_t, model_name="Dummy Baseline", dataset_name="holdout"
@@ -788,13 +794,13 @@ Temporal ordering strictly prevents future leakage into past model training.
 | :--- | :--- | :--- | :--- | :--- | :--- |
 | **Model Training** | `step <= {splits["train"]["max_step"]}` | Days 1–19 | {splits["train"]["row_count"]:,} | {splits["train"]["fraud_count"]:,} | {splits["train"]["fraud_rate_pct"]:.4f}% |
 | **Validation** | `{splits["validation"]["min_step"]} <= step <= {splits["validation"]["max_step"]}` | Days 19–23 | {splits["validation"]["row_count"]:,} | {splits["validation"]["fraud_count"]:,} | {splits["validation"]["fraud_rate_pct"]:.4f}% |
-| **Final Holdout** | `step >= {splits["holdout"]["min_step"]}` | Days 23–31 | {splits["holdout"]["row_count"]:,} | {splits["holdout"]["fraud_count"]:,} | {splits["holdout"]["fraud_rate_pct"]:.4f}% |
+| **Development Holdout** | `{splits["holdout"]["min_step"]} <= step <= {splits["holdout"]["max_step"]}` | Locked final test (step >= 651) excluded | {splits["holdout"]["row_count"]:,} | {splits["holdout"]["fraud_count"]:,} | {splits["holdout"]["fraud_rate_pct"]:.4f}% |
 | **Total** | `1 <= step <= 743` | 31 Days | {splits["train"]["row_count"] + splits["validation"]["row_count"] + splits["holdout"]["row_count"]:,} | {splits["train"]["fraud_count"] + splits["validation"]["fraud_count"] + splits["holdout"]["fraud_count"]:,} | 0.1291% |
 
 > **Leakage Governance Rule:**
 > - `StandardScaler` and all estimators fit **strictly** on the Model Training partition.
 > - Validation partition was used **exclusively** for hyperparameter assessment, ablation, and decision threshold optimization.
-> - Final Holdout partition was evaluated **once** with locked models and locked thresholds.
+> - Development holdout evaluated with locked models and locked thresholds. The locked final test (step >= 651) is not used here.
 
 ---
 
@@ -824,9 +830,9 @@ Ablation performed on candidate tree-based model (**HistGradientBoostingClassifi
 
 ---
 
-## 4. Final Holdout Evaluation (Locked Configuration)
+## 4. Development Holdout Evaluation (Locked Configuration)
 
-Evaluated once on final unseen future transactions (`step > 550`, 196,601 transactions, 2,148 simulated frauds).
+Evaluated on the development holdout ({splits["holdout"]["min_step"]} <= step <= {splits["holdout"]["max_step"]}, {splits["holdout"]["row_count"]:,} transactions, {splits["holdout"]["fraud_count"]:,} simulated frauds). This window was inspected during earlier model selection, so it is not an unbiased test set.
 
 | Model | PR-AUC (AP) | ROC-AUC | Locked Threshold | Precision | Recall | F1 Score | TP | FP | FN | TN |
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
@@ -867,7 +873,7 @@ Evaluated once on final unseen future transactions (`step > 550`, 196,601 transa
 def evaluate_frozen_model(
     model_path: Union[str, Path] = "models/hist_gradient_boosting_no_day.joblib",
     data_path: Union[str, Path] = "data/processed/transactions.csv.gz",
-    reports_dir: Union[str, Path] = "reports/remediation",
+    reports_dir: Union[str, Path] = "reports/frozen_evaluation",
     train_step: int = DEFAULT_TRAIN_STEP,
     val_step: int = DEFAULT_VAL_STEP,
 ) -> Dict[str, Any]:
@@ -923,7 +929,8 @@ def evaluate_frozen_model(
 
     # Chronological partition masks
     val_mask = (df["step"] > train_step) & (df["step"] <= val_step)
-    holdout_mask = df["step"] > val_step
+    # Development holdout only: the locked final test (step >= FINAL_TEST_MIN_STEP) is excluded.
+    holdout_mask = (df["step"] > val_step) & (df["step"] < FINAL_TEST_MIN_STEP)
 
     val_df = df[val_mask].copy()
     holdout_df = df[holdout_mask].copy()
@@ -1000,7 +1007,7 @@ def evaluate_frozen_model(
 
 ---
 
-## 2. Frozen Holdout Partition Performance (`step > {val_step}`)
+## 2. Development Holdout Performance (`{val_step} < step < {FINAL_TEST_MIN_STEP}`; locked final test excluded)
 - **Row Count:** {len(X_holdout):,} transactions ({int(y_holdout.sum()):,} frauds, {y_holdout.mean()*100:.4f}% prevalence)
 - **Average Precision (PR-AUC):** `{holdout_eval['metrics']['average_precision_pr_auc']:.4f}`
 - **ROC-AUC:** `{holdout_eval['metrics']['roc_auc']:.4f}`
@@ -1034,9 +1041,27 @@ if __name__ == "__main__":
     parser.add_argument("--data-path", default="data/processed/transactions.csv.gz", help="Path to processed transactions CSV")
     parser.add_argument("--models-dir", default="models", help="Directory to save/load fitted model artifacts")
     parser.add_argument("--model-path", default="models/hist_gradient_boosting_no_day.joblib", help="Path to specific model artifact for frozen evaluation")
-    parser.add_argument("--reports-dir", default="reports/remediation", help="Directory to save evaluation reports")
+    parser.add_argument("--reports-dir", default="reports/frozen_evaluation", help="Directory to save evaluation reports")
     parser.add_argument("--evaluate-frozen", action="store_true", help="Execute frozen model evaluation without retraining")
+    parser.add_argument("--overwrite", action="store_true", help="Allow legacy training to overwrite existing model artifacts")
     args = parser.parse_args()
+
+    if not args.evaluate_frozen and not args.overwrite:
+        legacy_targets = [
+            Path(args.models_dir) / name
+            for name in (
+                "dummy_baseline.joblib",
+                "logistic_regression.joblib",
+                "hist_gradient_boosting_canonical.joblib",
+                "hist_gradient_boosting_ablated.joblib",
+            )
+        ]
+        existing = [str(p) for p in legacy_targets if p.exists()]
+        if existing:
+            parser.error(
+                f"Legacy training would overwrite {existing}. Use src/finsight/train.py for new models, "
+                "or pass --overwrite deliberately."
+            )
 
     if args.evaluate_frozen:
         evaluate_frozen_model(

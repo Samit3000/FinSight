@@ -1,0 +1,97 @@
+{
+  "artifact": "models/candidates/hgb_e4_final.joblib",
+  "artifact_sha256": "ef703a0cd654a89cf0b482c3c1b8f5e4a9313cf99edee9ef06f2550e33d1437d",
+  "saved_at_utc": "2026-11-20T06:40:57Z",
+  "selected_threshold": 0.9462684948346494,
+  "config_name": "hgb_e4_final",
+  "config": {
+    "model_name": "HistGradientBoosting baseline7 + recipient prior count (class weight 1:50)",
+    "family": "hist_gradient_boosting",
+    "feature_set": "baseline_8",
+    "amount_dtype": "float32",
+    "drop_features": [
+      "log1p_amount"
+    ],
+    "history_features": [
+      "recipient_prior_in_count"
+    ],
+    "class_weight": {
+      "0": 1.0,
+      "1": 50.0
+    },
+    "params": {
+      "max_iter": 50,
+      "learning_rate": 0.1,
+      "max_leaf_nodes": 31,
+      "min_samples_leaf": 20,
+      "l2_regularization": 0.0,
+      "random_state": 42
+    },
+    "train_max_step": 550,
+    "threshold_policy": {
+      "name": "alert_budget",
+      "alerts_per_day": 100,
+      "val_min_step": 551,
+      "val_max_step": 650
+    },
+    "selection_history": "Promoted champion (P1.6). Configuration E4 was selected on development folds F1-F3 (all reused, see hgb_baseline7_rcpt_cw50) and passed the pre-registered one-time sealed test on steps 651-743 (reports/final_test/p15_final_test.md). Steps 551-650 calibrate its threshold; steps 651-743 must not be used again for selection."
+  },
+  "feature_names": [
+    "amount",
+    "transaction_hour",
+    "type_CASH_IN",
+    "type_CASH_OUT",
+    "type_DEBIT",
+    "type_PAYMENT",
+    "type_TRANSFER",
+    "recipient_prior_in_count"
+  ],
+  "train_step_range": [
+    1,
+    550
+  ],
+  "training_rows": 6166019,
+  "training_frauds": 6065,
+  "validation_step_range": [
+    551,
+    650
+  ],
+  "threshold_policy": {
+    "name": "alert_budget",
+    "alerts_per_day": 100,
+    "val_min_step": 551,
+    "val_max_step": 650
+  },
+  "validation_metrics": {
+    "average_precision": 0.653,
+    "roc_auc": 0.9768,
+    "precision": 0.8993,
+    "recall": 0.333,
+    "alerts": 417
+  },
+  "final_test_min_step": 651,
+  "score_semantics": "risk score from class-weighted training; not a calibrated probability",
+  "data_path": "data\\processed\\transactions.csv.gz",
+  "data_sha256": "74cba5b396ce21d08f2ffd859bd95f782622a06871ff35f0e4f3f271213294bd",
+  "library_versions": {
+    "python": "3.14.3",
+    "scikit-learn": "1.8.0",
+    "pandas": "3.0.1",
+    "numpy": "2.4.2",
+    "joblib": "1.5.3"
+  },
+  "fit_seconds": 48.0,
+  "verification": {
+    "reference": "models/hgb_e4_recipient.joblib",
+    "rows_compared": 6281789,
+    "steps_compared": [
+      1,
+      650
+    ],
+    "max_abs_score_difference": 0.0,
+    "same_threshold": true,
+    "alerts_candidate": 3140,
+    "alerts_reference": 3140,
+    "reproduced": true
+  }
+}
