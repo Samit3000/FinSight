@@ -55,6 +55,8 @@ from finsight.models import ModelPipelineError, load_model_artifact
 
 logger = logging.getLogger("finsight.explainability")
 
+# Legacy default for load_model_for_explainability() only. The pipeline explains the active champion
+# (models/champion.json) unless an explicit --model-path is given.
 DEFAULT_MODEL_PATH: str = "models/hist_gradient_boosting_ablated.joblib"
 DEFAULT_REPORTS_DIR: str = "reports/explainability"
 DEFAULT_SAMPLE_SIZE: int = 2000
