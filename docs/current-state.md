@@ -88,8 +88,11 @@ strong but not pristine. Reports: `reports/evaluation/`, `reports/final_test/`.
 | `RULE_004_LARGE_ROUND_AMOUNT` | TRANSFER/CASH_OUT ≥ $50,000 in multiples of $5,000 | 15 |
 
 Tiers: LOW 0–29, MEDIUM 30–69, HIGH 70–100. On the sealed test the HIGH tier raised 66 alerts/day at 78% precision and
-19.6% recall; on 451–550, 102/day at 39% precision and 16.5% recall. The rules have never been tuned and do not use the
-recipient signal (planned for P2).
+19.6% recall; on 451–550, 102/day at 39% precision and 16.5% recall.
+
+**P2 finding (2026-11-20):** rule-based extra alerts do not beat giving E4 the same extra review capacity. Of 72 configurations (high-value threshold, a first-time-recipient rule with amount thresholds, tier cutoff), none met the pre-declared rule on F1 and F2 (at most 30 extra alerts on every day, and more E4-missed fraud than E4's own next-ranked transactions); on F3 the current rules caught 25 such frauds vs 70 for E4 with the same slots (`reports/evaluation/p2_rule_backstop.md`). The rules therefore do not raise alerts; they provide reason codes for every E4 alert (`src/finsight/alert_explanations.py`, sample in `reports/explainability/alert_reason_codes_sample.md`).
+
+Each reason-code record has two separate parts: `model_explanation` (E4 score, threshold, top three TreeSHAP contributors, a non-causal disclaimer) and `rule_conditions` (every rule met, with points and message, or `none`). Labels are never read. Generate a sample with `py src/finsight/alert_explanations.py --day 25`.
 
 ## 8. Explainability
 
@@ -101,6 +104,7 @@ recipient signal (planned for P2).
 
 | Item | Status |
 |---|---|
+| `src/finsight/rule_tuning.py` | P2 study (selection on F1/F2, F3 once); reproduces the recorded results exactly |
 | `src/finsight/models.py`, `ml_experiments.py` | Milestone 4 code; defaults point at the previous champion; sealed-test access fenced. Not used for the current champion |
 | `models/hist_gradient_boosting_ablated.joblib`, `_canonical.joblib`, `logistic_regression.joblib`, `dummy_baseline.joblib` | Milestone 4 artifacts kept for history (logistic regression appears in the benchmark view) |
 | `reports/archive/` | Superseded reports with known errors (see its README) |

@@ -433,7 +433,7 @@ Detailed specification: [`docs/evaluation-strategy.md`](file:///docs/evaluation-
 ### 4. Running Features, Rules, Models & Automated Tests
 
 ```bash
-# Execute full test suite (188 tests collected; one live-database test applies views when PostgreSQL is reachable)
+# Execute full test suite (204 tests collected; one live-database test applies views when PostgreSQL is reachable)
 py -m pytest tests/ -v
 
 # Run Python interactive verification of feature extraction
@@ -473,7 +473,7 @@ py src/finsight/explainability.py --sample-size 2000 --random-seed 42
 # Run explainability test suite
 py -m pytest tests/test_explainability.py -v
 
-# Run full project test suite (188 tests collected; one live-database test applies views when PostgreSQL is reachable)
+# Run full project test suite (204 tests collected; one live-database test applies views when PostgreSQL is reachable)
 py -m pytest tests/ -v
 ```
 
@@ -716,6 +716,23 @@ The benchmark view (`sql/views/04_vw_risk_detection_benchmark.sql`) now carries 
 from the recorded P1.5 result; steps 651–743 are never scored again. The 12-hour review queue (P1.4.2) remains the
 recommended review design, not the official policy. Promotion note: `reports/final_test/p16_promotion.md`.
 
+### Rule engine as reason codes (P2)
+
+**Do the rules catch fraud E4 misses, better than giving E4 the same extra review capacity? No.** `src/finsight/rule_tuning.py`
+compared 72 rule configurations as a backstop to E4 at 100 alerts/day: selection on F1 and F2 with a rule fixed in advance
+(at most 30 extra alerts on every whole day, more E4-missed fraud than E4's own next-ranked transactions, at least one extra
+fraud per day), then F3 once. Nothing qualified; on F3 the current rules caught 25 missed frauds vs 70 for E4 with the
+same extra slots. Report: `reports/evaluation/p2_rule_backstop.md`.
+
+The rule engine therefore explains instead of alerting. `src/finsight/alert_explanations.py` gives every E4 alert a record
+with two separate parts: the model's score and top three SHAP contributors (labelled as model attribution, not evidence of
+fraud) and the rule conditions met (or "none"). The rule engine's defaults are unchanged.
+
+```bash
+py src/finsight/alert_explanations.py --day 25          # reports/explainability/alert_reason_codes_sample.{json,md}
+py src/finsight/rule_tuning.py --stage render           # re-render the P2 study from its recorded JSON
+```
+
 ---
 
 ## Master ML Remediation & Reliability Phase (historical)
@@ -776,7 +793,8 @@ All former `reports/remediation/`, `reports/ml_improvement/` and `reports/model_
 | **P1.4.2** | **Priority Review Queue** | **Complete** | Queue with deadlines simulated; Q12 chosen; B stays the reference (F1 shortfall vs D2). |
 | **P1.5** | **Sealed Final Test** | **Complete** | Pre-registered one-time run on steps 651–743: E4 AP 0.697 vs 0.496; rule said promote. Sealed test now retired. |
 | **P1.6** | **Champion Promotion** | **Complete** | E4 promoted via `models/champion.json`; bit-for-bit rebuild verified; benchmark view and SHAP reports regenerated; live view updated and verified (14 rows). |
-| **P1 closeout** | **Audit & Documentation** | In review | Promotion audit, docs brought in line with the current implementation, historical material labelled. |
+| **P1 closeout** | **Audit & Documentation** | **Complete** | Promotion audit, docs brought in line with the current implementation, historical material labelled. |
+| **P2** | **Rule Engine: Backstop Study & Reason Codes** | In review | Rules do not beat extra E4 capacity (72 configs, F1/F2 + F3 once); rules now supply reason codes beside the top-3 SHAP contributors for every E4 alert. |
 | **6** | **SQL KPI Marts & Analytics Views** | Planned | Analytical views, window functions, operational KPI benchmarks. |
 | **7** | **Power BI Reporting & Presentation** | Planned | Star-schema DAX model, executive summary, risk drill-down report. |
 

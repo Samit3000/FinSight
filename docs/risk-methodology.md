@@ -11,7 +11,9 @@
 | `RULE_003_OVERNIGHT_DRAINAGE` | TRANSFER/CASH_OUT ≥ $10,000 between 01:00 and 05:00 | 25 |
 | `RULE_004_LARGE_ROUND_AMOUNT` | TRANSFER/CASH_OUT ≥ $50,000 in multiples of $5,000 | 15 |
 
-Measured performance: HIGH tier 102 alerts/day at 39% precision and 16.5% recall (steps 451–550); 66 alerts/day at 78% precision and 19.6% recall on the sealed test. The MEDIUM tier raises thousands of alerts a day. The rules are a secondary, explainable layer beside the ML champion (E4); tuning them on development data is planned for P2.
+Measured performance: HIGH tier 102 alerts/day at 39% precision and 16.5% recall (steps 451–550); 66 alerts/day at 78% precision and 19.6% recall on the sealed test. The MEDIUM tier raises thousands of alerts a day. The rules are a secondary, explainable layer beside the ML champion (E4).
+
+**P2 finding (2026-11-20):** rule-based extra alerts do not beat giving E4 the same extra review capacity. Of 72 configurations (high-value threshold, a first-time-recipient rule with amount thresholds, tier cutoff), none met the pre-declared rule on F1 and F2 (at most 30 extra alerts on every day, and more E4-missed fraud than E4's own next-ranked transactions); on F3 the current rules caught 25 such frauds vs 70 for E4 with the same slots (`reports/evaluation/p2_rule_backstop.md`). The rules therefore do not raise alerts; they provide reason codes for every E4 alert (`src/finsight/alert_explanations.py`, sample in `reports/explainability/alert_reason_codes_sample.md`).
 
 ---
 
