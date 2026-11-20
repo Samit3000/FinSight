@@ -1,0 +1,1452 @@
+{
+ "dataset": {
+  "transactions": 6362620,
+  "value": 1144392944759.77,
+  "labelled_fraud": 8213,
+  "days": 31
+ },
+ "rails": [
+  {
+   "payment_rail": "CASH_OUT",
+   "transaction_count": 2237500,
+   "rail_volume_share_pct": 35.1663,
+   "labelled_fraud_count": 4116,
+   "labelled_fraud_rate_pct": 0.184
+  },
+  {
+   "payment_rail": "PAYMENT",
+   "transaction_count": 2151495,
+   "rail_volume_share_pct": 33.8146,
+   "labelled_fraud_count": 0,
+   "labelled_fraud_rate_pct": 0.0
+  },
+  {
+   "payment_rail": "CASH_IN",
+   "transaction_count": 1399284,
+   "rail_volume_share_pct": 21.9923,
+   "labelled_fraud_count": 0,
+   "labelled_fraud_rate_pct": 0.0
+  },
+  {
+   "payment_rail": "TRANSFER",
+   "transaction_count": 532909,
+   "rail_volume_share_pct": 8.3756,
+   "labelled_fraud_count": 4097,
+   "labelled_fraud_rate_pct": 0.7688
+  },
+  {
+   "payment_rail": "DEBIT",
+   "transaction_count": 41432,
+   "rail_volume_share_pct": 0.6512,
+   "labelled_fraud_count": 0,
+   "labelled_fraud_rate_pct": 0.0
+  }
+ ],
+ "benchmark": [
+  {
+   "evaluation_partition": "development_holdout",
+   "system_name": "Dummy baseline (never alerts)",
+   "operating_point": "no alerts",
+   "alerts_per_day": 0.0,
+   "precision": 0.0,
+   "recall": 0.0,
+   "average_precision": 0.0097,
+   "true_positives": 0,
+   "false_positives": 0,
+   "false_negatives": 1126
+  },
+  {
+   "evaluation_partition": "development_holdout",
+   "system_name": "HistGradientBoosting (previous champion, 8 features)",
+   "operating_point": "t = 0.9660 (validation F1-optimal)",
+   "alerts_per_day": 220.6,
+   "precision": 0.5299,
+   "recall": 0.4325,
+   "average_precision": 0.4133,
+   "true_positives": 487,
+   "false_positives": 432,
+   "false_negatives": 639
+  },
+  {
+   "evaluation_partition": "development_holdout",
+   "system_name": "Logistic Regression (legacy 10-feature artifact)",
+   "operating_point": "t = 0.9009 (validation F1-optimal)",
+   "alerts_per_day": 338.2,
+   "precision": 0.2257,
+   "recall": 0.2824,
+   "average_precision": 0.1649,
+   "true_positives": 318,
+   "false_positives": 1091,
+   "false_negatives": 808
+  },
+  {
+   "evaluation_partition": "development_holdout",
+   "system_name": "Rule Engine (HIGH tier)",
+   "operating_point": "score >= 70",
+   "alerts_per_day": 72.5,
+   "precision": 0.6689,
+   "recall": 0.1794,
+   "average_precision": null,
+   "true_positives": 202,
+   "false_positives": 100,
+   "false_negatives": 924
+  },
+  {
+   "evaluation_partition": "development_holdout",
+   "system_name": "Rule Engine (MEDIUM + HIGH tiers)",
+   "operating_point": "score >= 30",
+   "alerts_per_day": 6960.5,
+   "precision": 0.0284,
+   "recall": 0.7327,
+   "average_precision": null,
+   "true_positives": 825,
+   "false_positives": 28177,
+   "false_negatives": 301
+  },
+  {
+   "evaluation_partition": "sealed_final_test",
+   "system_name": "HistGradientBoosting (champion configuration retrained on steps 1-550)",
+   "operating_point": "t = 0.9927 (100 alerts/day, set on steps 551-650)",
+   "alerts_per_day": 89.8,
+   "precision": 0.842,
+   "recall": 0.2867,
+   "average_precision": 0.4962,
+   "true_positives": 293,
+   "false_positives": 55,
+   "false_negatives": 729
+  },
+  {
+   "evaluation_partition": "sealed_final_test",
+   "system_name": "HistGradientBoosting (previous champion, 8 features)",
+   "operating_point": "t = 0.9660 (validation F1-optimal)",
+   "alerts_per_day": 173.2,
+   "precision": 0.6423,
+   "recall": 0.4217,
+   "average_precision": 0.4909,
+   "true_positives": 431,
+   "false_positives": 240,
+   "false_negatives": 591
+  },
+  {
+   "evaluation_partition": "sealed_final_test",
+   "system_name": "HistGradientBoosting E4 (active champion, recipient count)",
+   "operating_point": "t = 0.9463 (100 alerts/day, set on steps 551-650)",
+   "alerts_per_day": 90.3,
+   "precision": 0.9886,
+   "recall": 0.3386,
+   "average_precision": 0.6966,
+   "true_positives": 346,
+   "false_positives": 4,
+   "false_negatives": 676
+  },
+  {
+   "evaluation_partition": "sealed_final_test",
+   "system_name": "Rule Engine (HIGH tier)",
+   "operating_point": "score >= 70",
+   "alerts_per_day": 66.1,
+   "precision": 0.7813,
+   "recall": 0.1957,
+   "average_precision": null,
+   "true_positives": 200,
+   "false_positives": 56,
+   "false_negatives": 822
+  },
+  {
+   "evaluation_partition": "validation",
+   "system_name": "Dummy baseline (never alerts)",
+   "operating_point": "no alerts",
+   "alerts_per_day": 0.0,
+   "precision": 0.0,
+   "recall": 0.0,
+   "average_precision": 0.0067,
+   "true_positives": 0,
+   "false_positives": 0,
+   "false_negatives": 1008
+  },
+  {
+   "evaluation_partition": "validation",
+   "system_name": "HistGradientBoosting (previous champion, 8 features)",
+   "operating_point": "t = 0.9660 (validation F1-optimal)",
+   "alerts_per_day": 311.5,
+   "precision": 0.3351,
+   "recall": 0.4315,
+   "average_precision": 0.3115,
+   "true_positives": 435,
+   "false_positives": 863,
+   "false_negatives": 573
+  },
+  {
+   "evaluation_partition": "validation",
+   "system_name": "Logistic Regression (legacy 10-feature artifact)",
+   "operating_point": "t = 0.9009 (validation F1-optimal)",
+   "alerts_per_day": 673.7,
+   "precision": 0.0994,
+   "recall": 0.2768,
+   "average_precision": 0.1104,
+   "true_positives": 279,
+   "false_positives": 2528,
+   "false_negatives": 729
+  },
+  {
+   "evaluation_partition": "validation",
+   "system_name": "Rule Engine (HIGH tier)",
+   "operating_point": "score >= 70",
+   "alerts_per_day": 101.8,
+   "precision": 0.3915,
+   "recall": 0.1647,
+   "average_precision": null,
+   "true_positives": 166,
+   "false_positives": 258,
+   "false_negatives": 842
+  },
+  {
+   "evaluation_partition": "validation",
+   "system_name": "Rule Engine (MEDIUM + HIGH tiers)",
+   "operating_point": "score >= 30",
+   "alerts_per_day": 9182.9,
+   "precision": 0.0193,
+   "recall": 0.7341,
+   "average_precision": null,
+   "true_positives": 740,
+   "false_positives": 37522,
+   "false_negatives": 268
+  }
+ ],
+ "workload": [
+  {
+   "simulated_day": 1,
+   "evaluation_period": "training",
+   "hours_covered": 24,
+   "is_full_day": true,
+   "transactions_scored": 574255,
+   "alerts": 391,
+   "first_time_recipient_alerts": 328
+  },
+  {
+   "simulated_day": 2,
+   "evaluation_period": "training",
+   "hours_covered": 24,
+   "is_full_day": true,
+   "transactions_scored": 455238,
+   "alerts": 92,
+   "first_time_recipient_alerts": 55
+  },
+  {
+   "simulated_day": 3,
+   "evaluation_period": "training",
+   "hours_covered": 24,
+   "is_full_day": true,
+   "transactions_scored": 1070,
+   "alerts": 91,
+   "first_time_recipient_alerts": 51
+  },
+  {
+   "simulated_day": 4,
+   "evaluation_period": "training",
+   "hours_covered": 24,
+   "is_full_day": true,
+   "transactions_scored": 28240,
+   "alerts": 91,
+   "first_time_recipient_alerts": 53
+  },
+  {
+   "simulated_day": 5,
+   "evaluation_period": "training",
+   "hours_covered": 24,
+   "is_full_day": true,
+   "transactions_scored": 9789,
+   "alerts": 82,
+   "first_time_recipient_alerts": 49
+  },
+  {
+   "simulated_day": 6,
+   "evaluation_period": "training",
+   "hours_covered": 24,
+   "is_full_day": true,
+   "transactions_scored": 441005,
+   "alerts": 107,
+   "first_time_recipient_alerts": 52
+  },
+  {
+   "simulated_day": 7,
+   "evaluation_period": "training",
+   "hours_covered": 24,
+   "is_full_day": true,
+   "transactions_scored": 420583,
+   "alerts": 115,
+   "first_time_recipient_alerts": 54
+  },
+  {
+   "simulated_day": 8,
+   "evaluation_period": "training",
+   "hours_covered": 24,
+   "is_full_day": true,
+   "transactions_scored": 449637,
+   "alerts": 120,
+   "first_time_recipient_alerts": 67
+  },
+  {
+   "simulated_day": 9,
+   "evaluation_period": "training",
+   "hours_covered": 24,
+   "is_full_day": true,
+   "transactions_scored": 417919,
+   "alerts": 128,
+   "first_time_recipient_alerts": 63
+  },
+  {
+   "simulated_day": 10,
+   "evaluation_period": "training",
+   "hours_covered": 24,
+   "is_full_day": true,
+   "transactions_scored": 392945,
+   "alerts": 134,
+   "first_time_recipient_alerts": 48
+  },
+  {
+   "simulated_day": 11,
+   "evaluation_period": "training",
+   "hours_covered": 24,
+   "is_full_day": true,
+   "transactions_scored": 417859,
+   "alerts": 87,
+   "first_time_recipient_alerts": 53
+  },
+  {
+   "simulated_day": 12,
+   "evaluation_period": "training",
+   "hours_covered": 24,
+   "is_full_day": true,
+   "transactions_scored": 349776,
+   "alerts": 117,
+   "first_time_recipient_alerts": 82
+  },
+  {
+   "simulated_day": 13,
+   "evaluation_period": "training",
+   "hours_covered": 24,
+   "is_full_day": true,
+   "transactions_scored": 428583,
+   "alerts": 116,
+   "first_time_recipient_alerts": 78
+  },
+  {
+   "simulated_day": 14,
+   "evaluation_period": "training",
+   "hours_covered": 24,
+   "is_full_day": true,
+   "transactions_scored": 397876,
+   "alerts": 96,
+   "first_time_recipient_alerts": 66
+  },
+  {
+   "simulated_day": 15,
+   "evaluation_period": "training",
+   "hours_covered": 24,
+   "is_full_day": true,
+   "transactions_scored": 401282,
+   "alerts": 95,
+   "first_time_recipient_alerts": 63
+  },
+  {
+   "simulated_day": 16,
+   "evaluation_period": "training",
+   "hours_covered": 24,
+   "is_full_day": true,
+   "transactions_scored": 375594,
+   "alerts": 109,
+   "first_time_recipient_alerts": 59
+  },
+  {
+   "simulated_day": 17,
+   "evaluation_period": "training",
+   "hours_covered": 24,
+   "is_full_day": true,
+   "transactions_scored": 425766,
+   "alerts": 159,
+   "first_time_recipient_alerts": 97
+  },
+  {
+   "simulated_day": 18,
+   "evaluation_period": "training",
+   "hours_covered": 24,
+   "is_full_day": true,
+   "transactions_scored": 20999,
+   "alerts": 123,
+   "first_time_recipient_alerts": 79
+  },
+  {
+   "simulated_day": 19,
+   "evaluation_period": "training",
+   "hours_covered": 24,
+   "is_full_day": true,
+   "transactions_scored": 11300,
+   "alerts": 97,
+   "first_time_recipient_alerts": 55
+  },
+  {
+   "simulated_day": 20,
+   "evaluation_period": "training",
+   "hours_covered": 24,
+   "is_full_day": true,
+   "transactions_scored": 19727,
+   "alerts": 98,
+   "first_time_recipient_alerts": 66
+  },
+  {
+   "simulated_day": 21,
+   "evaluation_period": "training",
+   "hours_covered": 24,
+   "is_full_day": true,
+   "transactions_scored": 24593,
+   "alerts": 93,
+   "first_time_recipient_alerts": 55
+  },
+  {
+   "simulated_day": 22,
+   "evaluation_period": "training",
+   "hours_covered": 24,
+   "is_full_day": true,
+   "transactions_scored": 53437,
+   "alerts": 93,
+   "first_time_recipient_alerts": 51
+  },
+  {
+   "simulated_day": 23,
+   "evaluation_period": "calibration",
+   "hours_covered": 2,
+   "is_full_day": false,
+   "transactions_scored": 2466,
+   "alerts": 3,
+   "first_time_recipient_alerts": 1
+  },
+  {
+   "simulated_day": 23,
+   "evaluation_period": "training",
+   "hours_covered": 22,
+   "is_full_day": false,
+   "transactions_scored": 48546,
+   "alerts": 89,
+   "first_time_recipient_alerts": 55
+  },
+  {
+   "simulated_day": 24,
+   "evaluation_period": "calibration",
+   "hours_covered": 24,
+   "is_full_day": true,
+   "transactions_scored": 32709,
+   "alerts": 88,
+   "first_time_recipient_alerts": 52
+  },
+  {
+   "simulated_day": 25,
+   "evaluation_period": "calibration",
+   "hours_covered": 24,
+   "is_full_day": true,
+   "transactions_scored": 57853,
+   "alerts": 125,
+   "first_time_recipient_alerts": 76
+  },
+  {
+   "simulated_day": 26,
+   "evaluation_period": "calibration",
+   "hours_covered": 24,
+   "is_full_day": true,
+   "transactions_scored": 13885,
+   "alerts": 87,
+   "first_time_recipient_alerts": 59
+  },
+  {
+   "simulated_day": 27,
+   "evaluation_period": "calibration",
+   "hours_covered": 24,
+   "is_full_day": true,
+   "transactions_scored": 8578,
+   "alerts": 99,
+   "first_time_recipient_alerts": 62
+  },
+  {
+   "simulated_day": 28,
+   "evaluation_period": "calibration",
+   "hours_covered": 2,
+   "is_full_day": false,
+   "transactions_scored": 279,
+   "alerts": 15,
+   "first_time_recipient_alerts": 10
+  },
+  {
+   "simulated_day": 28,
+   "evaluation_period": "sealed_test_reported",
+   "hours_covered": 22,
+   "is_full_day": false,
+   "transactions_scored": 14382,
+   "alerts": 73,
+   "first_time_recipient_alerts": 46
+  },
+  {
+   "simulated_day": 29,
+   "evaluation_period": "sealed_test_reported",
+   "hours_covered": 24,
+   "is_full_day": true,
+   "transactions_scored": 54890,
+   "alerts": 86,
+   "first_time_recipient_alerts": 49
+  },
+  {
+   "simulated_day": 30,
+   "evaluation_period": "sealed_test_reported",
+   "hours_covered": 24,
+   "is_full_day": true,
+   "transactions_scored": 11287,
+   "alerts": 103,
+   "first_time_recipient_alerts": 65
+  },
+  {
+   "simulated_day": 31,
+   "evaluation_period": "sealed_test_reported",
+   "hours_covered": 23,
+   "is_full_day": false,
+   "transactions_scored": 272,
+   "alerts": 88,
+   "first_time_recipient_alerts": 59
+  }
+ ],
+ "mix": [
+  {
+   "evaluation_period": "calibration",
+   "payment_type": "CASH_OUT",
+   "hour_band": "00-05",
+   "amount_band": "100k-500k",
+   "alerts": 25
+  },
+  {
+   "evaluation_period": "calibration",
+   "payment_type": "CASH_OUT",
+   "hour_band": "00-05",
+   "amount_band": "500k-1M",
+   "alerts": 26
+  },
+  {
+   "evaluation_period": "calibration",
+   "payment_type": "CASH_OUT",
+   "hour_band": "00-05",
+   "amount_band": "<100k",
+   "alerts": 18
+  },
+  {
+   "evaluation_period": "calibration",
+   "payment_type": "CASH_OUT",
+   "hour_band": "00-05",
+   "amount_band": ">=1M",
+   "alerts": 50
+  },
+  {
+   "evaluation_period": "calibration",
+   "payment_type": "CASH_OUT",
+   "hour_band": "06-08",
+   "amount_band": "500k-1M",
+   "alerts": 1
+  },
+  {
+   "evaluation_period": "calibration",
+   "payment_type": "CASH_OUT",
+   "hour_band": "06-08",
+   "amount_band": ">=1M",
+   "alerts": 15
+  },
+  {
+   "evaluation_period": "calibration",
+   "payment_type": "CASH_OUT",
+   "hour_band": "09-17",
+   "amount_band": ">=1M",
+   "alerts": 60
+  },
+  {
+   "evaluation_period": "calibration",
+   "payment_type": "CASH_OUT",
+   "hour_band": "18-23",
+   "amount_band": "500k-1M",
+   "alerts": 2
+  },
+  {
+   "evaluation_period": "calibration",
+   "payment_type": "CASH_OUT",
+   "hour_band": "18-23",
+   "amount_band": ">=1M",
+   "alerts": 43
+  },
+  {
+   "evaluation_period": "calibration",
+   "payment_type": "TRANSFER",
+   "hour_band": "00-05",
+   "amount_band": "100k-500k",
+   "alerts": 43
+  },
+  {
+   "evaluation_period": "calibration",
+   "payment_type": "TRANSFER",
+   "hour_band": "00-05",
+   "amount_band": "500k-1M",
+   "alerts": 26
+  },
+  {
+   "evaluation_period": "calibration",
+   "payment_type": "TRANSFER",
+   "hour_band": "00-05",
+   "amount_band": "<100k",
+   "alerts": 23
+  },
+  {
+   "evaluation_period": "calibration",
+   "payment_type": "TRANSFER",
+   "hour_band": "00-05",
+   "amount_band": ">=1M",
+   "alerts": 52
+  },
+  {
+   "evaluation_period": "calibration",
+   "payment_type": "TRANSFER",
+   "hour_band": "06-08",
+   "amount_band": ">=1M",
+   "alerts": 2
+  },
+  {
+   "evaluation_period": "calibration",
+   "payment_type": "TRANSFER",
+   "hour_band": "18-23",
+   "amount_band": "500k-1M",
+   "alerts": 2
+  },
+  {
+   "evaluation_period": "calibration",
+   "payment_type": "TRANSFER",
+   "hour_band": "18-23",
+   "amount_band": ">=1M",
+   "alerts": 29
+  },
+  {
+   "evaluation_period": "sealed_test_reported",
+   "payment_type": "CASH_OUT",
+   "hour_band": "00-05",
+   "amount_band": "100k-500k",
+   "alerts": 8
+  },
+  {
+   "evaluation_period": "sealed_test_reported",
+   "payment_type": "CASH_OUT",
+   "hour_band": "00-05",
+   "amount_band": "500k-1M",
+   "alerts": 22
+  },
+  {
+   "evaluation_period": "sealed_test_reported",
+   "payment_type": "CASH_OUT",
+   "hour_band": "00-05",
+   "amount_band": "<100k",
+   "alerts": 3
+  },
+  {
+   "evaluation_period": "sealed_test_reported",
+   "payment_type": "CASH_OUT",
+   "hour_band": "00-05",
+   "amount_band": ">=1M",
+   "alerts": 41
+  },
+  {
+   "evaluation_period": "sealed_test_reported",
+   "payment_type": "CASH_OUT",
+   "hour_band": "06-08",
+   "amount_band": ">=1M",
+   "alerts": 20
+  },
+  {
+   "evaluation_period": "sealed_test_reported",
+   "payment_type": "CASH_OUT",
+   "hour_band": "09-17",
+   "amount_band": "500k-1M",
+   "alerts": 1
+  },
+  {
+   "evaluation_period": "sealed_test_reported",
+   "payment_type": "CASH_OUT",
+   "hour_band": "09-17",
+   "amount_band": ">=1M",
+   "alerts": 58
+  },
+  {
+   "evaluation_period": "sealed_test_reported",
+   "payment_type": "CASH_OUT",
+   "hour_band": "18-23",
+   "amount_band": "500k-1M",
+   "alerts": 2
+  },
+  {
+   "evaluation_period": "sealed_test_reported",
+   "payment_type": "CASH_OUT",
+   "hour_band": "18-23",
+   "amount_band": ">=1M",
+   "alerts": 45
+  },
+  {
+   "evaluation_period": "sealed_test_reported",
+   "payment_type": "TRANSFER",
+   "hour_band": "00-05",
+   "amount_band": "100k-500k",
+   "alerts": 32
+  },
+  {
+   "evaluation_period": "sealed_test_reported",
+   "payment_type": "TRANSFER",
+   "hour_band": "00-05",
+   "amount_band": "500k-1M",
+   "alerts": 24
+  },
+  {
+   "evaluation_period": "sealed_test_reported",
+   "payment_type": "TRANSFER",
+   "hour_band": "00-05",
+   "amount_band": "<100k",
+   "alerts": 19
+  },
+  {
+   "evaluation_period": "sealed_test_reported",
+   "payment_type": "TRANSFER",
+   "hour_band": "00-05",
+   "amount_band": ">=1M",
+   "alerts": 42
+  },
+  {
+   "evaluation_period": "sealed_test_reported",
+   "payment_type": "TRANSFER",
+   "hour_band": "06-08",
+   "amount_band": ">=1M",
+   "alerts": 3
+  },
+  {
+   "evaluation_period": "sealed_test_reported",
+   "payment_type": "TRANSFER",
+   "hour_band": "18-23",
+   "amount_band": ">=1M",
+   "alerts": 30
+  },
+  {
+   "evaluation_period": "training",
+   "payment_type": "CASH_OUT",
+   "hour_band": "00-05",
+   "amount_band": "100k-500k",
+   "alerts": 114
+  },
+  {
+   "evaluation_period": "training",
+   "payment_type": "CASH_OUT",
+   "hour_band": "00-05",
+   "amount_band": "500k-1M",
+   "alerts": 134
+  },
+  {
+   "evaluation_period": "training",
+   "payment_type": "CASH_OUT",
+   "hour_band": "00-05",
+   "amount_band": "<100k",
+   "alerts": 133
+  },
+  {
+   "evaluation_period": "training",
+   "payment_type": "CASH_OUT",
+   "hour_band": "00-05",
+   "amount_band": ">=1M",
+   "alerts": 262
+  },
+  {
+   "evaluation_period": "training",
+   "payment_type": "CASH_OUT",
+   "hour_band": "06-08",
+   "amount_band": "500k-1M",
+   "alerts": 9
+  },
+  {
+   "evaluation_period": "training",
+   "payment_type": "CASH_OUT",
+   "hour_band": "06-08",
+   "amount_band": ">=1M",
+   "alerts": 117
+  },
+  {
+   "evaluation_period": "training",
+   "payment_type": "CASH_OUT",
+   "hour_band": "09-17",
+   "amount_band": "500k-1M",
+   "alerts": 5
+  },
+  {
+   "evaluation_period": "training",
+   "payment_type": "CASH_OUT",
+   "hour_band": "09-17",
+   "amount_band": ">=1M",
+   "alerts": 486
+  },
+  {
+   "evaluation_period": "training",
+   "payment_type": "CASH_OUT",
+   "hour_band": "18-23",
+   "amount_band": "500k-1M",
+   "alerts": 10
+  },
+  {
+   "evaluation_period": "training",
+   "payment_type": "CASH_OUT",
+   "hour_band": "18-23",
+   "amount_band": ">=1M",
+   "alerts": 267
+  },
+  {
+   "evaluation_period": "training",
+   "payment_type": "TRANSFER",
+   "hour_band": "00-05",
+   "amount_band": "100k-500k",
+   "alerts": 255
+  },
+  {
+   "evaluation_period": "training",
+   "payment_type": "TRANSFER",
+   "hour_band": "00-05",
+   "amount_band": "500k-1M",
+   "alerts": 161
+  },
+  {
+   "evaluation_period": "training",
+   "payment_type": "TRANSFER",
+   "hour_band": "00-05",
+   "amount_band": "<100k",
+   "alerts": 180
+  },
+  {
+   "evaluation_period": "training",
+   "payment_type": "TRANSFER",
+   "hour_band": "00-05",
+   "amount_band": ">=1M",
+   "alerts": 305
+  },
+  {
+   "evaluation_period": "training",
+   "payment_type": "TRANSFER",
+   "hour_band": "06-08",
+   "amount_band": ">=1M",
+   "alerts": 13
+  },
+  {
+   "evaluation_period": "training",
+   "payment_type": "TRANSFER",
+   "hour_band": "18-23",
+   "amount_band": "100k-500k",
+   "alerts": 1
+  },
+  {
+   "evaluation_period": "training",
+   "payment_type": "TRANSFER",
+   "hour_band": "18-23",
+   "amount_band": "500k-1M",
+   "alerts": 5
+  },
+  {
+   "evaluation_period": "training",
+   "payment_type": "TRANSFER",
+   "hour_band": "18-23",
+   "amount_band": ">=1M",
+   "alerts": 266
+  }
+ ],
+ "reasons": [
+  {
+   "evaluation_period": "training",
+   "reason_source": "rule_condition",
+   "reason": "RULE_003_OVERNIGHT_DRAINAGE",
+   "alerts": 1289
+  },
+  {
+   "evaluation_period": "calibration",
+   "reason_source": "rule_condition",
+   "reason": "RULE_003_OVERNIGHT_DRAINAGE",
+   "alerts": 219
+  },
+  {
+   "evaluation_period": "calibration",
+   "reason_source": "rule_condition",
+   "reason": "RULE_004_LARGE_ROUND_AMOUNT",
+   "alerts": 33
+  },
+  {
+   "evaluation_period": "sealed_test_reported",
+   "reason_source": "rule_condition",
+   "reason": "RULE_004_LARGE_ROUND_AMOUNT",
+   "alerts": 50
+  },
+  {
+   "evaluation_period": "sealed_test_reported",
+   "reason_source": "rule_condition",
+   "reason": "RULE_001_HIGH_VALUE",
+   "alerts": 310
+  },
+  {
+   "evaluation_period": "training",
+   "reason_source": "rule_condition",
+   "reason": "RULE_002_DRAINAGE_RAIL",
+   "alerts": 2723
+  },
+  {
+   "evaluation_period": "sealed_test_reported",
+   "reason_source": "rule_condition",
+   "reason": "RULE_003_OVERNIGHT_DRAINAGE",
+   "alerts": 176
+  },
+  {
+   "evaluation_period": "calibration",
+   "reason_source": "rule_condition",
+   "reason": "RULE_002_DRAINAGE_RAIL",
+   "alerts": 417
+  },
+  {
+   "evaluation_period": "sealed_test_reported",
+   "reason_source": "rule_condition",
+   "reason": "RULE_002_DRAINAGE_RAIL",
+   "alerts": 350
+  },
+  {
+   "evaluation_period": "training",
+   "reason_source": "rule_condition",
+   "reason": "RULE_001_HIGH_VALUE",
+   "alerts": 2238
+  },
+  {
+   "evaluation_period": "calibration",
+   "reason_source": "rule_condition",
+   "reason": "RULE_001_HIGH_VALUE",
+   "alerts": 346
+  },
+  {
+   "evaluation_period": "training",
+   "reason_source": "rule_condition",
+   "reason": "RULE_004_LARGE_ROUND_AMOUNT",
+   "alerts": 128
+  },
+  {
+   "evaluation_period": "calibration",
+   "reason_source": "top_model_contributor",
+   "reason": "amount",
+   "alerts": 153
+  },
+  {
+   "evaluation_period": "calibration",
+   "reason_source": "top_model_contributor",
+   "reason": "recipient_prior_in_count",
+   "alerts": 136
+  },
+  {
+   "evaluation_period": "calibration",
+   "reason_source": "top_model_contributor",
+   "reason": "transaction_hour",
+   "alerts": 109
+  },
+  {
+   "evaluation_period": "calibration",
+   "reason_source": "top_model_contributor",
+   "reason": "type_CASH_OUT",
+   "alerts": 19
+  },
+  {
+   "evaluation_period": "sealed_test_reported",
+   "reason_source": "top_model_contributor",
+   "reason": "amount",
+   "alerts": 152
+  },
+  {
+   "evaluation_period": "sealed_test_reported",
+   "reason_source": "top_model_contributor",
+   "reason": "recipient_prior_in_count",
+   "alerts": 115
+  },
+  {
+   "evaluation_period": "sealed_test_reported",
+   "reason_source": "top_model_contributor",
+   "reason": "transaction_hour",
+   "alerts": 66
+  },
+  {
+   "evaluation_period": "sealed_test_reported",
+   "reason_source": "top_model_contributor",
+   "reason": "type_CASH_OUT",
+   "alerts": 17
+  },
+  {
+   "evaluation_period": "training",
+   "reason_source": "top_model_contributor",
+   "reason": "amount",
+   "alerts": 1079
+  },
+  {
+   "evaluation_period": "training",
+   "reason_source": "top_model_contributor",
+   "reason": "recipient_prior_in_count",
+   "alerts": 979
+  },
+  {
+   "evaluation_period": "training",
+   "reason_source": "top_model_contributor",
+   "reason": "transaction_hour",
+   "alerts": 587
+  },
+  {
+   "evaluation_period": "training",
+   "reason_source": "top_model_contributor",
+   "reason": "type_CASH_OUT",
+   "alerts": 78
+  }
+ ],
+ "queue": [
+  {
+   "transaction_id": 6362618,
+   "step": 743,
+   "simulated_day": 31,
+   "transaction_hour": 22,
+   "type": "CASH_OUT",
+   "amount": 6311409.28,
+   "evaluation_period": "sealed_test_reported",
+   "risk_score": 0.9895440999024009,
+   "model_summary": "Model score 0.9895 reached the alert threshold 0.9463. The inputs that moved the score most were: amount $6,311,409.50 (raised the score, +3.81); type is CASH_OUT (raised the score, +3.66); type is not PAYMENT (raised the score, +1.38).",
+   "rule_ids": [
+    "RULE_001_HIGH_VALUE",
+    "RULE_002_DRAINAGE_RAIL"
+   ],
+   "rule_tier": "MEDIUM"
+  },
+  {
+   "transaction_id": 6362614,
+   "step": 743,
+   "simulated_day": 31,
+   "transaction_hour": 22,
+   "type": "CASH_OUT",
+   "amount": 1258818.82,
+   "evaluation_period": "sealed_test_reported",
+   "risk_score": 0.9758358509021662,
+   "model_summary": "Model score 0.9758 reached the alert threshold 0.9463. The inputs that moved the score most were: amount $1,258,818.88 (raised the score, +4.06); type is CASH_OUT (raised the score, +2.35); type is not CASH_IN (raised the score, +1.58).",
+   "rule_ids": [
+    "RULE_001_HIGH_VALUE",
+    "RULE_002_DRAINAGE_RAIL"
+   ],
+   "rule_tier": "MEDIUM"
+  },
+  {
+   "transaction_id": 6362617,
+   "step": 743,
+   "simulated_day": 31,
+   "transaction_hour": 22,
+   "type": "TRANSFER",
+   "amount": 6311409.28,
+   "evaluation_period": "sealed_test_reported",
+   "risk_score": 0.9677935874524827,
+   "model_summary": "Model score 0.9678 reached the alert threshold 0.9463. The inputs that moved the score most were: first-time recipient (no earlier payments received) (raised the score, +4.31); amount $6,311,409.50 (raised the score, +2.09); type is not CASH_IN (raised the score, +1.20).",
+   "rule_ids": [
+    "RULE_001_HIGH_VALUE",
+    "RULE_002_DRAINAGE_RAIL"
+   ],
+   "rule_tier": "MEDIUM"
+  },
+  {
+   "transaction_id": 6362600,
+   "step": 742,
+   "simulated_day": 31,
+   "transaction_hour": 21,
+   "type": "CASH_OUT",
+   "amount": 4009058.39,
+   "evaluation_period": "sealed_test_reported",
+   "risk_score": 0.9885168776912263,
+   "model_summary": "Model score 0.9885 reached the alert threshold 0.9463. The inputs that moved the score most were: amount $4,009,058.50 (raised the score, +4.03); type is CASH_OUT (raised the score, +3.79); type is not PAYMENT (raised the score, +1.36).",
+   "rule_ids": [
+    "RULE_001_HIGH_VALUE",
+    "RULE_002_DRAINAGE_RAIL"
+   ],
+   "rule_tier": "MEDIUM"
+  },
+  {
+   "transaction_id": 6362604,
+   "step": 742,
+   "simulated_day": 31,
+   "transaction_hour": 21,
+   "type": "CASH_OUT",
+   "amount": 1819543.69,
+   "evaluation_period": "sealed_test_reported",
+   "risk_score": 0.9780531200743025,
+   "model_summary": "Model score 0.9781 reached the alert threshold 0.9463. The inputs that moved the score most were: amount $1,819,543.75 (raised the score, +3.95); type is CASH_OUT (raised the score, +1.58); type is not CASH_IN (raised the score, +1.36).",
+   "rule_ids": [
+    "RULE_001_HIGH_VALUE",
+    "RULE_002_DRAINAGE_RAIL"
+   ],
+   "rule_tier": "MEDIUM"
+  },
+  {
+   "transaction_id": 6362599,
+   "step": 742,
+   "simulated_day": 31,
+   "transaction_hour": 21,
+   "type": "TRANSFER",
+   "amount": 4009058.39,
+   "evaluation_period": "sealed_test_reported",
+   "risk_score": 0.9677935874524827,
+   "model_summary": "Model score 0.9678 reached the alert threshold 0.9463. The inputs that moved the score most were: first-time recipient (no earlier payments received) (raised the score, +4.28); amount $4,009,058.50 (raised the score, +2.17); type is not CASH_IN (raised the score, +1.20).",
+   "rule_ids": [
+    "RULE_001_HIGH_VALUE",
+    "RULE_002_DRAINAGE_RAIL"
+   ],
+   "rule_tier": "MEDIUM"
+  },
+  {
+   "transaction_id": 6362578,
+   "step": 741,
+   "simulated_day": 31,
+   "transaction_hour": 20,
+   "type": "CASH_OUT",
+   "amount": 10000000.0,
+   "evaluation_period": "sealed_test_reported",
+   "risk_score": 0.9896898484970882,
+   "model_summary": "Model score 0.9897 reached the alert threshold 0.9463. The inputs that moved the score most were: amount $10,000,000.00 (raised the score, +4.55); type is CASH_OUT (raised the score, +1.76); type is not CASH_IN (raised the score, +1.43).",
+   "rule_ids": [
+    "RULE_001_HIGH_VALUE",
+    "RULE_002_DRAINAGE_RAIL",
+    "RULE_004_LARGE_ROUND_AMOUNT"
+   ],
+   "rule_tier": "HIGH"
+  },
+  {
+   "transaction_id": 6362582,
+   "step": 741,
+   "simulated_day": 31,
+   "transaction_hour": 20,
+   "type": "CASH_OUT",
+   "amount": 10000000.0,
+   "evaluation_period": "sealed_test_reported",
+   "risk_score": 0.9896898484970882,
+   "model_summary": "Model score 0.9897 reached the alert threshold 0.9463. The inputs that moved the score most were: amount $10,000,000.00 (raised the score, +4.55); type is CASH_OUT (raised the score, +1.76); type is not CASH_IN (raised the score, +1.43).",
+   "rule_ids": [
+    "RULE_001_HIGH_VALUE",
+    "RULE_002_DRAINAGE_RAIL",
+    "RULE_004_LARGE_ROUND_AMOUNT"
+   ],
+   "rule_tier": "HIGH"
+  },
+  {
+   "transaction_id": 6362584,
+   "step": 741,
+   "simulated_day": 31,
+   "transaction_hour": 20,
+   "type": "CASH_OUT",
+   "amount": 10000000.0,
+   "evaluation_period": "sealed_test_reported",
+   "risk_score": 0.9896123018434326,
+   "model_summary": "Model score 0.9896 reached the alert threshold 0.9463. The inputs that moved the score most were: amount $10,000,000.00 (raised the score, +4.21); type is CASH_OUT (raised the score, +3.44); type is not PAYMENT (raised the score, +1.39).",
+   "rule_ids": [
+    "RULE_001_HIGH_VALUE",
+    "RULE_002_DRAINAGE_RAIL",
+    "RULE_004_LARGE_ROUND_AMOUNT"
+   ],
+   "rule_tier": "HIGH"
+  },
+  {
+   "transaction_id": 6362580,
+   "step": 741,
+   "simulated_day": 31,
+   "transaction_hour": 20,
+   "type": "CASH_OUT",
+   "amount": 10000000.0,
+   "evaluation_period": "sealed_test_reported",
+   "risk_score": 0.9892650499023434,
+   "model_summary": "Model score 0.9893 reached the alert threshold 0.9463. The inputs that moved the score most were: amount $10,000,000.00 (raised the score, +4.25); type is CASH_OUT (raised the score, +3.71); type is not PAYMENT (raised the score, +1.36).",
+   "rule_ids": [
+    "RULE_001_HIGH_VALUE",
+    "RULE_002_DRAINAGE_RAIL",
+    "RULE_004_LARGE_ROUND_AMOUNT"
+   ],
+   "rule_tier": "HIGH"
+  },
+  {
+   "transaction_id": 6362579,
+   "step": 741,
+   "simulated_day": 31,
+   "transaction_hour": 20,
+   "type": "TRANSFER",
+   "amount": 10000000.0,
+   "evaluation_period": "sealed_test_reported",
+   "risk_score": 0.9670748134376543,
+   "model_summary": "Model score 0.9671 reached the alert threshold 0.9463. The inputs that moved the score most were: first-time recipient (no earlier payments received) (raised the score, +4.27); amount $10,000,000.00 (raised the score, +2.25); type is not CASH_IN (raised the score, +1.19).",
+   "rule_ids": [
+    "RULE_001_HIGH_VALUE",
+    "RULE_002_DRAINAGE_RAIL",
+    "RULE_004_LARGE_ROUND_AMOUNT"
+   ],
+   "rule_tier": "HIGH"
+  },
+  {
+   "transaction_id": 6362577,
+   "step": 741,
+   "simulated_day": 31,
+   "transaction_hour": 20,
+   "type": "TRANSFER",
+   "amount": 10000000.0,
+   "evaluation_period": "sealed_test_reported",
+   "risk_score": 0.9670748134376543,
+   "model_summary": "Model score 0.9671 reached the alert threshold 0.9463. The inputs that moved the score most were: first-time recipient (no earlier payments received) (raised the score, +4.27); amount $10,000,000.00 (raised the score, +2.25); type is not CASH_IN (raised the score, +1.19).",
+   "rule_ids": [
+    "RULE_001_HIGH_VALUE",
+    "RULE_002_DRAINAGE_RAIL",
+    "RULE_004_LARGE_ROUND_AMOUNT"
+   ],
+   "rule_tier": "HIGH"
+  },
+  {
+   "transaction_id": 6362583,
+   "step": 741,
+   "simulated_day": 31,
+   "transaction_hour": 20,
+   "type": "TRANSFER",
+   "amount": 10000000.0,
+   "evaluation_period": "sealed_test_reported",
+   "risk_score": 0.9670748134376543,
+   "model_summary": "Model score 0.9671 reached the alert threshold 0.9463. The inputs that moved the score most were: first-time recipient (no earlier payments received) (raised the score, +4.27); amount $10,000,000.00 (raised the score, +2.25); type is not CASH_IN (raised the score, +1.19).",
+   "rule_ids": [
+    "RULE_001_HIGH_VALUE",
+    "RULE_002_DRAINAGE_RAIL",
+    "RULE_004_LARGE_ROUND_AMOUNT"
+   ],
+   "rule_tier": "HIGH"
+  },
+  {
+   "transaction_id": 6362585,
+   "step": 741,
+   "simulated_day": 31,
+   "transaction_hour": 20,
+   "type": "TRANSFER",
+   "amount": 5674547.89,
+   "evaluation_period": "sealed_test_reported",
+   "risk_score": 0.9670748134376543,
+   "model_summary": "Model score 0.9671 reached the alert threshold 0.9463. The inputs that moved the score most were: first-time recipient (no earlier payments received) (raised the score, +4.27); amount $5,674,548.00 (raised the score, +2.25); type is not CASH_IN (raised the score, +1.19).",
+   "rule_ids": [
+    "RULE_001_HIGH_VALUE",
+    "RULE_002_DRAINAGE_RAIL"
+   ],
+   "rule_tier": "MEDIUM"
+  },
+  {
+   "transaction_id": 6362581,
+   "step": 741,
+   "simulated_day": 31,
+   "transaction_hour": 20,
+   "type": "TRANSFER",
+   "amount": 10000000.0,
+   "evaluation_period": "sealed_test_reported",
+   "risk_score": 0.9670748134376543,
+   "model_summary": "Model score 0.9671 reached the alert threshold 0.9463. The inputs that moved the score most were: first-time recipient (no earlier payments received) (raised the score, +4.27); amount $10,000,000.00 (raised the score, +2.25); type is not CASH_IN (raised the score, +1.19).",
+   "rule_ids": [
+    "RULE_001_HIGH_VALUE",
+    "RULE_002_DRAINAGE_RAIL",
+    "RULE_004_LARGE_ROUND_AMOUNT"
+   ],
+   "rule_tier": "HIGH"
+  },
+  {
+   "transaction_id": 6362574,
+   "step": 740,
+   "simulated_day": 31,
+   "transaction_hour": 19,
+   "type": "CASH_OUT",
+   "amount": 1312694.5,
+   "evaluation_period": "sealed_test_reported",
+   "risk_score": 0.9634795227413758,
+   "model_summary": "Model score 0.9635 reached the alert threshold 0.9463. The inputs that moved the score most were: amount $1,312,694.50 (raised the score, +4.69); type is not CASH_IN (raised the score, +1.59); type is not PAYMENT (raised the score, +1.29).",
+   "rule_ids": [
+    "RULE_001_HIGH_VALUE",
+    "RULE_002_DRAINAGE_RAIL"
+   ],
+   "rule_tier": "MEDIUM"
+  },
+  {
+   "transaction_id": 6362576,
+   "step": 740,
+   "simulated_day": 31,
+   "transaction_hour": 19,
+   "type": "CASH_OUT",
+   "amount": 1755647.81,
+   "evaluation_period": "sealed_test_reported",
+   "risk_score": 0.9621370158613632,
+   "model_summary": "Model score 0.9621 reached the alert threshold 0.9463. The inputs that moved the score most were: amount $1,755,647.75 (raised the score, +4.14); type is CASH_OUT (raised the score, +3.44); type is not PAYMENT (raised the score, +1.20).",
+   "rule_ids": [
+    "RULE_001_HIGH_VALUE",
+    "RULE_002_DRAINAGE_RAIL"
+   ],
+   "rule_tier": "MEDIUM"
+  },
+  {
+   "transaction_id": 6362564,
+   "step": 739,
+   "simulated_day": 31,
+   "transaction_hour": 18,
+   "type": "CASH_OUT",
+   "amount": 7758036.72,
+   "evaluation_period": "sealed_test_reported",
+   "risk_score": 0.9843556562937295,
+   "model_summary": "Model score 0.9844 reached the alert threshold 0.9463. The inputs that moved the score most were: amount $7,758,036.50 (raised the score, +4.35); type is CASH_OUT (raised the score, +3.69); type is not PAYMENT (raised the score, +1.31).",
+   "rule_ids": [
+    "RULE_001_HIGH_VALUE",
+    "RULE_002_DRAINAGE_RAIL"
+   ],
+   "rule_tier": "MEDIUM"
+  },
+  {
+   "transaction_id": 6362546,
+   "step": 737,
+   "simulated_day": 31,
+   "transaction_hour": 16,
+   "type": "CASH_OUT",
+   "amount": 2194533.79,
+   "evaluation_period": "sealed_test_reported",
+   "risk_score": 0.980569602909673,
+   "model_summary": "Model score 0.9806 reached the alert threshold 0.9463. The inputs that moved the score most were: amount $2,194,533.75 (raised the score, +4.10); type is CASH_OUT (raised the score, +3.56); type is not PAYMENT (raised the score, +1.29).",
+   "rule_ids": [
+    "RULE_001_HIGH_VALUE",
+    "RULE_002_DRAINAGE_RAIL"
+   ],
+   "rule_tier": "MEDIUM"
+  },
+  {
+   "transaction_id": 6362550,
+   "step": 737,
+   "simulated_day": 31,
+   "transaction_hour": 16,
+   "type": "CASH_OUT",
+   "amount": 1281113.84,
+   "evaluation_period": "sealed_test_reported",
+   "risk_score": 0.9589645464549791,
+   "model_summary": "Model score 0.9590 reached the alert threshold 0.9463. The inputs that moved the score most were: amount $1,281,113.88 (raised the score, +4.60); type is not CASH_IN (raised the score, +1.58); type is not PAYMENT (raised the score, +1.29).",
+   "rule_ids": [
+    "RULE_001_HIGH_VALUE",
+    "RULE_002_DRAINAGE_RAIL"
+   ],
+   "rule_tier": "MEDIUM"
+  },
+  {
+   "transaction_id": 6362540,
+   "step": 736,
+   "simulated_day": 31,
+   "transaction_hour": 15,
+   "type": "CASH_OUT",
+   "amount": 3912252.81,
+   "evaluation_period": "sealed_test_reported",
+   "risk_score": 0.9867004583973966,
+   "model_summary": "Model score 0.9867 reached the alert threshold 0.9463. The inputs that moved the score most were: amount $3,912,252.75 (raised the score, +4.23); type is CASH_OUT (raised the score, +3.68); type is not PAYMENT (raised the score, +1.34).",
+   "rule_ids": [
+    "RULE_001_HIGH_VALUE",
+    "RULE_002_DRAINAGE_RAIL"
+   ],
+   "rule_tier": "MEDIUM"
+  },
+  {
+   "transaction_id": 6362530,
+   "step": 736,
+   "simulated_day": 31,
+   "transaction_hour": 15,
+   "type": "CASH_OUT",
+   "amount": 10000000.0,
+   "evaluation_period": "sealed_test_reported",
+   "risk_score": 0.9792030250057359,
+   "model_summary": "Model score 0.9792 reached the alert threshold 0.9463. The inputs that moved the score most were: amount $10,000,000.00 (raised the score, +4.55); type is CASH_OUT (raised the score, +2.18); type is not CASH_IN (raised the score, +1.34).",
+   "rule_ids": [
+    "RULE_001_HIGH_VALUE",
+    "RULE_002_DRAINAGE_RAIL",
+    "RULE_004_LARGE_ROUND_AMOUNT"
+   ],
+   "rule_tier": "HIGH"
+  },
+  {
+   "transaction_id": 6362532,
+   "step": 736,
+   "simulated_day": 31,
+   "transaction_hour": 15,
+   "type": "CASH_OUT",
+   "amount": 1314660.84,
+   "evaluation_period": "sealed_test_reported",
+   "risk_score": 0.9589645464549791,
+   "model_summary": "Model score 0.9590 reached the alert threshold 0.9463. The inputs that moved the score most were: amount $1,314,660.88 (raised the score, +4.61); type is not CASH_IN (raised the score, +1.58); type is not PAYMENT (raised the score, +1.28).",
+   "rule_ids": [
+    "RULE_001_HIGH_VALUE",
+    "RULE_002_DRAINAGE_RAIL"
+   ],
+   "rule_tier": "MEDIUM"
+  },
+  {
+   "transaction_id": 6362508,
+   "step": 734,
+   "simulated_day": 31,
+   "transaction_hour": 13,
+   "type": "CASH_OUT",
+   "amount": 10000000.0,
+   "evaluation_period": "sealed_test_reported",
+   "risk_score": 0.9869897479941288,
+   "model_summary": "Model score 0.9870 reached the alert threshold 0.9463. The inputs that moved the score most were: amount $10,000,000.00 (raised the score, +4.40); type is CASH_OUT (raised the score, +3.69); type is not PAYMENT (raised the score, +1.33).",
+   "rule_ids": [
+    "RULE_001_HIGH_VALUE",
+    "RULE_002_DRAINAGE_RAIL",
+    "RULE_004_LARGE_ROUND_AMOUNT"
+   ],
+   "rule_tier": "HIGH"
+  },
+  {
+   "transaction_id": 6362512,
+   "step": 734,
+   "simulated_day": 31,
+   "transaction_hour": 13,
+   "type": "CASH_OUT",
+   "amount": 2079746.13,
+   "evaluation_period": "sealed_test_reported",
+   "risk_score": 0.9790582678106989,
+   "model_summary": "Model score 0.9791 reached the alert threshold 0.9463. The inputs that moved the score most were: amount $2,079,746.12 (raised the score, +4.40); type is CASH_OUT (raised the score, +2.19); type is not CASH_IN (raised the score, +1.33).",
+   "rule_ids": [
+    "RULE_001_HIGH_VALUE",
+    "RULE_002_DRAINAGE_RAIL"
+   ],
+   "rule_tier": "MEDIUM"
+  }
+ ],
+ "runs": {
+  "runs": 44,
+  "rows_scored": 6362620,
+  "alerts": 3490,
+  "last_run": "2026-11-20 18:41:56.806021+05:30"
+ },
+ "champion": {
+  "artifact": "models/hgb_e4_recipient.joblib",
+  "artifact_sha256": "296132a5f5433b5cc7141b9698bb7e95729011a7673a6da36ce779665a5f3821",
+  "model_name": "HistGradientBoosting baseline7 + recipient prior count (class weight 1:50)",
+  "operating_point": {
+   "policy": "fixed threshold calibrated to 100 alerts per simulated day on steps 551-650",
+   "alerts_per_day": 100,
+   "threshold": 0.9462684948346494
+  },
+  "evidence": {
+   "report": "reports/final_test/p15_final_test.md",
+   "preregistration": "reports/final_test/p15_preregistration.json",
+   "sealed_test_average_precision": 0.6966,
+   "sealed_test_average_precision_ci95": [
+    0.638,
+    0.765
+   ],
+   "baseline_E0_average_precision": 0.4962,
+   "paired_ap_difference_ci95": [
+    0.1441,
+    0.2308
+   ],
+   "decision": "PROMOTE E4"
+  }
+ },
+ "generated_utc": "2026-11-20 17:39 UTC",
+ "source": {
+  "database": "localhost:55432/finsight_p3_test"
+ }
+}

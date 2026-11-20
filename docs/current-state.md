@@ -44,6 +44,17 @@ checks enforce it. `src/finsight/score_transactions.py` writes scores in `bulk` 
 never reads labels, verifies every `transaction_id` against `fct_transactions`, refuses to re-score without `--replace`,
 and commits each run as one transaction. Rollback (manual only): `sql/admin/drop_scoring_objects.sql`.
 
+### KPI views and dashboard (Milestones 6–7, built; not yet applied to the live database)
+
+| View | Grain | Notes |
+|---|---|---|
+| `vw_alert_workload_daily` | model × simulated day × period | scored transactions, alerts, alert rate, first-time-recipient alerts, full-day flag |
+| `vw_alert_mix` | model × period × type × hour band × amount band | alert counts |
+| `vw_alert_reason_summary` | model × period × source × reason | top model contributor and rule conditions, counted separately |
+
+None of them reads fraud labels. `src/finsight/dashboard.py` builds `dashboard/index.html` (inline CSS, no scripts or external
+resources, light/dark themes) from views 01–08 in a read-only session. Power BI is no longer planned.
+
 ## 3. Features
 
 | Feature | Used by champion E4 | Notes |

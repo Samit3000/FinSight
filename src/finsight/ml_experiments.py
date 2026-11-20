@@ -1,6 +1,9 @@
 """
 FinSight — ML Performance Improvement & Experimentation Engine.
 
+LEGACY (kept for history and its tests). The active champion is loaded through finsight.champion and trained through finsight.train; defaults in this module point at the previous champion and do not support the recipient-history feature.
+
+
 This module provides an audit-grade experimentation and benchmarking suite for
 FinSight's fraud detection engine:
 1. Baseline Reproduction & Forensic Audit (Phase 1).

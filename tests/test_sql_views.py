@@ -102,14 +102,20 @@ def test_live_postgres_view_reconciliation_if_available():
     conn = psycopg2.connect(
         host=cfg.host, port=cfg.port, dbname=cfg.name, user=cfg.user, password=cfg.password
     )
-    conn.autocommit = True
     cur = conn.cursor()
 
-    # Apply views
-    views_dir = Path("sql/views")
-    for vf in EXPECTED_VIEW_FILES:
-        sql = (views_dir / vf).read_text(encoding="utf-8")
-        cur.execute(sql)
+    # Read-only by default: the test reconciles whatever views are deployed and never changes the database.
+    # Re-applying the view files is an explicit opt-in (FINSIGHT_LIVE_APPLY_VIEWS=1), because it writes to the database.
+    import os
+    if os.environ.get("FINSIGHT_LIVE_APPLY_VIEWS") == "1":
+        conn.autocommit = True
+        views_dir = Path("sql/views")
+        for vf in EXPECTED_VIEW_FILES:
+            cur.execute((views_dir / vf).read_text(encoding="utf-8"))
+    else:
+        conn.set_session(readonly=True, autocommit=True)
+        cur.execute("SHOW transaction_read_only")
+        assert cur.fetchone()[0] == "on"
 
     # 1. Authoritative source counts
     cur.execute("""
