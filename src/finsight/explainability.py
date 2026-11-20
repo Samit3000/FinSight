@@ -321,6 +321,12 @@ def _semantic_feature_description(feature: str, value: Optional[float]) -> str:
         return f"Simulated hour-of-day ({int(value) if value is not None else 0:02d}:00)"
     if feature == "transaction_day":
         return f"Simulated calendar day (Day {int(value) if value is not None else 0})"
+    if feature == "recipient_prior_in_count":
+        if value is None:
+            return "Payments the recipient received in earlier hours"
+        n = int(value)
+        return "First-time recipient (no payments received in earlier hours)" if n == 0 else (
+            f"Recipient received {n} payment{'s' if n != 1 else ''} in earlier hours")
     if feature == "is_merchant_dest":
         return "Merchant destination indicator (starts with 'M')" if value and value >= 0.5 else "Non-merchant/customer destination"
     return f"{feature} = {value}"
@@ -399,6 +405,8 @@ def generate_local_explanation(
             pos_phrases.append(f"hour {sim_hour:02d}:00 (+{a:.3f})")
         elif f == "transaction_day":
             pos_phrases.append(f"day {sim_day} (+{a:.3f})")
+        elif f == "recipient_prior_in_count":
+            pos_phrases.append(f"recipient with {int(v or 0)} earlier payments (+{a:.3f})")
         else:
             pos_phrases.append(f"{f} (+{a:.3f})")
 
@@ -419,6 +427,8 @@ def generate_local_explanation(
             neg_phrases.append(f"hour {sim_hour:02d}:00 ({a:.3f})")
         elif f == "transaction_day":
             neg_phrases.append(f"day {sim_day} ({a:.3f})")
+        elif f == "recipient_prior_in_count":
+            neg_phrases.append(f"recipient with {int(v or 0)} earlier payments ({a:.3f})")
         else:
             neg_phrases.append(f"{f} ({a:.3f})")
 
@@ -605,14 +615,14 @@ def plot_shap_summary(
 
 def run_explainability_pipeline(
     data_path: Union[str, Path] = "data/processed/transactions.csv.gz",
-    model_path: Union[str, Path] = DEFAULT_MODEL_PATH,
+    model_path: Optional[Union[str, Path]] = None,
     reports_dir: Union[str, Path] = DEFAULT_REPORTS_DIR,
     sample_size: int = DEFAULT_SAMPLE_SIZE,
     random_state: int = DEFAULT_RANDOM_SEED,
 ) -> Dict[str, Any]:
     """Execute end-to-end Milestone 5 Explainability workflow.
 
-    1. Loads the ablated gradient-boosting model bundle.
+    1. Loads the active champion from models/champion.json (hash-checked), or `model_path` if given.
     2. Samples a reproducible development-holdout slice (551 <= step <= 650; locked test excluded).
     3. Extracts canonical features with zero leakage.
     4. Computes exact TreeSHAP attributions and validates additivity.
@@ -622,7 +632,7 @@ def run_explainability_pipeline(
 
     Args:
         data_path: Path to transactions dataset.
-        model_path: Path to model artifact.
+        model_path: Path to a model artifact; None (default) explains the active champion.
         reports_dir: Directory where reports and artifacts are saved.
         sample_size: Number of holdout transactions to sample.
         random_state: Random seed for sampling.
@@ -636,19 +646,36 @@ def run_explainability_pipeline(
 
     logger.info("Starting FinSight Milestone 5 Explainability Pipeline...")
 
-    # 1. Load model artifact
-    model, feature_names, threshold, bundle = load_model_for_explainability(model_path)
+    # 1. Load model artifact (active champion by default)
+    model_context: Dict[str, Any] = {}
+    if model_path is None:
+        from finsight.champion import load_champion, operating_threshold
+        from finsight.train import build_features, load_development_data
 
-    # 2. Sample holdout data
-    sampled_df = sample_holdout_for_explanation(
-        data_path=data_path,
-        sample_size=sample_size,
-        random_state=random_state,
-        min_step=551,
-    )
-
-    # 3. Construct feature matrix & traceability reference
-    X_sample, ref_df = build_explanation_dataset(sampled_df, expected_feature_names=feature_names)
+        champ = load_champion()
+        entry = champ["entry"]
+        model, feature_names = champ["model"], champ["feature_names"]
+        threshold = operating_threshold(champ)
+        artifact_label = entry["artifact"]
+        model_context = {"champion": entry}
+        cfg = champ["config"]
+        # 2. Full development frame first, so recipient history is complete; then sample 551-650.
+        dev = load_development_data(Path(data_path), cfg)
+        window = dev[(dev["step"] >= 551) & (dev["step"] <= FINAL_TEST_MIN_STEP - 1)]
+        sampled_df = window.sample(n=min(sample_size, len(window)), random_state=random_state).sort_index()
+        # 3. Feature matrix exactly as the champion was trained, plus a traceability reference
+        X_sample = build_features(sampled_df, cfg)[feature_names]
+        ref_df = sampled_df.copy()
+    else:
+        model, feature_names, threshold, bundle = load_model_for_explainability(model_path)
+        artifact_label = str(model_path)
+        sampled_df = sample_holdout_for_explanation(
+            data_path=data_path,
+            sample_size=sample_size,
+            random_state=random_state,
+            min_step=551,
+        )
+        X_sample, ref_df = build_explanation_dataset(sampled_df, expected_feature_names=feature_names)
 
     # 4. TreeSHAP computation & additivity validation
     explainer = init_tree_explainer(model)
@@ -720,7 +747,7 @@ def run_explainability_pipeline(
     sample_fraud_cnt = int(ref_df["isFraud"].sum())
     fraud_prev_pct = round(float(ref_df["isFraud"].mean() * 100.0), 4)
     meta = ExplainabilityMetadata(
-        model_artifact=str(model_path),
+        model_artifact=artifact_label,
         estimator_class=type(model).__name__,
         explainer_type=type(explainer).__name__,
         explanation_output="raw (margin log-odds score; mapped to probability via sigmoid)",
@@ -748,6 +775,7 @@ def run_explainability_pipeline(
         local_explanations=local_explanations,
         elapsed_seconds=elapsed,
         output_path=report_md_path,
+        model_context=model_context,
     )
     logger.info("Saved explainability markdown report to %s", report_md_path)
 
@@ -772,8 +800,9 @@ def _generate_markdown_report(
     local_explanations: List[Dict[str, Any]],
     elapsed_seconds: float,
     output_path: Path,
+    model_context: Optional[Dict[str, Any]] = None,
 ) -> None:
-    """Render comprehensive, human-readable Milestone 5 explainability markdown report."""
+    """Render the explainability markdown report; every figure comes from this run or the registry."""
     top_table_rows = "\n".join([
         f"| {row['rank']} | `{row['feature']}` | {row['mean_abs_shap']:.4f} | {row['importance_share_pct']:.1f}% |"
         for _, row in importance_df.iterrows()
@@ -808,73 +837,100 @@ def _generate_markdown_report(
 
     local_cases_section = "\n---\n\n".join(local_cases_markdown)
 
-    content = f"""# FinSight — Milestone 5: Model Explainability Report (TreeSHAP)
+    champ = (model_context or {}).get("champion")
+    if champ:
+        ev = champ["evidence"]
+        model_section = (
+            f"- **Model explained:** the active champion `{champ['artifact']}` ({champ['model_name']}), as named in "
+            f"`models/champion.json` (sha256 `{champ['artifact_sha256'][:12]}…`).\n"
+            f"- **Why this model:** it passed the pre-registered one-time sealed test on steps 651-743 "
+            f"(average precision {ev['sealed_test_average_precision']:.4f} vs {ev['baseline_E0_average_precision']:.4f} "
+            f"for the previous champion configuration; see `{ev['report']}`).\n"
+            f"- **Decision threshold used here:** {champ['operating_point']['threshold']:.4f} "
+            f"({champ['operating_point']['policy']}).\n"
+            f"- **Sample window:** steps 551-650 are this model's calibration window, so the cases below explain model "
+            f"behaviour; they are not a performance estimate."
+        )
+    else:
+        model_section = f"- **Model explained:** `{meta.model_artifact}` (explicitly requested artifact)."
 
-**Generated UTC:** {meta.generated_at_utc}  
-**Model Artifact:** `{meta.model_artifact}` ({meta.estimator_class})  
-**Explainer Algorithm:** `{meta.explainer_type}` (TreeSHAP exact additivity)  
-**Sample Population:** {meta.sample_size:,} development-holdout transactions (`551 <= step <= 650`; locked final test excluded; Seed: `{meta.random_seed}`)  
-**Pipeline Runtime:** {elapsed_seconds} seconds  
+    descriptions = {
+        "transaction_hour": "hour of day; normal traffic is low at night, so night-time transfers score higher",
+        "amount": "transaction size; large transfers and cash-outs score higher",
+        "recipient_prior_in_count": "payments the recipient received in earlier hours; first-time recipients score higher",
+        "type_TRANSFER": "TRANSFER rail flag (one of the two rails where PaySim simulates fraud)",
+        "type_CASH_OUT": "CASH_OUT rail flag (one of the two rails where PaySim simulates fraud)",
+        "type_PAYMENT": "PAYMENT rail flag (no simulated fraud on this rail)",
+        "type_CASH_IN": "CASH_IN rail flag (no simulated fraud on this rail)",
+        "type_DEBIT": "DEBIT rail flag (no simulated fraud on this rail)",
+        "log1p_amount": "log-scaled amount (same ordering as amount)",
+        "transaction_day": "simulated day; tracks the volume collapse after day 17",
+    }
+    findings = "\n".join(
+        f"{int(r['rank'])}. `{r['feature']}` — {r['importance_share_pct']:.1f}% of attribution: "
+        f"{descriptions.get(r['feature'], 'model input')}."
+        for _, r in importance_df.head(4).iterrows()
+    )
+
+    content = f"""# FinSight — Model Explainability Report (TreeSHAP)
+
+**Generated UTC:** {meta.generated_at_utc}
+**Model Artifact:** `{meta.model_artifact}` ({meta.estimator_class})
+**Explainer Algorithm:** `{meta.explainer_type}` (TreeSHAP exact additivity)
+**Sample Population:** {meta.sample_size:,} development transactions (`551 <= step <= 650`; {meta.sample_fraud_count:,} labelled fraud, {meta.fraud_prevalence_pct:.3f}%; seed `{meta.random_seed}`; sealed final test excluded)
+**Decision Threshold:** {meta.decision_threshold:.4f}
+**Pipeline Runtime:** {elapsed_seconds} seconds
 
 ---
 
-## 1. Executive Summary & Governance Blueprint
+## 1. Executive Summary & Governance
 
-This report delivers global and local explainability for FinSight's supervised fraud baseline model.
-Explanations are computed using **TreeSHAP** (Shapley Additive exPlanations), an axiomatic game-theoretic
-framework that assigns each feature its exact marginal contribution to the model's raw output.
+This report explains how FinSight's model turns transaction attributes into a risk score, using **TreeSHAP**
+(Shapley Additive exPlanations), which assigns each feature its exact contribution to the model's raw output.
 
 > [!IMPORTANT]
-> **Non-Causal Explanation Governance Notice:**
-> SHAP attributions reflect the **mathematical mechanics of the trained estimator on synthetic PaySim data**.
-> They quantify how strongly feature values shift the model's log-odds score relative to the dataset background prior.
-> SHAP values do **NOT** prove physical fraud causation, legal guilt, or operational intent.
+> **Non-causal explanations:** SHAP attributions describe the trained model on synthetic PaySim data. They show how
+> feature values moved the model's log-odds score away from the background prior. They do **not** prove fraud,
+> intent or causation.
 
-### Selected Model Artifact Rationale
-- **Model Selected:** [`models/hist_gradient_boosting_ablated.joblib`](file:///{_src_root}/models/hist_gradient_boosting_ablated.joblib)
-- **Rationale:** Feature ablation in Milestone 4 verified that `is_merchant_dest` is an artifactual PaySim shortcut that provides exactly `+0.0000` marginal PR-AUC. In PaySim, merchant destinations appear exclusively on legitimate `PAYMENT` transactions and never experience simulated fraud. The ablated model omits this spurious shortcut while maintaining identical holdout PR-AUC (`0.3836`) and F1 score (`0.4583`), making it cleaner, more defensible, and superior for explainability.
+### Model
+{model_section}
 
 ---
 
 ## 2. Mathematical Interpretation & Additivity Verification
 
 - **Explanation Output Target:** Raw margin score (log-odds $\\text{{logit}}(p) = \\log\\frac{{p}}{{1-p}}$).
-- **Base Value (Expected Output):** $\\mathbb{{E}}[f(x)] = {meta.base_value_log_odds:+.6f}$ (Base Fraud Prior: **{meta.base_value_probability*100:.3f}%**).
+- **Base Value (Expected Output):** $\\mathbb{{E}}[f(x)] = {meta.base_value_log_odds:+.6f}$ (Base score: **{meta.base_value_probability*100:.3f}%**; class-weighted training, so not a fraud rate).
 - **Additivity Property:**
   $$f(x) = \\phi_0 + \\sum_{{j=1}}^M \\phi_j(x)$$
-  Where $\\phi_0$ is the base value and $\\phi_j(x)$ is the SHAP attribution for feature $j$.
-- **Empirical Additivity Verification:** Max reconstruction error between `model.decision_function(X)` and SHAP sum across all {meta.sample_size:,} sample rows is **`{meta.max_reconstruction_error:.2e}`** (within floating-point numerical tolerance).
+- **Empirical Additivity Verification:** Max reconstruction error between `model.decision_function(X)` and the SHAP sum across all {meta.sample_size:,} sample rows is **`{meta.max_reconstruction_error:.2e}`**.
 
 ---
 
 ## 3. Global Feature Importance Ranking
 
-Global feature importance is measured by the **mean absolute SHAP value** across the representative holdout population:
+Mean absolute SHAP value across the sample:
 $$\\text{{Importance}}_j = \\frac{{1}}{{N}} \\sum_{{i=1}}^N |\\phi_j(x_i)|$$
 
 | Rank | Feature Name | Mean |SHAP| (Log-Odds) | Attribution Share (%) |
 | :---: | :--- | :---: | :---: |
 {top_table_rows}
 
-### Key Global Findings:
-1. **Transaction Type Dominance:** `type_PAYMENT` (Rank 1, 27.4%) and `type_CASH_IN` (Rank 3, 23.5%) represent over 50% of total attribution magnitude. In PaySim, simulated fraud is strictly zero on these rails, so transactions processed on them receive massive negative attributions that instantly suppress risk scores.
-2. **Simulation Temporal Drift:** `transaction_day` (Rank 2, 24.3%) drives significant attribution because PaySim features strong temporal fraud acceleration in later simulation steps (fraud prevalence increases 13x from 0.084% in training to 1.093% in final holdout). The gradient-boosting trees learned calendar-day splits to adapt baseline risk upwards in later steps.
-3. **Primary Fraud Rails:** `type_CASH_OUT` (Rank 4, 14.0%) and `type_TRANSFER` (Rank 5, 4.6%) are the exclusive rails where PaySim simulates fraud, acting as positive structural risk drivers.
-4. **Monetary Value Impact:** `amount` (Rank 7, 2.3%) and `log1p_amount` (Rank 8, 1.1%) act as continuous magnitude escalators. Outlier monetary values provide the strongest positive impetus pushing individual cash-outs over the operational threshold ($0.9900$), but their population-wide mean absolute impact is smaller because the vast majority of holdout transactions are moderate in size.
+### Top drivers in this run
+{findings}
 
 ---
 
 ## 4. Global Attribution Distribution (Summary Beeswarm Plot)
 
-The SHAP summary beeswarm plot visualizes feature value directionality (red = high value, blue = low value) against its positive or negative impact on the fraud log-odds margin.
+Red = high feature value, blue = low; position = push towards (right) or away from (left) an alert.
 
-![Global SHAP Summary Plot](file:///{output_path.parent.resolve().as_posix()}/global_shap_summary.png)
+![Global SHAP Summary Plot](global_shap_summary.png)
 
 ---
 
 ## 5. Local Transaction Explanations (Analyst Audit Log)
-
-The following representative cases demonstrate local transaction auditability for compliance officers and fraud operations teams.
 
 {local_cases_section}
 
@@ -882,24 +938,18 @@ The following representative cases demonstrate local transaction auditability fo
 
 ## 6. Known Limitations & Real-World Caveats
 
-1. **PaySim Synthetic Generator Homogeneity:**
-   - In PaySim, fraudulent agents execute rigid liquidation scripts (`TRANSFER` followed immediately by `CASH_OUT`).
-   - Consequently, the model relies heavily on rail types as binary filters. In real banking systems, fraud occurs across all rails including merchant credit cards, authorized push payments (APP), and direct debits.
-2. **Local Explanation Phrasing:**
-   - Explanations must always state "the model score was pushed higher by..." rather than "the customer committed fraud because...".
-3. **Sample-Based Estimation:**
-   - Global importance metrics represent a sample of {meta.sample_size:,} holdout transactions. While statistically stable (seed `{meta.random_seed}`), minor rank variations can occur across different sample windows.
-4. **Uncalibrated Model Scores:**
-   - Sigmoid probabilities represent model decision margins, not calibrated empirical posterior probabilities.
+1. **Synthetic data:** PaySim simulates fraud only on TRANSFER and CASH_OUT, so rail flags act as filters; real fraud spans more channels.
+2. **Phrasing:** say "the model score was pushed higher by…", never "the customer committed fraud because…".
+3. **Sample-based:** importance comes from {meta.sample_size:,} sampled transactions (seed `{meta.random_seed}`); ranks can shift slightly with another sample.
+4. **Uncalibrated scores:** the sigmoid of the margin is a model score, not a calibrated probability.
 
 ---
 
-## 7. Artifact Reconciliation & Audit Discrepancy Analysis
+## 7. Provenance
 
-During initial exploratory benchmarking, an unverified heuristic note suggested `type_PAYMENT` (~38.1%), `amount` (~24.1%), and `transaction_day` (~3.0%). A rigorous audit confirms:
-1. **Exploratory Estimate vs. Computed Holdout Reality:** The earlier figures came from exploratory scratch notes assuming monetary amount would be the primary continuous driver, rather than actual holdout execution.
-2. **Root Cause of Ranking:** In the actual unseen holdout partition (`step >= 551`, days 23–31), `transaction_day` has high attribution magnitude (24.3%) due to the 13x temporal fraud rate surge in later simulation steps, while `amount` is moderate (2.3%) across typical everyday transactions.
-3. **Complete Artifact Consistency:** All outputs in `reports/explainability/` (`global_shap_importance.csv`, `global_shap_summary.png`, `local_explanations.json`, `explainability_metadata.json`, and this report) derive synchronously from the exact same run of `models/hist_gradient_boosting_ablated.joblib` across $N=2,000$ holdout transactions (seed 42, max reconstruction error $1.34 \times 10^{-14}$).
+All files in `reports/explainability/` (`global_shap_importance.csv`, `global_shap_summary.png`, `local_explanations.json`,
+`explainability_metadata.json` and this report) come from one run of `{meta.model_artifact}` on {meta.sample_size:,} transactions
+(seed {meta.random_seed}). Regenerate with `py src/finsight/explainability.py`.
 """
     output_path.write_text(content, encoding="utf-8")
 
@@ -909,7 +959,7 @@ if __name__ == "__main__":
     logging.basicConfig(level=logging.INFO, format="%(asctime)s [%(levelname)s] %(name)s: %(message)s")
     parser = argparse.ArgumentParser(description="FinSight Milestone 5 — Explainability Pipeline")
     parser.add_argument("--data-path", default="data/processed/transactions.csv.gz", help="Path to transactions CSV")
-    parser.add_argument("--model-path", default=DEFAULT_MODEL_PATH, help="Path to model artifact")
+    parser.add_argument("--model-path", default=None, help="Model artifact (default: active champion in models/champion.json)")
     parser.add_argument("--reports-dir", default=DEFAULT_REPORTS_DIR, help="Output directory for reports")
     parser.add_argument("--sample-size", type=int, default=DEFAULT_SAMPLE_SIZE, help="Holdout sample size")
     parser.add_argument("--random-seed", type=int, default=DEFAULT_RANDOM_SEED, help="Sampling seed")

@@ -59,7 +59,7 @@ def test_benchmark_view_is_generated_and_matches_source_rows():
     sql = (Path("sql/views") / "04_vw_risk_detection_benchmark.sql").read_text(encoding="utf-8")
     assert "GENERATED FILE" in sql and "benchmark_view.py" in sql
     source = json.loads(Path("reports/evaluation/benchmark_rows.json").read_text(encoding="utf-8"))
-    assert {r["evaluation_partition"] for r in source["rows"]} == {"validation", "development_holdout"}
+    assert {r["evaluation_partition"] for r in source["rows"]} == {"validation", "development_holdout", "sealed_final_test"}
     for r in source["rows"]:
         fragment = f"{r['true_positives']}, {r['false_positives']}, {r['false_negatives']}, {r['true_negatives']}"
         assert fragment in sql, f"View SQL out of sync with source rows for {r['system_name']}"
@@ -209,15 +209,16 @@ def test_live_postgres_view_reconciliation_if_available():
         FROM vw_risk_detection_benchmark;
     """)
     rows = cur.fetchall()
-    assert len(rows) == 10, f"Expected 10 benchmark entries, got {len(rows)}"
+    assert len(rows) == 14, f"Expected 14 benchmark entries, got {len(rows)}"
 
     expected = {
         "validation": (151302, 1008),
         "development_holdout": (115770, 1126),
+        "sealed_final_test": (80831, 1022),  # copied from the recorded P1.5 result, never re-scored
     }
     for r in rows:
         part, name, tp, fp, fn, tn, pop, alerts, prec, rec, f1 = r
-        assert part in expected, f"Unexpected partition {part} (locked final test must not appear)"
+        assert part in expected, f"Unexpected partition {part}"
         expected_pop, expected_fraud = expected[part]
         assert pop == expected_pop, f"Population mismatch for {name}: {pop} != {expected_pop}"
         assert tp + fp == alerts, f"Alert count mismatch for {name}: {tp+fp} != {alerts}"

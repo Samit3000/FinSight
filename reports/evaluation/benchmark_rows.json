@@ -1,7 +1,12 @@
 {
-  "generated_utc": "2026-11-18T10:29:13Z",
+  "generated_utc": "2026-11-20T06:43:49Z",
   "data_sha256": "74cba5b396ce21d08f2ffd859bd95f782622a06871ff35f0e4f3f271213294bd",
-  "champion_artifact_sha256": "56a40585aabf5b548faf3a6f62d685721e1c62ea7880b1ee0847f209fb99c534",
+  "previous_champion_artifact_sha256": "56a40585aabf5b548faf3a6f62d685721e1c62ea7880b1ee0847f209fb99c534",
+  "active_champion_artifact_sha256": "296132a5f5433b5cc7141b9698bb7e95729011a7673a6da36ce779665a5f3821",
+  "sealed_rows_source": {
+    "path": "reports/final_test/p15_final_test.json",
+    "sha256": "607aace19fa9516f4d2170fea98081df31221da92fea2214be4979656723066c"
+  },
   "partitions": {
     "validation": [
       451,
@@ -10,12 +15,16 @@
     "development_holdout": [
       551,
       650
+    ],
+    "sealed_final_test": [
+      651,
+      743
     ]
   },
   "rows": [
     {
       "evaluation_partition": "validation",
-      "system_name": "HistGradientBoosting (frozen champion, 8 features)",
+      "system_name": "HistGradientBoosting (previous champion, 8 features)",
       "operating_point": "t = 0.9660 (validation F1-optimal)",
       "true_positives": 435,
       "false_positives": 863,
@@ -75,7 +84,7 @@
     },
     {
       "evaluation_partition": "development_holdout",
-      "system_name": "HistGradientBoosting (frozen champion, 8 features)",
+      "system_name": "HistGradientBoosting (previous champion, 8 features)",
       "operating_point": "t = 0.9660 (validation F1-optimal)",
       "true_positives": 487,
       "false_positives": 432,
@@ -132,6 +141,54 @@
       "alerts_per_day": 0.0,
       "average_precision": 0.0097,
       "roc_auc": 0.5
+    },
+    {
+      "evaluation_partition": "sealed_final_test",
+      "system_name": "HistGradientBoosting E4 (active champion, recipient count)",
+      "operating_point": "t = 0.9463 (100 alerts/day, set on steps 551-650)",
+      "true_positives": 346,
+      "false_positives": 4,
+      "false_negatives": 676,
+      "true_negatives": 79805,
+      "alerts_per_day": 90.3,
+      "average_precision": 0.6966,
+      "roc_auc": 0.9728
+    },
+    {
+      "evaluation_partition": "sealed_final_test",
+      "system_name": "HistGradientBoosting (champion configuration retrained on steps 1-550)",
+      "operating_point": "t = 0.9927 (100 alerts/day, set on steps 551-650)",
+      "true_positives": 293,
+      "false_positives": 55,
+      "false_negatives": 729,
+      "true_negatives": 79754,
+      "alerts_per_day": 89.8,
+      "average_precision": 0.4962,
+      "roc_auc": 0.9451
+    },
+    {
+      "evaluation_partition": "sealed_final_test",
+      "system_name": "HistGradientBoosting (previous champion, 8 features)",
+      "operating_point": "t = 0.9660 (validation F1-optimal)",
+      "true_positives": 431,
+      "false_positives": 240,
+      "false_negatives": 591,
+      "true_negatives": 79569,
+      "alerts_per_day": 173.2,
+      "average_precision": 0.4909,
+      "roc_auc": 0.9447
+    },
+    {
+      "evaluation_partition": "sealed_final_test",
+      "system_name": "Rule Engine (HIGH tier)",
+      "operating_point": "score >= 70",
+      "true_positives": 200,
+      "false_positives": 56,
+      "false_negatives": 822,
+      "true_negatives": 79753,
+      "alerts_per_day": 66.1,
+      "average_precision": null,
+      "roc_auc": null
     }
   ]
 }

@@ -6,10 +6,17 @@ Regenerates `sql/views/04_vw_risk_detection_benchmark.sql` and
 current rule engine and the processed dataset. The view used to be hand-typed
 numbers; it is now always written by this script and must not be edited by hand.
 
-Partitions (locked final test, steps >= 651, is excluded):
-* validation            451–550  — used for threshold selection and experiment ranking.
-* development_holdout   551–650  — out-of-time for all models trained on steps <= 450,
+Partitions:
+* validation            451–550  — scored here; used for threshold selection and experiment ranking.
+* development_holdout   551–650  — scored here; out-of-time for models trained on steps <= 450,
                                    but previously inspected (part of the old holdout).
+* sealed_final_test     651–743  — NOT scored here. Rows are copied from the recorded one-time P1.5
+                                   result (reports/final_test/p15_final_test.json); the sealed labels
+                                   are never read again.
+
+The active champion (E4, models/champion.json) was trained on steps 1-550 and calibrated on 551-650,
+so its only held-out rows are the sealed ones. The development partitions show the previous champion,
+the legacy logistic regression, the rule engine and a dummy baseline.
 
 Usage:
     py src/finsight/benchmark_view.py
@@ -34,6 +41,7 @@ _src_root = str(Path(__file__).resolve().parent.parent)
 if _src_root not in sys.path:
     sys.path.insert(0, _src_root)
 
+from finsight.champion import REGISTRY_PATH, read_registry
 from finsight.evaluate import _confusion, assert_development_steps, simulated_days
 from finsight.features import extract_features
 from finsight.risk_rules import RiskEngine
@@ -45,6 +53,8 @@ PARTITIONS = {
     "validation": (451, 550),
     "development_holdout": (551, 650),
 }
+SEALED_PARTITION = ("sealed_final_test", (651, 743))
+P15_RESULT = Path("reports/final_test/p15_final_test.json")
 
 VIEW_HEADER = """-- ==============================================================================
 -- FinSight Analytical Mart: Risk Detection Benchmark Performance
@@ -57,8 +67,9 @@ VIEW_HEADER = """-- ============================================================
 -- Source rows: reports/evaluation/benchmark_rows.json
 --
 -- Grain: one row per evaluation partition x system x operating point.
--- Partitions: validation = steps 451-550; development_holdout = steps 551-650.
--- The locked final test (steps >= 651) is deliberately excluded.
+-- Partitions: validation = steps 451-550; development_holdout = steps 551-650 (scored by the script);
+-- sealed_final_test = steps 651-743, copied from the recorded one-time P1.5 result, never re-scored.
+-- Active champion: E4 (models/champion.json); it appears only in sealed_final_test, its one held-out period.
 -- Fraud prevalence differs between partitions, so precision/F1 are comparable
 -- only within a partition. Rule flags and model alerts are not confirmed fraud.
 -- average_precision / roc_auc are NULL for discrete rule tiers.
@@ -98,7 +109,7 @@ def compute_rows(data_path: Path, champion_path: Path, lr_path: Path) -> List[Di
 
         s = champion["model"].predict_proba(build_features(d, champ_cfg)[champion["feature_names"]])[:, 1]
         t = float(champion["selected_threshold"])
-        rows.append(_row(part, "HistGradientBoosting (frozen champion, 8 features)",
+        rows.append(_row(part, "HistGradientBoosting (previous champion, 8 features)",
                          f"t = {t:.4f} (validation F1-optimal)", y, s >= t, steps, s))
 
         lr_X = extract_features(d, include_merchant_flag=True)[lr["feature_names"]]
@@ -117,6 +128,44 @@ def compute_rows(data_path: Path, champion_path: Path, lr_path: Path) -> List[Di
         rows[-1]["average_precision"] = round(float(y.mean()), 4)
         rows[-1]["roc_auc"] = 0.5
     return rows
+
+
+def _sealed_row(system: str, operating_point: str, tp: float, fp: float, fn: float, rows: int,
+                alerts_per_day: float, ap: Optional[float], roc: Optional[float]) -> Dict[str, Any]:
+    tp, fp, fn = int(round(tp)), int(round(fp)), int(round(fn))
+    return {"evaluation_partition": SEALED_PARTITION[0], "system_name": system, "operating_point": operating_point,
+            "true_positives": tp, "false_positives": fp, "false_negatives": fn,
+            "true_negatives": int(rows - tp - fp - fn), "alerts_per_day": round(float(alerts_per_day), 1),
+            "average_precision": ap, "roc_auc": roc}
+
+
+def sealed_rows(p15: Dict[str, Any]) -> List[Dict[str, Any]]:
+    """Rows for steps 651-743 from the recorded P1.5 result (no scoring, no label access)."""
+    S, P = p15["systems"], p15["policies"]
+    n = int(S["E4"]["rows"])
+    t_e4 = p15["meta"]["training"]["E4"]["thresholds"]["100"]
+    t_e0 = p15["meta"]["training"]["E0"]["thresholds"]["100"]
+    e4, e0, rule = P["E4 B @100"], P["E0 B @100"], p15["rule_engine_high"]
+    ch = S["champion_artifact"]["at_threshold"]
+    out = [
+        _sealed_row("HistGradientBoosting E4 (active champion, recipient count)",
+                    f"t = {t_e4:.4f} (100 alerts/day, set on steps 551-650)", e4["true_positives"],
+                    e4["false_positives"], e4["false_negatives"], n, e4["alerts_per_day"],
+                    S["E4"]["average_precision"], S["E4"]["roc_auc"]),
+        _sealed_row("HistGradientBoosting (champion configuration retrained on steps 1-550)",
+                    f"t = {t_e0:.4f} (100 alerts/day, set on steps 551-650)", e0["true_positives"],
+                    e0["false_positives"], e0["false_negatives"], n, e0["alerts_per_day"],
+                    S["E0"]["average_precision"], S["E0"]["roc_auc"]),
+        _sealed_row("HistGradientBoosting (previous champion, 8 features)",
+                    f"t = {p15['meta']['champion_threshold']:.4f} (validation F1-optimal)", ch["true_positives"],
+                    ch["false_positives"], ch["false_negatives"], n, ch["alerts_per_day"],
+                    S["champion_artifact"]["average_precision"], S["champion_artifact"]["roc_auc"]),
+        _sealed_row("Rule Engine (HIGH tier)", "score >= 70", rule["true_positives"], rule["false_positives"],
+                    rule["false_negatives"], n, rule["alerts_per_day"], None, None),
+    ]
+    if out[2]["true_negatives"] != ch["true_negatives"]:
+        raise ValueError("sealed row population does not reconcile with the P1.5 confusion matrix")
+    return out
 
 
 def _sql_literal(v: Any) -> str:
@@ -166,7 +215,7 @@ FROM raw_benchmark_data
 ORDER BY evaluation_partition ASC, f1_score DESC;
 
 COMMENT ON VIEW vw_risk_detection_benchmark IS
-'Generated by src/finsight/benchmark_view.py. Validation (451-550) and development holdout (551-650) only; locked final test excluded.';
+'Generated by src/finsight/benchmark_view.py. Validation (451-550) and development holdout (551-650) scored by the script; sealed final test (651-743) copied from the recorded P1.5 result.';
 """
     return VIEW_HEADER.format(generated=generated, data_sha=data_sha) + body
 
@@ -174,7 +223,9 @@ COMMENT ON VIEW vw_risk_detection_benchmark IS
 def main() -> None:
     parser = argparse.ArgumentParser(description="Regenerate the risk detection benchmark view")
     parser.add_argument("--data-path", default="data/processed/transactions.csv.gz")
-    parser.add_argument("--champion-path", default="models/hist_gradient_boosting_no_day.joblib")
+    parser.add_argument("--champion-path", default=None,
+                        help="Previous champion artifact (default: models/champion.json 'previous')")
+    parser.add_argument("--p15-path", default=str(P15_RESULT))
     parser.add_argument("--lr-path", default="models/logistic_regression.joblib")
     parser.add_argument("--view-path", default="sql/views/04_vw_risk_detection_benchmark.sql")
     parser.add_argument("--rows-path", default="reports/evaluation/benchmark_rows.json")
@@ -183,12 +234,17 @@ def main() -> None:
 
     generated = time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime())
     data_sha = file_sha256(Path(args.data_path))
-    rows = compute_rows(Path(args.data_path), Path(args.champion_path), Path(args.lr_path))
+    registry = read_registry(REGISTRY_PATH)
+    prev_path = Path(args.champion_path or registry["previous"]["artifact"])
+    p15 = json.loads(Path(args.p15_path).read_text(encoding="utf-8"))
+    rows = compute_rows(Path(args.data_path), prev_path, Path(args.lr_path)) + sealed_rows(p15)
     Path(args.rows_path).parent.mkdir(parents=True, exist_ok=True)
     Path(args.rows_path).write_text(json.dumps({
         "generated_utc": generated, "data_sha256": data_sha,
-        "champion_artifact_sha256": file_sha256(Path(args.champion_path)),
-        "partitions": PARTITIONS, "rows": rows,
+        "previous_champion_artifact_sha256": file_sha256(prev_path),
+        "active_champion_artifact_sha256": registry["active"]["artifact_sha256"],
+        "sealed_rows_source": {"path": Path(args.p15_path).as_posix(), "sha256": file_sha256(Path(args.p15_path))},
+        "partitions": {**PARTITIONS, SEALED_PARTITION[0]: SEALED_PARTITION[1]}, "rows": rows,
     }, indent=2), encoding="utf-8")
     Path(args.view_path).write_text(render_view_sql(rows, generated, data_sha), encoding="utf-8")
     logger.info("Wrote %d rows to %s and %s", len(rows), args.view_path, args.rows_path)

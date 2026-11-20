@@ -1,9 +1,9 @@
 rank,feature,mean_abs_shap,importance_share_pct
-1,type_PAYMENT,1.214169,32.83
-2,type_CASH_IN,1.097647,29.68
-3,type_CASH_OUT,0.654773,17.7
-4,type_TRANSFER,0.314333,8.5
-5,transaction_hour,0.187657,5.07
-6,amount,0.157049,4.25
-7,log1p_amount,0.059651,1.61
-8,type_DEBIT,0.013239,0.36
+1,type_PAYMENT,1.065613,31.12
+2,type_CASH_IN,0.797107,23.28
+3,type_CASH_OUT,0.765495,22.36
+4,recipient_prior_in_count,0.399943,11.68
+5,transaction_hour,0.148894,4.35
+6,amount,0.138515,4.05
+7,type_TRANSFER,0.102718,3.0
+8,type_DEBIT,0.005382,0.16
