@@ -1,5 +1,24 @@
 # FinSight — Milestone 4 Evaluation Strategy & ML Governance Blueprint
 
+> **Status (2026-11-20):** Sections 1, 3 and 4 still apply. **Section 2 (the 1–550 / 551–743 split) is superseded**: steps 551–743 were used for model selection, so the protocol was replaced in P0. The current protocol is below.
+
+## Current protocol (P0–P1)
+
+| Period | Steps | Use |
+|---|---|---|
+| Development | 1–650 | Training, feature and model selection, thresholds |
+| Walk-forward folds | F1 ≤350→351–450 · F2 ≤450→451–550 · F3 ≤550→551–650 | Model comparison |
+| Sealed final test | 651–743 | One pre-registered evaluation (P1.5, done). **Retired** |
+
+- **Primary metrics:** average precision (with step-block bootstrap 95% intervals and paired differences), and recall/precision at a fixed review capacity (50, 100, 200 alerts per simulated day, ties counted at their expected value). Precision and F1 at a threshold are comparable only within one period, because fraud prevalence rises about 13× across the simulation.
+- **Selection disclosure:** every training config records which periods influenced it; reports state reuse.
+- **Enforcement:** `evaluate.py` raises `LockedTestAccessError` on steps ≥ 651 outside the pre-registered `final_test.py` run.
+- **Champion:** E4 (`models/champion.json`); see [`current-state.md`](current-state.md).
+
+---
+
+## Original Milestone 4 blueprint (sections 2 superseded)
+
 **Document Version:** 1.0.0  
 **Status:** Approved Specification  
 **Scope:** Evaluation Methodology for Supervised Fraud Detection Baseline  

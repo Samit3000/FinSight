@@ -1,5 +1,22 @@
 # FinSight — Risk Methodology & Scoring Engine Specification
 
+> **Status (2026-11-20):** Section 2 (score and tiers) matches the implementation. **Sections 3–5 describe the original Stage 1 design, most of which was never built**: PaySim has no customer timestamps within the hour, countries, MCCs or declines, and rules are defined in `src/finsight/risk_rules.py`, not `config/risk_rules.yaml`. The implemented rules are below.
+
+## Implemented rule engine (current)
+
+| Rule | Fires when | Points |
+|---|---|---:|
+| `RULE_001_HIGH_VALUE` | amount ≥ $200,000 | 35 |
+| `RULE_002_DRAINAGE_RAIL` | type is TRANSFER or CASH_OUT | 25 |
+| `RULE_003_OVERNIGHT_DRAINAGE` | TRANSFER/CASH_OUT ≥ $10,000 between 01:00 and 05:00 | 25 |
+| `RULE_004_LARGE_ROUND_AMOUNT` | TRANSFER/CASH_OUT ≥ $50,000 in multiples of $5,000 | 15 |
+
+Measured performance: HIGH tier 102 alerts/day at 39% precision and 16.5% recall (steps 451–550); 66 alerts/day at 78% precision and 19.6% recall on the sealed test. The MEDIUM tier raises thousands of alerts a day. The rules are a secondary, explainable layer beside the ML champion (E4); tuning them on development data is planned for P2.
+
+---
+
+## Original Stage 1 specification (historical)
+
 **Document Version:** 1.0.0  
 **Domain:** Financial Fraud Risk & Transaction Monitoring  
 **Target Engine:** Explainable Rule-Based Evaluation  

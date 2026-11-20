@@ -1,5 +1,7 @@
 # FinSight — Product Requirements Document (PRD)
 
+> **Status (2026-11-20): historical Stage 1 planning document.** It was written before implementation and describes a planned system; several parts were never built (YAML rule configuration, velocity / geo-hop / MCC / decline rules, quarantine tables, Power BI dashboard). For what is built and in use, see [`current-state.md`](current-state.md) and the README. The ML champion (E4) is not described here.
+
 **Document Version:** 1.0.0  
 **Project:** FinSight — Transaction Intelligence and Risk Analytics Platform  
 **Target Milestone:** MVP (Portfolio & Technical Interview Ready)  

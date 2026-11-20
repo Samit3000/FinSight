@@ -1,5 +1,7 @@
 # FinSight — Business & Analytical Metric Dictionary
 
+> **Status (2026-11-20): historical Stage 1 planning document.** It was written before implementation and describes a planned system; several parts were never built (authorization rate, decline, latency, merchant and currency metrics, which PaySim does not support). For what is built and in use, see [`current-state.md`](current-state.md) and the README. Model and alert metrics in use (average precision, recall and precision at a fixed number of alerts per day) are defined in [`evaluation-strategy.md`](evaluation-strategy.md).
+
 **Document Version:** 1.0.0  
 **Domain:** Digital Payments, Fraud Risk, and Payment Operations  
 **Target Systems:** PostgreSQL 15+ & Microsoft Power BI  
