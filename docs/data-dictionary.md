@@ -2,6 +2,8 @@
 
 > **Status (2026-11-20): historical Stage 1 planning document.** It was written before implementation and describes a planned system; several parts were never built (customer, merchant, currency, MCC and status fields, `stg_transactions`, `fct_risk_evaluations`, dimension and quarantine tables). For what is built and in use, see [`current-state.md`](current-state.md) and the README. The implemented schema is PaySim-based: `fct_transactions` and `dq_audit_log` in `sql/schema/01_schema_definition.sql`.
 
+> **Built in P3:** `scoring_run_log`, `fct_model_scores` and `fct_alert_reasons` (`sql/schema/02_scoring_schema.sql`) and the view `vw_alert_queue`. Column definitions: [`current-state.md`](current-state.md), section 2.
+
 **Document Version:** 1.0.0  
 **Target Database:** PostgreSQL 15+  
 **Schema:** `public`  

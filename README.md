@@ -733,6 +733,23 @@ py src/finsight/alert_explanations.py --day 25          # reports/explainability
 py src/finsight/rule_tuning.py --stage render           # re-render the P2 study from its recorded JSON
 ```
 
+### Scoring store (P3)
+
+Champion scores and reason codes can be written to PostgreSQL: `sql/schema/02_scoring_schema.sql` adds
+`scoring_run_log`, `fct_model_scores` and `fct_alert_reasons`, and `sql/views/05_vw_alert_queue.sql` lists alerts with
+their reasons (no fraud labels). `src/finsight/score_transactions.py` scores in `bulk` or `hourly` mode with identical
+results, never reads labels, checks every `transaction_id` against `fct_transactions`, and commits each run atomically.
+
+```bash
+# Writes only to the database named in DB_NAME, and only if --confirm-database repeats that name
+py src/finsight/score_transactions.py --mode bulk --confirm-database <DB_NAME>
+py src/finsight/score_transactions.py --mode hourly --min-step 700 --max-step 703 --confirm-database <DB_NAME>
+```
+
+At threshold 0.9463: 2,723 alerts on training steps 1–550 (118.8/day; optimistic, in-sample), 417 on calibration steps
+551–650 (100.1/day, by construction), and 350 on the sealed steps 651–743 (90.3/day, the count already reported in P1.5).
+Integration tests run against a disposable server only: `FINSIGHT_SCRATCH_PG=host:port:user py -m pytest tests/test_score_transactions.py`.
+
 ---
 
 ## Master ML Remediation & Reliability Phase (historical)
@@ -794,7 +811,8 @@ All former `reports/remediation/`, `reports/ml_improvement/` and `reports/model_
 | **P1.5** | **Sealed Final Test** | **Complete** | Pre-registered one-time run on steps 651–743: E4 AP 0.697 vs 0.496; rule said promote. Sealed test now retired. |
 | **P1.6** | **Champion Promotion** | **Complete** | E4 promoted via `models/champion.json`; bit-for-bit rebuild verified; benchmark view and SHAP reports regenerated; live view updated and verified (14 rows). |
 | **P1 closeout** | **Audit & Documentation** | **Complete** | Promotion audit, docs brought in line with the current implementation, historical material labelled. |
-| **P2** | **Rule Engine: Backstop Study & Reason Codes** | In review | Rules do not beat extra E4 capacity (72 configs, F1/F2 + F3 once); rules now supply reason codes beside the top-3 SHAP contributors for every E4 alert. |
+| **P2** | **Rule Engine: Backstop Study & Reason Codes** | **Complete** | Rules do not beat extra E4 capacity (72 configs, F1/F2 + F3 once); rules now supply reason codes beside the top-3 SHAP contributors for every E4 alert. |
+| **P3** | **Scoring Store** | In review | Score and reason-code tables, alert queue view, bulk/hourly scorer; tested on a disposable database; live database not changed. |
 | **6** | **SQL KPI Marts & Analytics Views** | Planned | Analytical views, window functions, operational KPI benchmarks. |
 | **7** | **Power BI Reporting & Presentation** | Planned | Star-schema DAX model, executive summary, risk drill-down report. |
 
