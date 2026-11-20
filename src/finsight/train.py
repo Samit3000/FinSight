@@ -167,6 +167,29 @@ MODEL_CONFIGS: Dict[str, Dict[str, Any]] = {
     },
 }
 
+# P1.6: rebuild recipe for the promoted champion (models/hgb_e4_recipient.joblib). Same model settings as
+# E4; trained on steps 1-550 with the operating threshold set for 100 alerts/day on steps 551-650,
+# exactly as in the P1.5 sealed test.
+MODEL_CONFIGS["hgb_e4_final"] = {
+    **MODEL_CONFIGS["hgb_baseline7_rcpt_cw50"],
+    "model_name": "HistGradientBoosting baseline7 + recipient prior count (class weight 1:50)",
+    "params": dict(_HGB_DEFAULTS),
+    "train_max_step": 550,
+    "threshold_policy": {"name": "alert_budget", "alerts_per_day": 100, "val_min_step": 551, "val_max_step": 650},
+    "selection_history": (
+        "Promoted champion (P1.6). Configuration E4 was selected on development folds F1-F3 (all reused, see "
+        "hgb_baseline7_rcpt_cw50) and passed the pre-registered one-time sealed test on steps 651-743 "
+        "(reports/final_test/p15_final_test.md). Steps 551-650 calibrate its threshold; steps 651-743 must not "
+        "be used again for selection."
+    ),
+}
+
+
+def _budget_threshold(scores: np.ndarray, steps: np.ndarray, alerts_per_day: float) -> float:
+    """Score of the k-th highest row, k = alerts_per_day x simulated days (same rule as alert_policy)."""
+    k = int(round(alerts_per_day * len(np.unique(steps)) / 24))
+    return float(np.sort(np.asarray(scores, dtype=float))[::-1][min(max(k, 1), len(scores)) - 1])
+
 
 def file_sha256(path: Path) -> str:
     h = hashlib.sha256()
@@ -271,9 +294,17 @@ def train_bundle(
 
     X_val, y_val = build_features(val, cfg), val["isFraud"].to_numpy(dtype=int)
     val_scores = model.predict_proba(X_val)[:, 1]
-    if pol["name"] != "validation_f1":
+    if pol["name"] == "validation_f1":
+        threshold, val_eval = find_optimal_threshold(y_val, val_scores, objective="f1")
+    elif pol["name"] == "alert_budget":
+        threshold = _budget_threshold(val_scores, val["step"].to_numpy(), pol["alerts_per_day"])
+        pred = val_scores >= threshold
+        tp = int((pred & (y_val == 1)).sum())
+        val_eval = {"metrics": {"precision": round(tp / max(int(pred.sum()), 1), 4),
+                                "recall": round(tp / max(int(y_val.sum()), 1), 4)},
+                    "predicted_positive_count": int(pred.sum())}
+    else:
         raise ValueError(f"Unsupported threshold policy: {pol['name']}")
-    threshold, val_eval = find_optimal_threshold(y_val, val_scores, objective="f1")
 
     metadata = {
         "config_name": config_name,
