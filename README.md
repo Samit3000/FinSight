@@ -407,7 +407,7 @@ Detailed specification: [`docs/evaluation-strategy.md`](file:///docs/evaluation-
 ### 4. Running Features, Rules, Models & Automated Tests
 
 ```bash
-# Execute full test suite (161 tests collected; one live-database test applies views when PostgreSQL is reachable)
+# Execute full test suite (180 tests collected; one live-database test applies views when PostgreSQL is reachable)
 py -m pytest tests/ -v
 
 # Run Python interactive verification of feature extraction
@@ -447,7 +447,7 @@ py src/finsight/explainability.py --data-path data/processed/transactions.csv.gz
 # Run explainability test suite
 py -m pytest tests/test_explainability.py -v
 
-# Run full project test suite (161 tests collected; one live-database test applies views when PostgreSQL is reachable)
+# Run full project test suite (180 tests collected; one live-database test applies views when PostgreSQL is reachable)
 py -m pytest tests/ -v
 ```
 
@@ -644,7 +644,27 @@ Recall at 100 reviews/day (whole-day load CV in brackets):
 | Q12 queue, 12-hour deadline (chosen queue) | 31.2% (0.02) | 34.2% (0) | 33.8% (0.03) |
 
 The rule chose Q12. It did **not** replace B as the reference policy, because on F1 its recall was 0.8 points below
-D2. Results are development-only; nothing has been promoted and the locked test has not been read.
+D2. Results are development-only; nothing has been promoted.
+
+### Sealed final test (P1.5)
+
+`src/finsight/final_test.py` scored the sealed steps 651–743 exactly once:
+- **Pre-registered first.** The code, configs, data hash and decision rule were committed in
+  `reports/final_test/p15_preregistration.json` before any sealed label was read.
+- **Same setup as development.** Every model was trained on steps 1–550, with thresholds and the queue
+  calibrated on 551–650.
+- **Reproduction check passed.** Before the sealed labels were read, both models reproduced their P1.3
+  F3 results (AP 0.6530 and 0.4222).
+
+| System (steps 651–743) | AP (95% CI) | Recall at 100 alerts/day | Precision at 100/day |
+|---|---|---:|---:|
+| E4 `hgb_baseline7_rcpt_cw50` | 0.697 (0.638–0.765) | 36.8% | 0.969 |
+| E0 champion configuration, retrained the same way | 0.496 (0.424–0.601) | 31.5% | 0.829 |
+| Frozen champion artifact | 0.491 (0.420–0.600) | 30.6% | 0.807 |
+
+AP(E4) − AP(E0) = +0.200 (95% CI +0.144 to +0.231). **The pre-registered rule says promote E4.** Promotion
+itself (P1.6) needs separate approval. The sealed steps are not pristine: before P0 they sat inside the old
+holdout used to choose the champion's features. Full report: `reports/final_test/p15_final_test.md`.
 
 ---
 
@@ -704,6 +724,7 @@ All former `reports/remediation/`, `reports/ml_improvement/` and `reports/model_
 | **P1.4** | **Alert Policy** | **Complete** | Prospective thresholds for E4; fixed threshold (B) chosen on F1/F2, F3 reported once; volume drift documented. |
 | **P1.4.1** | **Rolling Cap Investigation** | **Complete** | First-come caps lose fraud when the budget runs out; ranking within the day does not. Report only. |
 | **P1.4.2** | **Priority Review Queue** | **Complete** | Queue with deadlines simulated; Q12 chosen; B stays the reference (F1 shortfall vs D2). |
+| **P1.5** | **Sealed Final Test** | **Complete** | Pre-registered one-time run on steps 651–743: E4 AP 0.697 vs 0.496; rule says promote; promotion pending approval. |
 | **6** | **SQL KPI Marts & Analytics Views** | Planned | Analytical views, window functions, operational KPI benchmarks. |
 | **7** | **Power BI Reporting & Presentation** | Planned | Star-schema DAX model, executive summary, risk drill-down report. |
 
