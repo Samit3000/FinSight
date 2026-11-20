@@ -90,12 +90,10 @@ def explain_alerts(frame: pd.DataFrame, min_step: int, max_step: int, alerts_per
 
     `frame` must be the full chronological frame from step 1 (history), without steps >= 651.
     """
-    import shap
-
     if max_step >= FINAL_TEST_MIN_STEP or int(frame["step"].max()) >= FINAL_TEST_MIN_STEP:
         raise ValueError(f"steps >= {FINAL_TEST_MIN_STEP} (retired sealed test) are not allowed")
     champ = champion or load_champion()
-    cfg, model, names = champ["config"], champ["model"], champ["feature_names"]
+    cfg = champ["config"]
     threshold = operating_threshold(champ, alerts_per_day)
     frame = frame.drop(columns=[c for c in ("isFraud", "is_fraud") if c in frame.columns])
     scores = score_frame(champ, frame)
@@ -104,7 +102,24 @@ def explain_alerts(frame: pd.DataFrame, min_step: int, max_step: int, alerts_per
     if not alert.any():
         return []
     hist = add_history_features(frame, cfg)
-    rows = hist[alert]
+    return explain_rows(hist[alert], scores[alert], threshold, champ, top_k)
+
+
+def explain_rows(rows: pd.DataFrame, scores: np.ndarray, threshold: float, champion: Dict[str, Any],
+                 top_k: int = 3) -> List[Dict[str, Any]]:
+    """Reason-code records for the given alert rows.
+
+    `rows` must already carry the champion's history features (computed on the full chronological frame) and
+    no fraud labels; `scores` are the champion's scores for those rows. Each record keeps the row's index as
+    `row_index`. Used by `explain_alerts` and by the P3 scorer.
+    """
+    import shap
+
+    if any(c in rows.columns for c in ("isFraud", "is_fraud")):
+        raise ValueError("alert rows must not carry fraud labels")
+    if len(rows) == 0:
+        return []
+    cfg, model, names = champion["config"], champion["model"], champion["feature_names"]
     X = build_features(rows, cfg)[names]
     explainer = shap.TreeExplainer(model)
     sv = np.asarray(explainer.shap_values(X))
@@ -112,22 +127,23 @@ def explain_alerts(frame: pd.DataFrame, min_step: int, max_step: int, alerts_per
     base = float(np.atleast_1d(explainer.expected_value)[0])
     margin = model.decision_function(X)
     engine = RiskEngine()
-    alert_scores = scores[alert]
+    scores = np.asarray(scores, dtype=float)
     out: List[Dict[str, Any]] = []
     for i, (idx, row) in enumerate(rows.iterrows()):
         contrib = top_contributors(sv[i], X.iloc[i].to_numpy(dtype=float), names, top_k)
         rule = engine.evaluate_transaction(row)
-        summary = (f"Model score {alert_scores[i]:.4f} reached the alert threshold {threshold:.4f}. The inputs that moved the "
+        summary = (f"Model score {scores[i]:.4f} reached the alert threshold {threshold:.4f}. The inputs that moved the "
                    f"score most were: " + "; ".join(f"{c['description']} ({c['direction']}, {c['contribution_log_odds']:+.2f})"
                                                    for c in contrib) + ".")
         assert_non_causal(summary)
         rec = {
+            "row_index": int(idx),
             "step": int(row["step"]), "simulated_day": int((row["step"] - 1) // STEPS_PER_DAY + 1),
             "hour": int(row["transaction_hour"]), "type": str(row["type"]), "amount": float(row["amount"]),
             "recipient": str(row.get("nameDest", row.get("name_dest", ""))),
             "alert_source": "champion model (E4)",
             "model_explanation": {
-                "score": round(float(alert_scores[i]), 6), "threshold": round(threshold, 6),
+                "score": round(float(scores[i]), 6), "threshold": round(threshold, 6),
                 "base_value_log_odds": round(base, 4), "margin_log_odds": round(float(margin[i]), 4),
                 "top_contributors": contrib, "summary": summary, "disclaimer": MODEL_DISCLAIMER,
                 "additivity_error": float(abs(base + sv[i].sum() - margin[i])),
