@@ -1,0 +1,53 @@
+{
+ "generated_utc": "2026-11-20T10:32:27Z",
+ "selection_sha256": "694bf87cd6a8a5633bd632942e8ab2f8b53f984a2da5617316bc0b1bf10c3d05",
+ "chosen_from_selection": null,
+ "confirmation_rule": "The selected configuration is confirmed only if conditions (a) and (b) also hold on F3.",
+ "confirmed": false,
+ "max_step_loaded": 650,
+ "results": {
+  "hv200k_nonew_cut70": {
+   "days": 4.167,
+   "full_days": 4,
+   "extra_alerts_per_day_mean": 27.4,
+   "extra_alerts_full_day_min": 12.0,
+   "extra_alerts_full_day_median": 18.0,
+   "extra_alerts_full_day_max": 65.0,
+   "extra_alerts_per_day": {
+    "23": 0.0,
+    "24": 19.0,
+    "25": 65.0,
+    "26": 12.0,
+    "27": 17.0,
+    "28": 1.0
+   },
+   "extra_fraud": 25.0,
+   "extra_fraud_per_day": 6.0,
+   "extra_precision": 0.219,
+   "e4_same_capacity_fraud": 69.8,
+   "beats_e4_same_capacity": false,
+   "e4_recall": 0.333,
+   "combined_recall": 0.3552,
+   "e4_plus_capacity_recall": 0.3951,
+   "rule_standalone_alerts_per_day": 72.5,
+   "rule_standalone_precision": 0.669,
+   "rule_standalone_recall": 0.1794,
+   "extra_fraud_by_hour": {
+    "00-05": 17.0,
+    "06-08": 1.0,
+    "09-17": 7.0,
+    "18-23": 0.0
+   },
+   "extra_fraud_by_amount": {
+    "<500k": 17.0,
+    "500k-1M": 0.0,
+    ">=1M": 8.0
+   },
+   "checks": {
+    "cap_every_full_day": false,
+    "beats_e4_same_capacity": false,
+    "min_extra_fraud": true
+   }
+  }
+ }
+}

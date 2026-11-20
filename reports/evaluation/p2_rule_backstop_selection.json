@@ -1,0 +1,6974 @@
+{
+ "generated_utc": "2026-11-20T10:30:25Z",
+ "selection_rule": "Among configurations that, in BOTH F1 and F2: (a) add at most 30 extra alerts beyond E4's 100/day on EVERY whole simulated day (strict daily cap, not an average), (b) catch more frauds that E4 missed than E4 itself catches when given the same total number of extra review slots (its next-ranked transactions), and (c) catch at least 1.0 extra fraud per day on average; choose the one with the most extra frauds over F1+F2. Ties: higher extra precision, then fewer active rules. If none qualifies, recommend no backstop alerts (rules give reason codes only).",
+ "confirmation_rule": "The selected configuration is confirmed only if conditions (a) and (b) also hold on F3.",
+ "folds_used": [
+  "F1",
+  "F2"
+ ],
+ "max_step_loaded": 650,
+ "qualifying": [],
+ "chosen": null,
+ "results": {
+  "hv200k_nonew_cut70": {
+   "params": {
+    "hv": 200000,
+    "new": null,
+    "cut": 70
+   },
+   "n_rules": 4,
+   "folds": {
+    "F1": {
+     "days": 4.167,
+     "full_days": 3,
+     "extra_alerts_per_day_mean": 55.9,
+     "extra_alerts_full_day_min": 52.0,
+     "extra_alerts_full_day_median": 62.0,
+     "extra_alerts_full_day_max": 87.0,
+     "extra_alerts_per_day": {
+      "15": 2.0,
+      "16": 87.0,
+      "17": 62.0,
+      "18": 52.0,
+      "19": 30.0
+     },
+     "extra_fraud": 48.0,
+     "extra_fraud_per_day": 11.52,
+     "extra_precision": 0.206,
+     "e4_same_capacity_fraud": 104.0,
+     "beats_e4_same_capacity": false,
+     "e4_recall": 0.3279,
+     "combined_recall": 0.3694,
+     "e4_plus_capacity_recall": 0.4178,
+     "rule_standalone_alerts_per_day": 108.5,
+     "rule_standalone_precision": 0.588,
+     "rule_standalone_recall": 0.2301,
+     "extra_fraud_by_hour": {
+      "00-05": 26.0,
+      "06-08": 5.0,
+      "09-17": 14.0,
+      "18-23": 3.0
+     },
+     "extra_fraud_by_amount": {
+      "<500k": 21.0,
+      "500k-1M": 5.0,
+      ">=1M": 22.0
+     },
+     "checks": {
+      "cap_every_full_day": false,
+      "beats_e4_same_capacity": false,
+      "min_extra_fraud": true
+     }
+    },
+    "F2": {
+     "days": 4.167,
+     "full_days": 3,
+     "extra_alerts_per_day_mean": 60.5,
+     "extra_alerts_full_day_min": 29.0,
+     "extra_alerts_full_day_median": 33.0,
+     "extra_alerts_full_day_max": 74.0,
+     "extra_alerts_per_day": {
+      "19": 0.0,
+      "20": 74.0,
+      "21": 29.0,
+      "22": 33.0,
+      "23": 116.0
+     },
+     "extra_fraud": 25.0,
+     "extra_fraud_per_day": 6.0,
+     "extra_precision": 0.099,
+     "e4_same_capacity_fraud": 80.4,
+     "beats_e4_same_capacity": false,
+     "e4_recall": 0.3105,
+     "combined_recall": 0.3353,
+     "e4_plus_capacity_recall": 0.3902,
+     "rule_standalone_alerts_per_day": 101.8,
+     "rule_standalone_precision": 0.392,
+     "rule_standalone_recall": 0.1647,
+     "extra_fraud_by_hour": {
+      "00-05": 17.0,
+      "06-08": 0.0,
+      "09-17": 7.0,
+      "18-23": 1.0
+     },
+     "extra_fraud_by_amount": {
+      "<500k": 17.0,
+      "500k-1M": 0.0,
+      ">=1M": 8.0
+     },
+     "checks": {
+      "cap_every_full_day": false,
+      "beats_e4_same_capacity": false,
+      "min_extra_fraud": true
+     }
+    }
+   }
+  },
+  "hv200k_nonew_cut80": {
+   "params": {
+    "hv": 200000,
+    "new": null,
+    "cut": 80
+   },
+   "n_rules": 4,
+   "folds": {
+    "F1": {
+     "days": 4.167,
+     "full_days": 3,
+     "extra_alerts_per_day_mean": 39.1,
+     "extra_alerts_full_day_min": 38.0,
+     "extra_alerts_full_day_median": 44.0,
+     "extra_alerts_full_day_max": 58.0,
+     "extra_alerts_per_day": {
+      "15": 0.0,
+      "16": 38.0,
+      "17": 58.0,
+      "18": 44.0,
+      "19": 23.0
+     },
+     "extra_fraud": 26.0,
+     "extra_fraud_per_day": 6.24,
+     "extra_precision": 0.16,
+     "e4_same_capacity_fraud": 82.4,
+     "beats_e4_same_capacity": false,
+     "e4_recall": 0.3279,
+     "combined_recall": 0.3503,
+     "e4_plus_capacity_recall": 0.3992,
+     "rule_standalone_alerts_per_day": 84.7,
+     "rule_standalone_precision": 0.609,
+     "rule_standalone_recall": 0.186,
+     "extra_fraud_by_hour": {
+      "00-05": 26.0,
+      "06-08": 0.0,
+      "09-17": 0.0,
+      "18-23": 0.0
+     },
+     "extra_fraud_by_amount": {
+      "<500k": 21.0,
+      "500k-1M": 5.0,
+      ">=1M": 0.0
+     },
+     "checks": {
+      "cap_every_full_day": false,
+      "beats_e4_same_capacity": false,
+      "min_extra_fraud": true
+     }
+    },
+    "F2": {
+     "days": 4.167,
+     "full_days": 3,
+     "extra_alerts_per_day_mean": 57.8,
+     "extra_alerts_full_day_min": 27.0,
+     "extra_alerts_full_day_median": 29.0,
+     "extra_alerts_full_day_max": 73.0,
+     "extra_alerts_per_day": {
+      "19": 0.0,
+      "20": 73.0,
+      "21": 27.0,
+      "22": 29.0,
+      "23": 112.0
+     },
+     "extra_fraud": 17.0,
+     "extra_fraud_per_day": 4.08,
+     "extra_precision": 0.071,
+     "e4_same_capacity_fraud": 79.2,
+     "beats_e4_same_capacity": false,
+     "e4_recall": 0.3105,
+     "combined_recall": 0.3274,
+     "e4_plus_capacity_recall": 0.3891,
+     "rule_standalone_alerts_per_day": 96.2,
+     "rule_standalone_precision": 0.364,
+     "rule_standalone_recall": 0.1448,
+     "extra_fraud_by_hour": {
+      "00-05": 17.0,
+      "06-08": 0.0,
+      "09-17": 0.0,
+      "18-23": 0.0
+     },
+     "extra_fraud_by_amount": {
+      "<500k": 17.0,
+      "500k-1M": 0.0,
+      ">=1M": 0.0
+     },
+     "checks": {
+      "cap_every_full_day": false,
+      "beats_e4_same_capacity": false,
+      "min_extra_fraud": true
+     }
+    }
+   }
+  },
+  "hv200k_new250k@25_cut70": {
+   "params": {
+    "hv": 200000,
+    "new": [
+     250000,
+     25
+    ],
+    "cut": 70
+   },
+   "n_rules": 5,
+   "folds": {
+    "F1": {
+     "days": 4.167,
+     "full_days": 3,
+     "extra_alerts_per_day_mean": 4829.8,
+     "extra_alerts_full_day_min": 423.0,
+     "extra_alerts_full_day_median": 7220.0,
+     "extra_alerts_full_day_max": 8359.0,
+     "extra_alerts_per_day": {
+      "15": 3979.0,
+      "16": 7220.0,
+      "17": 8359.0,
+      "18": 423.0,
+      "19": 143.0
+     },
+     "extra_fraud": 318.0,
+     "extra_fraud_per_day": 76.32,
+     "extra_precision": 0.016,
+     "e4_same_capacity_fraud": 588.0,
+     "beats_e4_same_capacity": false,
+     "e4_recall": 0.3279,
+     "combined_recall": 0.6029,
+     "e4_plus_capacity_recall": 0.8365,
+     "rule_standalone_alerts_per_day": 4900.6,
+     "rule_standalone_precision": 0.029,
+     "rule_standalone_recall": 0.5138,
+     "extra_fraud_by_hour": {
+      "00-05": 37.0,
+      "06-08": 44.0,
+      "09-17": 157.0,
+      "18-23": 80.0
+     },
+     "extra_fraud_by_amount": {
+      "<500k": 114.0,
+      "500k-1M": 67.0,
+      ">=1M": 137.0
+     },
+     "checks": {
+      "cap_every_full_day": false,
+      "beats_e4_same_capacity": false,
+      "min_extra_fraud": true
+     }
+    },
+    "F2": {
+     "days": 4.167,
+     "full_days": 3,
+     "extra_alerts_per_day_mean": 736.3,
+     "extra_alerts_full_day_min": 468.0,
+     "extra_alerts_full_day_median": 538.0,
+     "extra_alerts_full_day_max": 1012.0,
+     "extra_alerts_per_day": {
+      "19": 42.0,
+      "20": 468.0,
+      "21": 538.0,
+      "22": 1012.0,
+      "23": 1008.0
+     },
+     "extra_fraud": 270.0,
+     "extra_fraud_per_day": 64.8,
+     "extra_precision": 0.088,
+     "e4_same_capacity_fraud": 515.0,
+     "beats_e4_same_capacity": false,
+     "e4_recall": 0.3105,
+     "combined_recall": 0.5784,
+     "e4_plus_capacity_recall": 0.8214,
+     "rule_standalone_alerts_per_day": 791.0,
+     "rule_standalone_precision": 0.141,
+     "rule_standalone_recall": 0.4603,
+     "extra_fraud_by_hour": {
+      "00-05": 20.0,
+      "06-08": 49.0,
+      "09-17": 122.0,
+      "18-23": 79.0
+     },
+     "extra_fraud_by_amount": {
+      "<500k": 74.0,
+      "500k-1M": 77.0,
+      ">=1M": 119.0
+     },
+     "checks": {
+      "cap_every_full_day": false,
+      "beats_e4_same_capacity": false,
+      "min_extra_fraud": true
+     }
+    }
+   }
+  },
+  "hv200k_new250k@25_cut80": {
+   "params": {
+    "hv": 200000,
+    "new": [
+     250000,
+     25
+    ],
+    "cut": 80
+   },
+   "n_rules": 5,
+   "folds": {
+    "F1": {
+     "days": 4.167,
+     "full_days": 3,
+     "extra_alerts_per_day_mean": 4821.1,
+     "extra_alerts_full_day_min": 423.0,
+     "extra_alerts_full_day_median": 7184.0,
+     "extra_alerts_full_day_max": 8359.0,
+     "extra_alerts_per_day": {
+      "15": 3979.0,
+      "16": 7184.0,
+      "17": 8359.0,
+      "18": 423.0,
+      "19": 143.0
+     },
+     "extra_fraud": 318.0,
+     "extra_fraud_per_day": 76.32,
+     "extra_precision": 0.016,
+     "e4_same_capacity_fraud": 588.0,
+     "beats_e4_same_capacity": false,
+     "e4_recall": 0.3279,
+     "combined_recall": 0.6029,
+     "e4_plus_capacity_recall": 0.8365,
+     "rule_standalone_alerts_per_day": 4886.9,
+     "rule_standalone_precision": 0.028,
+     "rule_standalone_recall": 0.4957,
+     "extra_fraud_by_hour": {
+      "00-05": 37.0,
+      "06-08": 44.0,
+      "09-17": 157.0,
+      "18-23": 80.0
+     },
+     "extra_fraud_by_amount": {
+      "<500k": 114.0,
+      "500k-1M": 67.0,
+      ">=1M": 137.0
+     },
+     "checks": {
+      "cap_every_full_day": false,
+      "beats_e4_same_capacity": false,
+      "min_extra_fraud": true
+     }
+    },
+    "F2": {
+     "days": 4.167,
+     "full_days": 3,
+     "extra_alerts_per_day_mean": 735.8,
+     "extra_alerts_full_day_min": 468.0,
+     "extra_alerts_full_day_median": 538.0,
+     "extra_alerts_full_day_max": 1012.0,
+     "extra_alerts_per_day": {
+      "19": 42.0,
+      "20": 468.0,
+      "21": 538.0,
+      "22": 1012.0,
+      "23": 1006.0
+     },
+     "extra_fraud": 270.0,
+     "extra_fraud_per_day": 64.8,
+     "extra_precision": 0.088,
+     "e4_same_capacity_fraud": 515.0,
+     "beats_e4_same_capacity": false,
+     "e4_recall": 0.3105,
+     "combined_recall": 0.5784,
+     "e4_plus_capacity_recall": 0.8214,
+     "rule_standalone_alerts_per_day": 788.9,
+     "rule_standalone_precision": 0.139,
+     "rule_standalone_recall": 0.4534,
+     "extra_fraud_by_hour": {
+      "00-05": 20.0,
+      "06-08": 49.0,
+      "09-17": 122.0,
+      "18-23": 79.0
+     },
+     "extra_fraud_by_amount": {
+      "<500k": 74.0,
+      "500k-1M": 77.0,
+      ">=1M": 119.0
+     },
+     "checks": {
+      "cap_every_full_day": false,
+      "beats_e4_same_capacity": false,
+      "min_extra_fraud": true
+     }
+    }
+   }
+  },
+  "hv200k_new250k@45_cut70": {
+   "params": {
+    "hv": 200000,
+    "new": [
+     250000,
+     45
+    ],
+    "cut": 70
+   },
+   "n_rules": 5,
+   "folds": {
+    "F1": {
+     "days": 4.167,
+     "full_days": 3,
+     "extra_alerts_per_day_mean": 4829.8,
+     "extra_alerts_full_day_min": 423.0,
+     "extra_alerts_full_day_median": 7220.0,
+     "extra_alerts_full_day_max": 8359.0,
+     "extra_alerts_per_day": {
+      "15": 3979.0,
+      "16": 7220.0,
+      "17": 8359.0,
+      "18": 423.0,
+      "19": 143.0
+     },
+     "extra_fraud": 318.0,
+     "extra_fraud_per_day": 76.32,
+     "extra_precision": 0.016,
+     "e4_same_capacity_fraud": 588.0,
+     "beats_e4_same_capacity": false,
+     "e4_recall": 0.3279,
+     "combined_recall": 0.6029,
+     "e4_plus_capacity_recall": 0.8365,
+     "rule_standalone_alerts_per_day": 4900.6,
+     "rule_standalone_precision": 0.029,
+     "rule_standalone_recall": 0.5138,
+     "extra_fraud_by_hour": {
+      "00-05": 37.0,
+      "06-08": 44.0,
+      "09-17": 157.0,
+      "18-23": 80.0
+     },
+     "extra_fraud_by_amount": {
+      "<500k": 114.0,
+      "500k-1M": 67.0,
+      ">=1M": 137.0
+     },
+     "checks": {
+      "cap_every_full_day": false,
+      "beats_e4_same_capacity": false,
+      "min_extra_fraud": true
+     }
+    },
+    "F2": {
+     "days": 4.167,
+     "full_days": 3,
+     "extra_alerts_per_day_mean": 736.3,
+     "extra_alerts_full_day_min": 468.0,
+     "extra_alerts_full_day_median": 538.0,
+     "extra_alerts_full_day_max": 1012.0,
+     "extra_alerts_per_day": {
+      "19": 42.0,
+      "20": 468.0,
+      "21": 538.0,
+      "22": 1012.0,
+      "23": 1008.0
+     },
+     "extra_fraud": 270.0,
+     "extra_fraud_per_day": 64.8,
+     "extra_precision": 0.088,
+     "e4_same_capacity_fraud": 515.0,
+     "beats_e4_same_capacity": false,
+     "e4_recall": 0.3105,
+     "combined_recall": 0.5784,
+     "e4_plus_capacity_recall": 0.8214,
+     "rule_standalone_alerts_per_day": 791.0,
+     "rule_standalone_precision": 0.141,
+     "rule_standalone_recall": 0.4603,
+     "extra_fraud_by_hour": {
+      "00-05": 20.0,
+      "06-08": 49.0,
+      "09-17": 122.0,
+      "18-23": 79.0
+     },
+     "extra_fraud_by_amount": {
+      "<500k": 74.0,
+      "500k-1M": 77.0,
+      ">=1M": 119.0
+     },
+     "checks": {
+      "cap_every_full_day": false,
+      "beats_e4_same_capacity": false,
+      "min_extra_fraud": true
+     }
+    }
+   }
+  },
+  "hv200k_new250k@45_cut80": {
+   "params": {
+    "hv": 200000,
+    "new": [
+     250000,
+     45
+    ],
+    "cut": 80
+   },
+   "n_rules": 5,
+   "folds": {
+    "F1": {
+     "days": 4.167,
+     "full_days": 3,
+     "extra_alerts_per_day_mean": 4821.1,
+     "extra_alerts_full_day_min": 423.0,
+     "extra_alerts_full_day_median": 7184.0,
+     "extra_alerts_full_day_max": 8359.0,
+     "extra_alerts_per_day": {
+      "15": 3979.0,
+      "16": 7184.0,
+      "17": 8359.0,
+      "18": 423.0,
+      "19": 143.0
+     },
+     "extra_fraud": 318.0,
+     "extra_fraud_per_day": 76.32,
+     "extra_precision": 0.016,
+     "e4_same_capacity_fraud": 588.0,
+     "beats_e4_same_capacity": false,
+     "e4_recall": 0.3279,
+     "combined_recall": 0.6029,
+     "e4_plus_capacity_recall": 0.8365,
+     "rule_standalone_alerts_per_day": 4886.9,
+     "rule_standalone_precision": 0.028,
+     "rule_standalone_recall": 0.4957,
+     "extra_fraud_by_hour": {
+      "00-05": 37.0,
+      "06-08": 44.0,
+      "09-17": 157.0,
+      "18-23": 80.0
+     },
+     "extra_fraud_by_amount": {
+      "<500k": 114.0,
+      "500k-1M": 67.0,
+      ">=1M": 137.0
+     },
+     "checks": {
+      "cap_every_full_day": false,
+      "beats_e4_same_capacity": false,
+      "min_extra_fraud": true
+     }
+    },
+    "F2": {
+     "days": 4.167,
+     "full_days": 3,
+     "extra_alerts_per_day_mean": 735.8,
+     "extra_alerts_full_day_min": 468.0,
+     "extra_alerts_full_day_median": 538.0,
+     "extra_alerts_full_day_max": 1012.0,
+     "extra_alerts_per_day": {
+      "19": 42.0,
+      "20": 468.0,
+      "21": 538.0,
+      "22": 1012.0,
+      "23": 1006.0
+     },
+     "extra_fraud": 270.0,
+     "extra_fraud_per_day": 64.8,
+     "extra_precision": 0.088,
+     "e4_same_capacity_fraud": 515.0,
+     "beats_e4_same_capacity": false,
+     "e4_recall": 0.3105,
+     "combined_recall": 0.5784,
+     "e4_plus_capacity_recall": 0.8214,
+     "rule_standalone_alerts_per_day": 788.9,
+     "rule_standalone_precision": 0.139,
+     "rule_standalone_recall": 0.4534,
+     "extra_fraud_by_hour": {
+      "00-05": 20.0,
+      "06-08": 49.0,
+      "09-17": 122.0,
+      "18-23": 79.0
+     },
+     "extra_fraud_by_amount": {
+      "<500k": 74.0,
+      "500k-1M": 77.0,
+      ">=1M": 119.0
+     },
+     "checks": {
+      "cap_every_full_day": false,
+      "beats_e4_same_capacity": false,
+      "min_extra_fraud": true
+     }
+    }
+   }
+  },
+  "hv200k_new500k@25_cut70": {
+   "params": {
+    "hv": 200000,
+    "new": [
+     500000,
+     25
+    ],
+    "cut": 70
+   },
+   "n_rules": 5,
+   "folds": {
+    "F1": {
+     "days": 4.167,
+     "full_days": 3,
+     "extra_alerts_per_day_mean": 1601.0,
+     "extra_alerts_full_day_min": 160.0,
+     "extra_alerts_full_day_median": 2291.0,
+     "extra_alerts_full_day_max": 2802.0,
+     "extra_alerts_per_day": {
+      "15": 1343.0,
+      "16": 2291.0,
+      "17": 2802.0,
+      "18": 160.0,
+      "19": 75.0
+     },
+     "extra_fraud": 225.0,
+     "extra_fraud_per_day": 54.0,
+     "extra_precision": 0.034,
+     "e4_same_capacity_fraud": 461.0,
+     "beats_e4_same_capacity": false,
+     "e4_recall": 0.3279,
+     "combined_recall": 0.5225,
+     "e4_plus_capacity_recall": 0.7266,
+     "rule_standalone_alerts_per_day": 1671.8,
+     "rule_standalone_precision": 0.072,
+     "rule_standalone_recall": 0.4334,
+     "extra_fraud_by_hour": {
+      "00-05": 34.0,
+      "06-08": 33.0,
+      "09-17": 105.0,
+      "18-23": 53.0
+     },
+     "extra_fraud_by_amount": {
+      "<500k": 21.0,
+      "500k-1M": 67.0,
+      ">=1M": 137.0
+     },
+     "checks": {
+      "cap_every_full_day": false,
+      "beats_e4_same_capacity": false,
+      "min_extra_fraud": true
+     }
+    },
+    "F2": {
+     "days": 4.167,
+     "full_days": 3,
+     "extra_alerts_per_day_mean": 303.4,
+     "extra_alerts_full_day_min": 229.0,
+     "extra_alerts_full_day_median": 236.0,
+     "extra_alerts_full_day_max": 373.0,
+     "extra_alerts_per_day": {
+      "19": 12.0,
+      "20": 229.0,
+      "21": 236.0,
+      "22": 373.0,
+      "23": 414.0
+     },
+     "extra_fraud": 213.0,
+     "extra_fraud_per_day": 51.12,
+     "extra_precision": 0.169,
+     "e4_same_capacity_fraud": 318.2,
+     "beats_e4_same_capacity": false,
+     "e4_recall": 0.3105,
+     "combined_recall": 0.5218,
+     "e4_plus_capacity_recall": 0.6262,
+     "rule_standalone_alerts_per_day": 358.1,
+     "rule_standalone_precision": 0.273,
+     "rule_standalone_recall": 0.4038,
+     "extra_fraud_by_hour": {
+      "00-05": 18.0,
+      "06-08": 35.0,
+      "09-17": 105.0,
+      "18-23": 55.0
+     },
+     "extra_fraud_by_amount": {
+      "<500k": 17.0,
+      "500k-1M": 77.0,
+      ">=1M": 119.0
+     },
+     "checks": {
+      "cap_every_full_day": false,
+      "beats_e4_same_capacity": false,
+      "min_extra_fraud": true
+     }
+    }
+   }
+  },
+  "hv200k_new500k@25_cut80": {
+   "params": {
+    "hv": 200000,
+    "new": [
+     500000,
+     25
+    ],
+    "cut": 80
+   },
+   "n_rules": 5,
+   "folds": {
+    "F1": {
+     "days": 4.167,
+     "full_days": 3,
+     "extra_alerts_per_day_mean": 1592.4,
+     "extra_alerts_full_day_min": 160.0,
+     "extra_alerts_full_day_median": 2255.0,
+     "extra_alerts_full_day_max": 2802.0,
+     "extra_alerts_per_day": {
+      "15": 1343.0,
+      "16": 2255.0,
+      "17": 2802.0,
+      "18": 160.0,
+      "19": 75.0
+     },
+     "extra_fraud": 225.0,
+     "extra_fraud_per_day": 54.0,
+     "extra_precision": 0.034,
+     "e4_same_capacity_fraud": 459.2,
+     "beats_e4_same_capacity": false,
+     "e4_recall": 0.3279,
+     "combined_recall": 0.5225,
+     "e4_plus_capacity_recall": 0.7251,
+     "rule_standalone_alerts_per_day": 1658.2,
+     "rule_standalone_precision": 0.069,
+     "rule_standalone_recall": 0.4152,
+     "extra_fraud_by_hour": {
+      "00-05": 34.0,
+      "06-08": 33.0,
+      "09-17": 105.0,
+      "18-23": 53.0
+     },
+     "extra_fraud_by_amount": {
+      "<500k": 21.0,
+      "500k-1M": 67.0,
+      ">=1M": 137.0
+     },
+     "checks": {
+      "cap_every_full_day": false,
+      "beats_e4_same_capacity": false,
+      "min_extra_fraud": true
+     }
+    },
+    "F2": {
+     "days": 4.167,
+     "full_days": 3,
+     "extra_alerts_per_day_mean": 302.9,
+     "extra_alerts_full_day_min": 229.0,
+     "extra_alerts_full_day_median": 236.0,
+     "extra_alerts_full_day_max": 373.0,
+     "extra_alerts_per_day": {
+      "19": 12.0,
+      "20": 229.0,
+      "21": 236.0,
+      "22": 373.0,
+      "23": 412.0
+     },
+     "extra_fraud": 213.0,
+     "extra_fraud_per_day": 51.12,
+     "extra_precision": 0.169,
+     "e4_same_capacity_fraud": 317.4,
+     "beats_e4_same_capacity": false,
+     "e4_recall": 0.3105,
+     "combined_recall": 0.5218,
+     "e4_plus_capacity_recall": 0.6254,
+     "rule_standalone_alerts_per_day": 355.9,
+     "rule_standalone_precision": 0.27,
+     "rule_standalone_recall": 0.3968,
+     "extra_fraud_by_hour": {
+      "00-05": 18.0,
+      "06-08": 35.0,
+      "09-17": 105.0,
+      "18-23": 55.0
+     },
+     "extra_fraud_by_amount": {
+      "<500k": 17.0,
+      "500k-1M": 77.0,
+      ">=1M": 119.0
+     },
+     "checks": {
+      "cap_every_full_day": false,
+      "beats_e4_same_capacity": false,
+      "min_extra_fraud": true
+     }
+    }
+   }
+  },
+  "hv200k_new500k@45_cut70": {
+   "params": {
+    "hv": 200000,
+    "new": [
+     500000,
+     45
+    ],
+    "cut": 70
+   },
+   "n_rules": 5,
+   "folds": {
+    "F1": {
+     "days": 4.167,
+     "full_days": 3,
+     "extra_alerts_per_day_mean": 1601.0,
+     "extra_alerts_full_day_min": 160.0,
+     "extra_alerts_full_day_median": 2291.0,
+     "extra_alerts_full_day_max": 2802.0,
+     "extra_alerts_per_day": {
+      "15": 1343.0,
+      "16": 2291.0,
+      "17": 2802.0,
+      "18": 160.0,
+      "19": 75.0
+     },
+     "extra_fraud": 225.0,
+     "extra_fraud_per_day": 54.0,
+     "extra_precision": 0.034,
+     "e4_same_capacity_fraud": 461.0,
+     "beats_e4_same_capacity": false,
+     "e4_recall": 0.3279,
+     "combined_recall": 0.5225,
+     "e4_plus_capacity_recall": 0.7266,
+     "rule_standalone_alerts_per_day": 1671.8,
+     "rule_standalone_precision": 0.072,
+     "rule_standalone_recall": 0.4334,
+     "extra_fraud_by_hour": {
+      "00-05": 34.0,
+      "06-08": 33.0,
+      "09-17": 105.0,
+      "18-23": 53.0
+     },
+     "extra_fraud_by_amount": {
+      "<500k": 21.0,
+      "500k-1M": 67.0,
+      ">=1M": 137.0
+     },
+     "checks": {
+      "cap_every_full_day": false,
+      "beats_e4_same_capacity": false,
+      "min_extra_fraud": true
+     }
+    },
+    "F2": {
+     "days": 4.167,
+     "full_days": 3,
+     "extra_alerts_per_day_mean": 303.4,
+     "extra_alerts_full_day_min": 229.0,
+     "extra_alerts_full_day_median": 236.0,
+     "extra_alerts_full_day_max": 373.0,
+     "extra_alerts_per_day": {
+      "19": 12.0,
+      "20": 229.0,
+      "21": 236.0,
+      "22": 373.0,
+      "23": 414.0
+     },
+     "extra_fraud": 213.0,
+     "extra_fraud_per_day": 51.12,
+     "extra_precision": 0.169,
+     "e4_same_capacity_fraud": 318.2,
+     "beats_e4_same_capacity": false,
+     "e4_recall": 0.3105,
+     "combined_recall": 0.5218,
+     "e4_plus_capacity_recall": 0.6262,
+     "rule_standalone_alerts_per_day": 358.1,
+     "rule_standalone_precision": 0.273,
+     "rule_standalone_recall": 0.4038,
+     "extra_fraud_by_hour": {
+      "00-05": 18.0,
+      "06-08": 35.0,
+      "09-17": 105.0,
+      "18-23": 55.0
+     },
+     "extra_fraud_by_amount": {
+      "<500k": 17.0,
+      "500k-1M": 77.0,
+      ">=1M": 119.0
+     },
+     "checks": {
+      "cap_every_full_day": false,
+      "beats_e4_same_capacity": false,
+      "min_extra_fraud": true
+     }
+    }
+   }
+  },
+  "hv200k_new500k@45_cut80": {
+   "params": {
+    "hv": 200000,
+    "new": [
+     500000,
+     45
+    ],
+    "cut": 80
+   },
+   "n_rules": 5,
+   "folds": {
+    "F1": {
+     "days": 4.167,
+     "full_days": 3,
+     "extra_alerts_per_day_mean": 1592.4,
+     "extra_alerts_full_day_min": 160.0,
+     "extra_alerts_full_day_median": 2255.0,
+     "extra_alerts_full_day_max": 2802.0,
+     "extra_alerts_per_day": {
+      "15": 1343.0,
+      "16": 2255.0,
+      "17": 2802.0,
+      "18": 160.0,
+      "19": 75.0
+     },
+     "extra_fraud": 225.0,
+     "extra_fraud_per_day": 54.0,
+     "extra_precision": 0.034,
+     "e4_same_capacity_fraud": 459.2,
+     "beats_e4_same_capacity": false,
+     "e4_recall": 0.3279,
+     "combined_recall": 0.5225,
+     "e4_plus_capacity_recall": 0.7251,
+     "rule_standalone_alerts_per_day": 1658.2,
+     "rule_standalone_precision": 0.069,
+     "rule_standalone_recall": 0.4152,
+     "extra_fraud_by_hour": {
+      "00-05": 34.0,
+      "06-08": 33.0,
+      "09-17": 105.0,
+      "18-23": 53.0
+     },
+     "extra_fraud_by_amount": {
+      "<500k": 21.0,
+      "500k-1M": 67.0,
+      ">=1M": 137.0
+     },
+     "checks": {
+      "cap_every_full_day": false,
+      "beats_e4_same_capacity": false,
+      "min_extra_fraud": true
+     }
+    },
+    "F2": {
+     "days": 4.167,
+     "full_days": 3,
+     "extra_alerts_per_day_mean": 302.9,
+     "extra_alerts_full_day_min": 229.0,
+     "extra_alerts_full_day_median": 236.0,
+     "extra_alerts_full_day_max": 373.0,
+     "extra_alerts_per_day": {
+      "19": 12.0,
+      "20": 229.0,
+      "21": 236.0,
+      "22": 373.0,
+      "23": 412.0
+     },
+     "extra_fraud": 213.0,
+     "extra_fraud_per_day": 51.12,
+     "extra_precision": 0.169,
+     "e4_same_capacity_fraud": 317.4,
+     "beats_e4_same_capacity": false,
+     "e4_recall": 0.3105,
+     "combined_recall": 0.5218,
+     "e4_plus_capacity_recall": 0.6254,
+     "rule_standalone_alerts_per_day": 355.9,
+     "rule_standalone_precision": 0.27,
+     "rule_standalone_recall": 0.3968,
+     "extra_fraud_by_hour": {
+      "00-05": 18.0,
+      "06-08": 35.0,
+      "09-17": 105.0,
+      "18-23": 55.0
+     },
+     "extra_fraud_by_amount": {
+      "<500k": 17.0,
+      "500k-1M": 77.0,
+      ">=1M": 119.0
+     },
+     "checks": {
+      "cap_every_full_day": false,
+      "beats_e4_same_capacity": false,
+      "min_extra_fraud": true
+     }
+    }
+   }
+  },
+  "hv200k_new1000k@25_cut70": {
+   "params": {
+    "hv": 200000,
+    "new": [
+     1000000,
+     25
+    ],
+    "cut": 70
+   },
+   "n_rules": 5,
+   "folds": {
+    "F1": {
+     "days": 4.167,
+     "full_days": 3,
+     "extra_alerts_per_day_mean": 763.0,
+     "extra_alerts_full_day_min": 95.0,
+     "extra_alerts_full_day_median": 1026.0,
+     "extra_alerts_full_day_max": 1361.0,
+     "extra_alerts_per_day": {
+      "15": 637.0,
+      "16": 1026.0,
+      "17": 1361.0,
+      "18": 95.0,
+      "19": 60.0
+     },
+     "extra_fraud": 163.0,
+     "extra_fraud_per_day": 39.12,
+     "extra_precision": 0.051,
+     "e4_same_capacity_fraud": 349.5,
+     "beats_e4_same_capacity": false,
+     "e4_recall": 0.3279,
+     "combined_recall": 0.4689,
+     "e4_plus_capacity_recall": 0.6302,
+     "rule_standalone_alerts_per_day": 833.8,
+     "rule_standalone_precision": 0.126,
+     "rule_standalone_recall": 0.3798,
+     "extra_fraud_by_hour": {
+      "00-05": 27.0,
+      "06-08": 25.0,
+      "09-17": 86.0,
+      "18-23": 25.0
+     },
+     "extra_fraud_by_amount": {
+      "<500k": 21.0,
+      "500k-1M": 5.0,
+      ">=1M": 137.0
+     },
+     "checks": {
+      "cap_every_full_day": false,
+      "beats_e4_same_capacity": false,
+      "min_extra_fraud": true
+     }
+    },
+    "F2": {
+     "days": 4.167,
+     "full_days": 3,
+     "extra_alerts_per_day_mean": 189.6,
+     "extra_alerts_full_day_min": 137.0,
+     "extra_alerts_full_day_median": 145.0,
+     "extra_alerts_full_day_max": 247.0,
+     "extra_alerts_per_day": {
+      "19": 4.0,
+      "20": 137.0,
+      "21": 145.0,
+      "22": 247.0,
+      "23": 257.0
+     },
+     "extra_fraud": 136.0,
+     "extra_fraud_per_day": 32.64,
+     "extra_precision": 0.172,
+     "e4_same_capacity_fraud": 238.0,
+     "beats_e4_same_capacity": false,
+     "e4_recall": 0.3105,
+     "combined_recall": 0.4454,
+     "e4_plus_capacity_recall": 0.5466,
+     "rule_standalone_alerts_per_day": 243.1,
+     "rule_standalone_precision": 0.321,
+     "rule_standalone_recall": 0.3224,
+     "extra_fraud_by_hour": {
+      "00-05": 17.0,
+      "06-08": 22.0,
+      "09-17": 73.0,
+      "18-23": 24.0
+     },
+     "extra_fraud_by_amount": {
+      "<500k": 17.0,
+      "500k-1M": 0.0,
+      ">=1M": 119.0
+     },
+     "checks": {
+      "cap_every_full_day": false,
+      "beats_e4_same_capacity": false,
+      "min_extra_fraud": true
+     }
+    }
+   }
+  },
+  "hv200k_new1000k@25_cut80": {
+   "params": {
+    "hv": 200000,
+    "new": [
+     1000000,
+     25
+    ],
+    "cut": 80
+   },
+   "n_rules": 5,
+   "folds": {
+    "F1": {
+     "days": 4.167,
+     "full_days": 3,
+     "extra_alerts_per_day_mean": 754.3,
+     "extra_alerts_full_day_min": 95.0,
+     "extra_alerts_full_day_median": 990.0,
+     "extra_alerts_full_day_max": 1361.0,
+     "extra_alerts_per_day": {
+      "15": 637.0,
+      "16": 990.0,
+      "17": 1361.0,
+      "18": 95.0,
+      "19": 60.0
+     },
+     "extra_fraud": 163.0,
+     "extra_fraud_per_day": 39.12,
+     "extra_precision": 0.052,
+     "e4_same_capacity_fraud": 345.3,
+     "beats_e4_same_capacity": false,
+     "e4_recall": 0.3279,
+     "combined_recall": 0.4689,
+     "e4_plus_capacity_recall": 0.6266,
+     "rule_standalone_alerts_per_day": 820.1,
+     "rule_standalone_precision": 0.122,
+     "rule_standalone_recall": 0.3616,
+     "extra_fraud_by_hour": {
+      "00-05": 27.0,
+      "06-08": 25.0,
+      "09-17": 86.0,
+      "18-23": 25.0
+     },
+     "extra_fraud_by_amount": {
+      "<500k": 21.0,
+      "500k-1M": 5.0,
+      ">=1M": 137.0
+     },
+     "checks": {
+      "cap_every_full_day": false,
+      "beats_e4_same_capacity": false,
+      "min_extra_fraud": true
+     }
+    },
+    "F2": {
+     "days": 4.167,
+     "full_days": 3,
+     "extra_alerts_per_day_mean": 189.1,
+     "extra_alerts_full_day_min": 137.0,
+     "extra_alerts_full_day_median": 145.0,
+     "extra_alerts_full_day_max": 247.0,
+     "extra_alerts_per_day": {
+      "19": 4.0,
+      "20": 137.0,
+      "21": 145.0,
+      "22": 247.0,
+      "23": 255.0
+     },
+     "extra_fraud": 136.0,
+     "extra_fraud_per_day": 32.64,
+     "extra_precision": 0.173,
+     "e4_same_capacity_fraud": 237.0,
+     "beats_e4_same_capacity": false,
+     "e4_recall": 0.3105,
+     "combined_recall": 0.4454,
+     "e4_plus_capacity_recall": 0.5456,
+     "rule_standalone_alerts_per_day": 241.0,
+     "rule_standalone_precision": 0.317,
+     "rule_standalone_recall": 0.3155,
+     "extra_fraud_by_hour": {
+      "00-05": 17.0,
+      "06-08": 22.0,
+      "09-17": 73.0,
+      "18-23": 24.0
+     },
+     "extra_fraud_by_amount": {
+      "<500k": 17.0,
+      "500k-1M": 0.0,
+      ">=1M": 119.0
+     },
+     "checks": {
+      "cap_every_full_day": false,
+      "beats_e4_same_capacity": false,
+      "min_extra_fraud": true
+     }
+    }
+   }
+  },
+  "hv200k_new1000k@45_cut70": {
+   "params": {
+    "hv": 200000,
+    "new": [
+     1000000,
+     45
+    ],
+    "cut": 70
+   },
+   "n_rules": 5,
+   "folds": {
+    "F1": {
+     "days": 4.167,
+     "full_days": 3,
+     "extra_alerts_per_day_mean": 763.0,
+     "extra_alerts_full_day_min": 95.0,
+     "extra_alerts_full_day_median": 1026.0,
+     "extra_alerts_full_day_max": 1361.0,
+     "extra_alerts_per_day": {
+      "15": 637.0,
+      "16": 1026.0,
+      "17": 1361.0,
+      "18": 95.0,
+      "19": 60.0
+     },
+     "extra_fraud": 163.0,
+     "extra_fraud_per_day": 39.12,
+     "extra_precision": 0.051,
+     "e4_same_capacity_fraud": 349.5,
+     "beats_e4_same_capacity": false,
+     "e4_recall": 0.3279,
+     "combined_recall": 0.4689,
+     "e4_plus_capacity_recall": 0.6302,
+     "rule_standalone_alerts_per_day": 833.8,
+     "rule_standalone_precision": 0.126,
+     "rule_standalone_recall": 0.3798,
+     "extra_fraud_by_hour": {
+      "00-05": 27.0,
+      "06-08": 25.0,
+      "09-17": 86.0,
+      "18-23": 25.0
+     },
+     "extra_fraud_by_amount": {
+      "<500k": 21.0,
+      "500k-1M": 5.0,
+      ">=1M": 137.0
+     },
+     "checks": {
+      "cap_every_full_day": false,
+      "beats_e4_same_capacity": false,
+      "min_extra_fraud": true
+     }
+    },
+    "F2": {
+     "days": 4.167,
+     "full_days": 3,
+     "extra_alerts_per_day_mean": 189.6,
+     "extra_alerts_full_day_min": 137.0,
+     "extra_alerts_full_day_median": 145.0,
+     "extra_alerts_full_day_max": 247.0,
+     "extra_alerts_per_day": {
+      "19": 4.0,
+      "20": 137.0,
+      "21": 145.0,
+      "22": 247.0,
+      "23": 257.0
+     },
+     "extra_fraud": 136.0,
+     "extra_fraud_per_day": 32.64,
+     "extra_precision": 0.172,
+     "e4_same_capacity_fraud": 238.0,
+     "beats_e4_same_capacity": false,
+     "e4_recall": 0.3105,
+     "combined_recall": 0.4454,
+     "e4_plus_capacity_recall": 0.5466,
+     "rule_standalone_alerts_per_day": 243.1,
+     "rule_standalone_precision": 0.321,
+     "rule_standalone_recall": 0.3224,
+     "extra_fraud_by_hour": {
+      "00-05": 17.0,
+      "06-08": 22.0,
+      "09-17": 73.0,
+      "18-23": 24.0
+     },
+     "extra_fraud_by_amount": {
+      "<500k": 17.0,
+      "500k-1M": 0.0,
+      ">=1M": 119.0
+     },
+     "checks": {
+      "cap_every_full_day": false,
+      "beats_e4_same_capacity": false,
+      "min_extra_fraud": true
+     }
+    }
+   }
+  },
+  "hv200k_new1000k@45_cut80": {
+   "params": {
+    "hv": 200000,
+    "new": [
+     1000000,
+     45
+    ],
+    "cut": 80
+   },
+   "n_rules": 5,
+   "folds": {
+    "F1": {
+     "days": 4.167,
+     "full_days": 3,
+     "extra_alerts_per_day_mean": 754.3,
+     "extra_alerts_full_day_min": 95.0,
+     "extra_alerts_full_day_median": 990.0,
+     "extra_alerts_full_day_max": 1361.0,
+     "extra_alerts_per_day": {
+      "15": 637.0,
+      "16": 990.0,
+      "17": 1361.0,
+      "18": 95.0,
+      "19": 60.0
+     },
+     "extra_fraud": 163.0,
+     "extra_fraud_per_day": 39.12,
+     "extra_precision": 0.052,
+     "e4_same_capacity_fraud": 345.3,
+     "beats_e4_same_capacity": false,
+     "e4_recall": 0.3279,
+     "combined_recall": 0.4689,
+     "e4_plus_capacity_recall": 0.6266,
+     "rule_standalone_alerts_per_day": 820.1,
+     "rule_standalone_precision": 0.122,
+     "rule_standalone_recall": 0.3616,
+     "extra_fraud_by_hour": {
+      "00-05": 27.0,
+      "06-08": 25.0,
+      "09-17": 86.0,
+      "18-23": 25.0
+     },
+     "extra_fraud_by_amount": {
+      "<500k": 21.0,
+      "500k-1M": 5.0,
+      ">=1M": 137.0
+     },
+     "checks": {
+      "cap_every_full_day": false,
+      "beats_e4_same_capacity": false,
+      "min_extra_fraud": true
+     }
+    },
+    "F2": {
+     "days": 4.167,
+     "full_days": 3,
+     "extra_alerts_per_day_mean": 189.1,
+     "extra_alerts_full_day_min": 137.0,
+     "extra_alerts_full_day_median": 145.0,
+     "extra_alerts_full_day_max": 247.0,
+     "extra_alerts_per_day": {
+      "19": 4.0,
+      "20": 137.0,
+      "21": 145.0,
+      "22": 247.0,
+      "23": 255.0
+     },
+     "extra_fraud": 136.0,
+     "extra_fraud_per_day": 32.64,
+     "extra_precision": 0.173,
+     "e4_same_capacity_fraud": 237.0,
+     "beats_e4_same_capacity": false,
+     "e4_recall": 0.3105,
+     "combined_recall": 0.4454,
+     "e4_plus_capacity_recall": 0.5456,
+     "rule_standalone_alerts_per_day": 241.0,
+     "rule_standalone_precision": 0.317,
+     "rule_standalone_recall": 0.3155,
+     "extra_fraud_by_hour": {
+      "00-05": 17.0,
+      "06-08": 22.0,
+      "09-17": 73.0,
+      "18-23": 24.0
+     },
+     "extra_fraud_by_amount": {
+      "<500k": 17.0,
+      "500k-1M": 0.0,
+      ">=1M": 119.0
+     },
+     "checks": {
+      "cap_every_full_day": false,
+      "beats_e4_same_capacity": false,
+      "min_extra_fraud": true
+     }
+    }
+   }
+  },
+  "hv200k_new2000k@25_cut70": {
+   "params": {
+    "hv": 200000,
+    "new": [
+     2000000,
+     25
+    ],
+    "cut": 70
+   },
+   "n_rules": 5,
+   "folds": {
+    "F1": {
+     "days": 4.167,
+     "full_days": 3,
+     "extra_alerts_per_day_mean": 308.4,
+     "extra_alerts_full_day_min": 70.0,
+     "extra_alerts_full_day_median": 464.0,
+     "extra_alerts_full_day_max": 504.0,
+     "extra_alerts_per_day": {
+      "15": 203.0,
+      "16": 504.0,
+      "17": 464.0,
+      "18": 70.0,
+      "19": 44.0
+     },
+     "extra_fraud": 114.0,
+     "extra_fraud_per_day": 27.36,
+     "extra_precision": 0.089,
+     "e4_same_capacity_fraud": 251.0,
+     "beats_e4_same_capacity": false,
+     "e4_recall": 0.3279,
+     "combined_recall": 0.4265,
+     "e4_plus_capacity_recall": 0.545,
+     "rule_standalone_alerts_per_day": 376.3,
+     "rule_standalone_precision": 0.242,
+     "rule_standalone_recall": 0.3287,
+     "extra_fraud_by_hour": {
+      "00-05": 27.0,
+      "06-08": 15.0,
+      "09-17": 53.0,
+      "18-23": 19.0
+     },
+     "extra_fraud_by_amount": {
+      "<500k": 21.0,
+      "500k-1M": 5.0,
+      ">=1M": 88.0
+     },
+     "checks": {
+      "cap_every_full_day": false,
+      "beats_e4_same_capacity": false,
+      "min_extra_fraud": true
+     }
+    },
+    "F2": {
+     "days": 4.167,
+     "full_days": 3,
+     "extra_alerts_per_day_mean": 115.0,
+     "extra_alerts_full_day_min": 70.0,
+     "extra_alerts_full_day_median": 87.0,
+     "extra_alerts_full_day_max": 155.0,
+     "extra_alerts_per_day": {
+      "19": 1.0,
+      "20": 87.0,
+      "21": 70.0,
+      "22": 155.0,
+      "23": 166.0
+     },
+     "extra_fraud": 67.0,
+     "extra_fraud_per_day": 16.08,
+     "extra_precision": 0.14,
+     "e4_same_capacity_fraud": 145.0,
+     "beats_e4_same_capacity": false,
+     "e4_recall": 0.3105,
+     "combined_recall": 0.377,
+     "e4_plus_capacity_recall": 0.4544,
+     "rule_standalone_alerts_per_day": 164.6,
+     "rule_standalone_precision": 0.351,
+     "rule_standalone_recall": 0.2391,
+     "extra_fraud_by_hour": {
+      "00-05": 17.0,
+      "06-08": 7.0,
+      "09-17": 37.0,
+      "18-23": 6.0
+     },
+     "extra_fraud_by_amount": {
+      "<500k": 17.0,
+      "500k-1M": 0.0,
+      ">=1M": 50.0
+     },
+     "checks": {
+      "cap_every_full_day": false,
+      "beats_e4_same_capacity": false,
+      "min_extra_fraud": true
+     }
+    }
+   }
+  },
+  "hv200k_new2000k@25_cut80": {
+   "params": {
+    "hv": 200000,
+    "new": [
+     2000000,
+     25
+    ],
+    "cut": 80
+   },
+   "n_rules": 5,
+   "folds": {
+    "F1": {
+     "days": 4.167,
+     "full_days": 3,
+     "extra_alerts_per_day_mean": 299.8,
+     "extra_alerts_full_day_min": 70.0,
+     "extra_alerts_full_day_median": 464.0,
+     "extra_alerts_full_day_max": 468.0,
+     "extra_alerts_per_day": {
+      "15": 203.0,
+      "16": 468.0,
+      "17": 464.0,
+      "18": 70.0,
+      "19": 44.0
+     },
+     "extra_fraud": 114.0,
+     "extra_fraud_per_day": 27.36,
+     "extra_precision": 0.091,
+     "e4_same_capacity_fraud": 249.0,
+     "beats_e4_same_capacity": false,
+     "e4_recall": 0.3279,
+     "combined_recall": 0.4265,
+     "e4_plus_capacity_recall": 0.5433,
+     "rule_standalone_alerts_per_day": 362.6,
+     "rule_standalone_precision": 0.238,
+     "rule_standalone_recall": 0.3106,
+     "extra_fraud_by_hour": {
+      "00-05": 27.0,
+      "06-08": 15.0,
+      "09-17": 53.0,
+      "18-23": 19.0
+     },
+     "extra_fraud_by_amount": {
+      "<500k": 21.0,
+      "500k-1M": 5.0,
+      ">=1M": 88.0
+     },
+     "checks": {
+      "cap_every_full_day": false,
+      "beats_e4_same_capacity": false,
+      "min_extra_fraud": true
+     }
+    },
+    "F2": {
+     "days": 4.167,
+     "full_days": 3,
+     "extra_alerts_per_day_mean": 114.5,
+     "extra_alerts_full_day_min": 70.0,
+     "extra_alerts_full_day_median": 87.0,
+     "extra_alerts_full_day_max": 155.0,
+     "extra_alerts_per_day": {
+      "19": 1.0,
+      "20": 87.0,
+      "21": 70.0,
+      "22": 155.0,
+      "23": 164.0
+     },
+     "extra_fraud": 67.0,
+     "extra_fraud_per_day": 16.08,
+     "extra_precision": 0.14,
+     "e4_same_capacity_fraud": 145.0,
+     "beats_e4_same_capacity": false,
+     "e4_recall": 0.3105,
+     "combined_recall": 0.377,
+     "e4_plus_capacity_recall": 0.4544,
+     "rule_standalone_alerts_per_day": 162.5,
+     "rule_standalone_precision": 0.346,
+     "rule_standalone_recall": 0.2321,
+     "extra_fraud_by_hour": {
+      "00-05": 17.0,
+      "06-08": 7.0,
+      "09-17": 37.0,
+      "18-23": 6.0
+     },
+     "extra_fraud_by_amount": {
+      "<500k": 17.0,
+      "500k-1M": 0.0,
+      ">=1M": 50.0
+     },
+     "checks": {
+      "cap_every_full_day": false,
+      "beats_e4_same_capacity": false,
+      "min_extra_fraud": true
+     }
+    }
+   }
+  },
+  "hv200k_new2000k@45_cut70": {
+   "params": {
+    "hv": 200000,
+    "new": [
+     2000000,
+     45
+    ],
+    "cut": 70
+   },
+   "n_rules": 5,
+   "folds": {
+    "F1": {
+     "days": 4.167,
+     "full_days": 3,
+     "extra_alerts_per_day_mean": 308.4,
+     "extra_alerts_full_day_min": 70.0,
+     "extra_alerts_full_day_median": 464.0,
+     "extra_alerts_full_day_max": 504.0,
+     "extra_alerts_per_day": {
+      "15": 203.0,
+      "16": 504.0,
+      "17": 464.0,
+      "18": 70.0,
+      "19": 44.0
+     },
+     "extra_fraud": 114.0,
+     "extra_fraud_per_day": 27.36,
+     "extra_precision": 0.089,
+     "e4_same_capacity_fraud": 251.0,
+     "beats_e4_same_capacity": false,
+     "e4_recall": 0.3279,
+     "combined_recall": 0.4265,
+     "e4_plus_capacity_recall": 0.545,
+     "rule_standalone_alerts_per_day": 376.3,
+     "rule_standalone_precision": 0.242,
+     "rule_standalone_recall": 0.3287,
+     "extra_fraud_by_hour": {
+      "00-05": 27.0,
+      "06-08": 15.0,
+      "09-17": 53.0,
+      "18-23": 19.0
+     },
+     "extra_fraud_by_amount": {
+      "<500k": 21.0,
+      "500k-1M": 5.0,
+      ">=1M": 88.0
+     },
+     "checks": {
+      "cap_every_full_day": false,
+      "beats_e4_same_capacity": false,
+      "min_extra_fraud": true
+     }
+    },
+    "F2": {
+     "days": 4.167,
+     "full_days": 3,
+     "extra_alerts_per_day_mean": 115.0,
+     "extra_alerts_full_day_min": 70.0,
+     "extra_alerts_full_day_median": 87.0,
+     "extra_alerts_full_day_max": 155.0,
+     "extra_alerts_per_day": {
+      "19": 1.0,
+      "20": 87.0,
+      "21": 70.0,
+      "22": 155.0,
+      "23": 166.0
+     },
+     "extra_fraud": 67.0,
+     "extra_fraud_per_day": 16.08,
+     "extra_precision": 0.14,
+     "e4_same_capacity_fraud": 145.0,
+     "beats_e4_same_capacity": false,
+     "e4_recall": 0.3105,
+     "combined_recall": 0.377,
+     "e4_plus_capacity_recall": 0.4544,
+     "rule_standalone_alerts_per_day": 164.6,
+     "rule_standalone_precision": 0.351,
+     "rule_standalone_recall": 0.2391,
+     "extra_fraud_by_hour": {
+      "00-05": 17.0,
+      "06-08": 7.0,
+      "09-17": 37.0,
+      "18-23": 6.0
+     },
+     "extra_fraud_by_amount": {
+      "<500k": 17.0,
+      "500k-1M": 0.0,
+      ">=1M": 50.0
+     },
+     "checks": {
+      "cap_every_full_day": false,
+      "beats_e4_same_capacity": false,
+      "min_extra_fraud": true
+     }
+    }
+   }
+  },
+  "hv200k_new2000k@45_cut80": {
+   "params": {
+    "hv": 200000,
+    "new": [
+     2000000,
+     45
+    ],
+    "cut": 80
+   },
+   "n_rules": 5,
+   "folds": {
+    "F1": {
+     "days": 4.167,
+     "full_days": 3,
+     "extra_alerts_per_day_mean": 299.8,
+     "extra_alerts_full_day_min": 70.0,
+     "extra_alerts_full_day_median": 464.0,
+     "extra_alerts_full_day_max": 468.0,
+     "extra_alerts_per_day": {
+      "15": 203.0,
+      "16": 468.0,
+      "17": 464.0,
+      "18": 70.0,
+      "19": 44.0
+     },
+     "extra_fraud": 114.0,
+     "extra_fraud_per_day": 27.36,
+     "extra_precision": 0.091,
+     "e4_same_capacity_fraud": 249.0,
+     "beats_e4_same_capacity": false,
+     "e4_recall": 0.3279,
+     "combined_recall": 0.4265,
+     "e4_plus_capacity_recall": 0.5433,
+     "rule_standalone_alerts_per_day": 362.6,
+     "rule_standalone_precision": 0.238,
+     "rule_standalone_recall": 0.3106,
+     "extra_fraud_by_hour": {
+      "00-05": 27.0,
+      "06-08": 15.0,
+      "09-17": 53.0,
+      "18-23": 19.0
+     },
+     "extra_fraud_by_amount": {
+      "<500k": 21.0,
+      "500k-1M": 5.0,
+      ">=1M": 88.0
+     },
+     "checks": {
+      "cap_every_full_day": false,
+      "beats_e4_same_capacity": false,
+      "min_extra_fraud": true
+     }
+    },
+    "F2": {
+     "days": 4.167,
+     "full_days": 3,
+     "extra_alerts_per_day_mean": 114.5,
+     "extra_alerts_full_day_min": 70.0,
+     "extra_alerts_full_day_median": 87.0,
+     "extra_alerts_full_day_max": 155.0,
+     "extra_alerts_per_day": {
+      "19": 1.0,
+      "20": 87.0,
+      "21": 70.0,
+      "22": 155.0,
+      "23": 164.0
+     },
+     "extra_fraud": 67.0,
+     "extra_fraud_per_day": 16.08,
+     "extra_precision": 0.14,
+     "e4_same_capacity_fraud": 145.0,
+     "beats_e4_same_capacity": false,
+     "e4_recall": 0.3105,
+     "combined_recall": 0.377,
+     "e4_plus_capacity_recall": 0.4544,
+     "rule_standalone_alerts_per_day": 162.5,
+     "rule_standalone_precision": 0.346,
+     "rule_standalone_recall": 0.2321,
+     "extra_fraud_by_hour": {
+      "00-05": 17.0,
+      "06-08": 7.0,
+      "09-17": 37.0,
+      "18-23": 6.0
+     },
+     "extra_fraud_by_amount": {
+      "<500k": 17.0,
+      "500k-1M": 0.0,
+      ">=1M": 50.0
+     },
+     "checks": {
+      "cap_every_full_day": false,
+      "beats_e4_same_capacity": false,
+      "min_extra_fraud": true
+     }
+    }
+   }
+  },
+  "hv500k_nonew_cut70": {
+   "params": {
+    "hv": 500000,
+    "new": null,
+    "cut": 70
+   },
+   "n_rules": 4,
+   "folds": {
+    "F1": {
+     "days": 4.167,
+     "full_days": 3,
+     "extra_alerts_per_day_mean": 28.1,
+     "extra_alerts_full_day_min": 17.0,
+     "extra_alerts_full_day_median": 20.0,
+     "extra_alerts_full_day_max": 62.0,
+     "extra_alerts_per_day": {
+      "15": 2.0,
+      "16": 62.0,
+      "17": 20.0,
+      "18": 17.0,
+      "19": 16.0
+     },
+     "extra_fraud": 27.0,
+     "extra_fraud_per_day": 6.48,
+     "extra_precision": 0.231,
+     "e4_same_capacity_fraud": 64.0,
+     "beats_e4_same_capacity": false,
+     "e4_recall": 0.3279,
+     "combined_recall": 0.3512,
+     "e4_plus_capacity_recall": 0.3832,
+     "rule_standalone_alerts_per_day": 76.3,
+     "rule_standalone_precision": 0.717,
+     "rule_standalone_recall": 0.1972,
+     "extra_fraud_by_hour": {
+      "00-05": 5.0,
+      "06-08": 5.0,
+      "09-17": 14.0,
+      "18-23": 3.0
+     },
+     "extra_fraud_by_amount": {
+      "<500k": 0.0,
+      "500k-1M": 5.0,
+      ">=1M": 22.0
+     },
+     "checks": {
+      "cap_every_full_day": false,
+      "beats_e4_same_capacity": false,
+      "min_extra_fraud": true
+     }
+    },
+    "F2": {
+     "days": 4.167,
+     "full_days": 3,
+     "extra_alerts_per_day_mean": 15.4,
+     "extra_alerts_full_day_min": 7.0,
+     "extra_alerts_full_day_median": 11.0,
+     "extra_alerts_full_day_max": 21.0,
+     "extra_alerts_per_day": {
+      "19": 0.0,
+      "20": 21.0,
+      "21": 11.0,
+      "22": 7.0,
+      "23": 25.0
+     },
+     "extra_fraud": 8.0,
+     "extra_fraud_per_day": 1.92,
+     "extra_precision": 0.125,
+     "e4_same_capacity_fraud": 27.0,
+     "beats_e4_same_capacity": false,
+     "e4_recall": 0.3105,
+     "combined_recall": 0.3185,
+     "e4_plus_capacity_recall": 0.3373,
+     "rule_standalone_alerts_per_day": 42.7,
+     "rule_standalone_precision": 0.64,
+     "rule_standalone_recall": 0.1131,
+     "extra_fraud_by_hour": {
+      "00-05": 0.0,
+      "06-08": 0.0,
+      "09-17": 7.0,
+      "18-23": 1.0
+     },
+     "extra_fraud_by_amount": {
+      "<500k": 0.0,
+      "500k-1M": 0.0,
+      ">=1M": 8.0
+     },
+     "checks": {
+      "cap_every_full_day": true,
+      "beats_e4_same_capacity": false,
+      "min_extra_fraud": true
+     }
+    }
+   }
+  },
+  "hv500k_nonew_cut80": {
+   "params": {
+    "hv": 500000,
+    "new": null,
+    "cut": 80
+   },
+   "n_rules": 4,
+   "folds": {
+    "F1": {
+     "days": 4.167,
+     "full_days": 3,
+     "extra_alerts_per_day_mean": 11.3,
+     "extra_alerts_full_day_min": 9.0,
+     "extra_alerts_full_day_median": 13.0,
+     "extra_alerts_full_day_max": 16.0,
+     "extra_alerts_per_day": {
+      "15": 0.0,
+      "16": 13.0,
+      "17": 16.0,
+      "18": 9.0,
+      "19": 9.0
+     },
+     "extra_fraud": 5.0,
+     "extra_fraud_per_day": 1.2,
+     "extra_precision": 0.106,
+     "e4_same_capacity_fraud": 31.2,
+     "beats_e4_same_capacity": false,
+     "e4_recall": 0.3279,
+     "combined_recall": 0.3322,
+     "e4_plus_capacity_recall": 0.3548,
+     "rule_standalone_alerts_per_day": 52.6,
+     "rule_standalone_precision": 0.808,
+     "rule_standalone_recall": 0.1531,
+     "extra_fraud_by_hour": {
+      "00-05": 5.0,
+      "06-08": 0.0,
+      "09-17": 0.0,
+      "18-23": 0.0
+     },
+     "extra_fraud_by_amount": {
+      "<500k": 0.0,
+      "500k-1M": 5.0,
+      ">=1M": 0.0
+     },
+     "checks": {
+      "cap_every_full_day": true,
+      "beats_e4_same_capacity": false,
+      "min_extra_fraud": true
+     }
+    },
+    "F2": {
+     "days": 4.167,
+     "full_days": 3,
+     "extra_alerts_per_day_mean": 12.7,
+     "extra_alerts_full_day_min": 3.0,
+     "extra_alerts_full_day_median": 9.0,
+     "extra_alerts_full_day_max": 20.0,
+     "extra_alerts_per_day": {
+      "19": 0.0,
+      "20": 20.0,
+      "21": 9.0,
+      "22": 3.0,
+      "23": 21.0
+     },
+     "extra_fraud": 0.0,
+     "extra_fraud_per_day": 0.0,
+     "extra_precision": 0.0,
+     "e4_same_capacity_fraud": 19.0,
+     "beats_e4_same_capacity": false,
+     "e4_recall": 0.3105,
+     "combined_recall": 0.3105,
+     "e4_plus_capacity_recall": 0.3294,
+     "rule_standalone_alerts_per_day": 37.2,
+     "rule_standalone_precision": 0.606,
+     "rule_standalone_recall": 0.0933,
+     "extra_fraud_by_hour": {
+      "00-05": 0.0,
+      "06-08": 0.0,
+      "09-17": 0.0,
+      "18-23": 0.0
+     },
+     "extra_fraud_by_amount": {
+      "<500k": 0.0,
+      "500k-1M": 0.0,
+      ">=1M": 0.0
+     },
+     "checks": {
+      "cap_every_full_day": true,
+      "beats_e4_same_capacity": false,
+      "min_extra_fraud": false
+     }
+    }
+   }
+  },
+  "hv500k_new250k@25_cut70": {
+   "params": {
+    "hv": 500000,
+    "new": [
+     250000,
+     25
+    ],
+    "cut": 70
+   },
+   "n_rules": 5,
+   "folds": {
+    "F1": {
+     "days": 4.167,
+     "full_days": 3,
+     "extra_alerts_per_day_mean": 1575.4,
+     "extra_alerts_full_day_min": 129.0,
+     "extra_alerts_full_day_median": 2268.0,
+     "extra_alerts_full_day_max": 2763.0,
+     "extra_alerts_per_day": {
+      "15": 1343.0,
+      "16": 2268.0,
+      "17": 2763.0,
+      "18": 129.0,
+      "19": 61.0
+     },
+     "extra_fraud": 210.0,
+     "extra_fraud_per_day": 50.4,
+     "extra_precision": 0.032,
+     "e4_same_capacity_fraud": 457.9,
+     "beats_e4_same_capacity": false,
+     "e4_recall": 0.3279,
+     "combined_recall": 0.5095,
+     "e4_plus_capacity_recall": 0.7239,
+     "rule_standalone_alerts_per_day": 1644.0,
+     "rule_standalone_precision": 0.07,
+     "rule_standalone_recall": 0.4135,
+     "extra_fraud_by_hour": {
+      "00-05": 19.0,
+      "06-08": 33.0,
+      "09-17": 105.0,
+      "18-23": 53.0
+     },
+     "extra_fraud_by_amount": {
+      "<500k": 6.0,
+      "500k-1M": 67.0,
+      ">=1M": 137.0
+     },
+     "checks": {
+      "cap_every_full_day": false,
+      "beats_e4_same_capacity": false,
+      "min_extra_fraud": true
+     }
+    },
+    "F2": {
+     "days": 4.167,
+     "full_days": 3,
+     "extra_alerts_per_day_mean": 259.4,
+     "extra_alerts_full_day_min": 178.0,
+     "extra_alerts_full_day_median": 219.0,
+     "extra_alerts_full_day_max": 347.0,
+     "extra_alerts_per_day": {
+      "19": 12.0,
+      "20": 178.0,
+      "21": 219.0,
+      "22": 347.0,
+      "23": 325.0
+     },
+     "extra_fraud": 199.0,
+     "extra_fraud_per_day": 47.76,
+     "extra_precision": 0.184,
+     "e4_same_capacity_fraud": 285.2,
+     "beats_e4_same_capacity": false,
+     "e4_recall": 0.3105,
+     "combined_recall": 0.5079,
+     "e4_plus_capacity_recall": 0.5935,
+     "rule_standalone_alerts_per_day": 306.5,
+     "rule_standalone_precision": 0.297,
+     "rule_standalone_recall": 0.376,
+     "extra_fraud_by_hour": {
+      "00-05": 4.0,
+      "06-08": 35.0,
+      "09-17": 105.0,
+      "18-23": 55.0
+     },
+     "extra_fraud_by_amount": {
+      "<500k": 3.0,
+      "500k-1M": 77.0,
+      ">=1M": 119.0
+     },
+     "checks": {
+      "cap_every_full_day": false,
+      "beats_e4_same_capacity": false,
+      "min_extra_fraud": true
+     }
+    }
+   }
+  },
+  "hv500k_new250k@25_cut80": {
+   "params": {
+    "hv": 500000,
+    "new": [
+     250000,
+     25
+    ],
+    "cut": 80
+   },
+   "n_rules": 5,
+   "folds": {
+    "F1": {
+     "days": 4.167,
+     "full_days": 3,
+     "extra_alerts_per_day_mean": 1564.6,
+     "extra_alerts_full_day_min": 125.0,
+     "extra_alerts_full_day_median": 2230.0,
+     "extra_alerts_full_day_max": 2760.0,
+     "extra_alerts_per_day": {
+      "15": 1343.0,
+      "16": 2230.0,
+      "17": 2760.0,
+      "18": 125.0,
+      "19": 61.0
+     },
+     "extra_fraud": 204.0,
+     "extra_fraud_per_day": 48.96,
+     "extra_precision": 0.031,
+     "e4_same_capacity_fraud": 456.2,
+     "beats_e4_same_capacity": false,
+     "e4_recall": 0.3279,
+     "combined_recall": 0.5043,
+     "e4_plus_capacity_recall": 0.7225,
+     "rule_standalone_alerts_per_day": 1626.0,
+     "rule_standalone_precision": 0.065,
+     "rule_standalone_recall": 0.3824,
+     "extra_fraud_by_hour": {
+      "00-05": 13.0,
+      "06-08": 33.0,
+      "09-17": 105.0,
+      "18-23": 53.0
+     },
+     "extra_fraud_by_amount": {
+      "<500k": 0.0,
+      "500k-1M": 67.0,
+      ">=1M": 137.0
+     },
+     "checks": {
+      "cap_every_full_day": false,
+      "beats_e4_same_capacity": false,
+      "min_extra_fraud": true
+     }
+    },
+    "F2": {
+     "days": 4.167,
+     "full_days": 3,
+     "extra_alerts_per_day_mean": 257.8,
+     "extra_alerts_full_day_min": 176.0,
+     "extra_alerts_full_day_median": 218.0,
+     "extra_alerts_full_day_max": 347.0,
+     "extra_alerts_per_day": {
+      "19": 12.0,
+      "20": 176.0,
+      "21": 218.0,
+      "22": 347.0,
+      "23": 321.0
+     },
+     "extra_fraud": 196.0,
+     "extra_fraud_per_day": 47.04,
+     "extra_precision": 0.182,
+     "e4_same_capacity_fraud": 285.0,
+     "beats_e4_same_capacity": false,
+     "e4_recall": 0.3105,
+     "combined_recall": 0.505,
+     "e4_plus_capacity_recall": 0.5933,
+     "rule_standalone_alerts_per_day": 296.9,
+     "rule_standalone_precision": 0.281,
+     "rule_standalone_recall": 0.3452,
+     "extra_fraud_by_hour": {
+      "00-05": 1.0,
+      "06-08": 35.0,
+      "09-17": 105.0,
+      "18-23": 55.0
+     },
+     "extra_fraud_by_amount": {
+      "<500k": 0.0,
+      "500k-1M": 77.0,
+      ">=1M": 119.0
+     },
+     "checks": {
+      "cap_every_full_day": false,
+      "beats_e4_same_capacity": false,
+      "min_extra_fraud": true
+     }
+    }
+   }
+  },
+  "hv500k_new250k@45_cut70": {
+   "params": {
+    "hv": 500000,
+    "new": [
+     250000,
+     45
+    ],
+    "cut": 70
+   },
+   "n_rules": 5,
+   "folds": {
+    "F1": {
+     "days": 4.167,
+     "full_days": 3,
+     "extra_alerts_per_day_mean": 4804.1,
+     "extra_alerts_full_day_min": 392.0,
+     "extra_alerts_full_day_median": 7197.0,
+     "extra_alerts_full_day_max": 8320.0,
+     "extra_alerts_per_day": {
+      "15": 3979.0,
+      "16": 7197.0,
+      "17": 8320.0,
+      "18": 392.0,
+      "19": 129.0
+     },
+     "extra_fraud": 303.0,
+     "extra_fraud_per_day": 72.72,
+     "extra_precision": 0.015,
+     "e4_same_capacity_fraud": 588.0,
+     "beats_e4_same_capacity": false,
+     "e4_recall": 0.3279,
+     "combined_recall": 0.59,
+     "e4_plus_capacity_recall": 0.8365,
+     "rule_standalone_alerts_per_day": 4872.7,
+     "rule_standalone_precision": 0.028,
+     "rule_standalone_recall": 0.4939,
+     "extra_fraud_by_hour": {
+      "00-05": 22.0,
+      "06-08": 44.0,
+      "09-17": 157.0,
+      "18-23": 80.0
+     },
+     "extra_fraud_by_amount": {
+      "<500k": 99.0,
+      "500k-1M": 67.0,
+      ">=1M": 137.0
+     },
+     "checks": {
+      "cap_every_full_day": false,
+      "beats_e4_same_capacity": false,
+      "min_extra_fraud": true
+     }
+    },
+    "F2": {
+     "days": 4.167,
+     "full_days": 3,
+     "extra_alerts_per_day_mean": 692.4,
+     "extra_alerts_full_day_min": 417.0,
+     "extra_alerts_full_day_median": 521.0,
+     "extra_alerts_full_day_max": 986.0,
+     "extra_alerts_per_day": {
+      "19": 42.0,
+      "20": 417.0,
+      "21": 521.0,
+      "22": 986.0,
+      "23": 919.0
+     },
+     "extra_fraud": 256.0,
+     "extra_fraud_per_day": 61.44,
+     "extra_precision": 0.089,
+     "e4_same_capacity_fraud": 509.0,
+     "beats_e4_same_capacity": false,
+     "e4_recall": 0.3105,
+     "combined_recall": 0.5645,
+     "e4_plus_capacity_recall": 0.8155,
+     "rule_standalone_alerts_per_day": 739.4,
+     "rule_standalone_precision": 0.142,
+     "rule_standalone_recall": 0.4325,
+     "extra_fraud_by_hour": {
+      "00-05": 6.0,
+      "06-08": 49.0,
+      "09-17": 122.0,
+      "18-23": 79.0
+     },
+     "extra_fraud_by_amount": {
+      "<500k": 60.0,
+      "500k-1M": 77.0,
+      ">=1M": 119.0
+     },
+     "checks": {
+      "cap_every_full_day": false,
+      "beats_e4_same_capacity": false,
+      "min_extra_fraud": true
+     }
+    }
+   }
+  },
+  "hv500k_new250k@45_cut80": {
+   "params": {
+    "hv": 500000,
+    "new": [
+     250000,
+     45
+    ],
+    "cut": 80
+   },
+   "n_rules": 5,
+   "folds": {
+    "F1": {
+     "days": 4.167,
+     "full_days": 3,
+     "extra_alerts_per_day_mean": 1566.7,
+     "extra_alerts_full_day_min": 129.0,
+     "extra_alerts_full_day_median": 2232.0,
+     "extra_alerts_full_day_max": 2763.0,
+     "extra_alerts_per_day": {
+      "15": 1343.0,
+      "16": 2232.0,
+      "17": 2763.0,
+      "18": 129.0,
+      "19": 61.0
+     },
+     "extra_fraud": 210.0,
+     "extra_fraud_per_day": 50.4,
+     "extra_precision": 0.032,
+     "e4_same_capacity_fraud": 456.6,
+     "beats_e4_same_capacity": false,
+     "e4_recall": 0.3279,
+     "combined_recall": 0.5095,
+     "e4_plus_capacity_recall": 0.7228,
+     "rule_standalone_alerts_per_day": 1630.3,
+     "rule_standalone_precision": 0.067,
+     "rule_standalone_recall": 0.3953,
+     "extra_fraud_by_hour": {
+      "00-05": 19.0,
+      "06-08": 33.0,
+      "09-17": 105.0,
+      "18-23": 53.0
+     },
+     "extra_fraud_by_amount": {
+      "<500k": 6.0,
+      "500k-1M": 67.0,
+      ">=1M": 137.0
+     },
+     "checks": {
+      "cap_every_full_day": false,
+      "beats_e4_same_capacity": false,
+      "min_extra_fraud": true
+     }
+    },
+    "F2": {
+     "days": 4.167,
+     "full_days": 3,
+     "extra_alerts_per_day_mean": 259.0,
+     "extra_alerts_full_day_min": 178.0,
+     "extra_alerts_full_day_median": 219.0,
+     "extra_alerts_full_day_max": 347.0,
+     "extra_alerts_per_day": {
+      "19": 12.0,
+      "20": 178.0,
+      "21": 219.0,
+      "22": 347.0,
+      "23": 323.0
+     },
+     "extra_fraud": 199.0,
+     "extra_fraud_per_day": 47.76,
+     "extra_precision": 0.184,
+     "e4_same_capacity_fraud": 285.1,
+     "beats_e4_same_capacity": false,
+     "e4_recall": 0.3105,
+     "combined_recall": 0.5079,
+     "e4_plus_capacity_recall": 0.5934,
+     "rule_standalone_alerts_per_day": 304.3,
+     "rule_standalone_precision": 0.293,
+     "rule_standalone_recall": 0.369,
+     "extra_fraud_by_hour": {
+      "00-05": 4.0,
+      "06-08": 35.0,
+      "09-17": 105.0,
+      "18-23": 55.0
+     },
+     "extra_fraud_by_amount": {
+      "<500k": 3.0,
+      "500k-1M": 77.0,
+      ">=1M": 119.0
+     },
+     "checks": {
+      "cap_every_full_day": false,
+      "beats_e4_same_capacity": false,
+      "min_extra_fraud": true
+     }
+    }
+   }
+  },
+  "hv500k_new500k@25_cut70": {
+   "params": {
+    "hv": 500000,
+    "new": [
+     500000,
+     25
+    ],
+    "cut": 70
+   },
+   "n_rules": 5,
+   "folds": {
+    "F1": {
+     "days": 4.167,
+     "full_days": 3,
+     "extra_alerts_per_day_mean": 1573.2,
+     "extra_alerts_full_day_min": 125.0,
+     "extra_alerts_full_day_median": 2266.0,
+     "extra_alerts_full_day_max": 2760.0,
+     "extra_alerts_per_day": {
+      "15": 1343.0,
+      "16": 2266.0,
+      "17": 2760.0,
+      "18": 125.0,
+      "19": 61.0
+     },
+     "extra_fraud": 204.0,
+     "extra_fraud_per_day": 48.96,
+     "extra_precision": 0.031,
+     "e4_same_capacity_fraud": 457.5,
+     "beats_e4_same_capacity": false,
+     "e4_recall": 0.3279,
+     "combined_recall": 0.5043,
+     "e4_plus_capacity_recall": 0.7236,
+     "rule_standalone_alerts_per_day": 1639.7,
+     "rule_standalone_precision": 0.068,
+     "rule_standalone_recall": 0.4005,
+     "extra_fraud_by_hour": {
+      "00-05": 13.0,
+      "06-08": 33.0,
+      "09-17": 105.0,
+      "18-23": 53.0
+     },
+     "extra_fraud_by_amount": {
+      "<500k": 0.0,
+      "500k-1M": 67.0,
+      ">=1M": 137.0
+     },
+     "checks": {
+      "cap_every_full_day": false,
+      "beats_e4_same_capacity": false,
+      "min_extra_fraud": true
+     }
+    },
+    "F2": {
+     "days": 4.167,
+     "full_days": 3,
+     "extra_alerts_per_day_mean": 258.2,
+     "extra_alerts_full_day_min": 176.0,
+     "extra_alerts_full_day_median": 218.0,
+     "extra_alerts_full_day_max": 347.0,
+     "extra_alerts_per_day": {
+      "19": 12.0,
+      "20": 176.0,
+      "21": 218.0,
+      "22": 347.0,
+      "23": 323.0
+     },
+     "extra_fraud": 196.0,
+     "extra_fraud_per_day": 47.04,
+     "extra_precision": 0.182,
+     "e4_same_capacity_fraud": 285.0,
+     "beats_e4_same_capacity": false,
+     "e4_recall": 0.3105,
+     "combined_recall": 0.505,
+     "e4_plus_capacity_recall": 0.5933,
+     "rule_standalone_alerts_per_day": 299.0,
+     "rule_standalone_precision": 0.285,
+     "rule_standalone_recall": 0.3522,
+     "extra_fraud_by_hour": {
+      "00-05": 1.0,
+      "06-08": 35.0,
+      "09-17": 105.0,
+      "18-23": 55.0
+     },
+     "extra_fraud_by_amount": {
+      "<500k": 0.0,
+      "500k-1M": 77.0,
+      ">=1M": 119.0
+     },
+     "checks": {
+      "cap_every_full_day": false,
+      "beats_e4_same_capacity": false,
+      "min_extra_fraud": true
+     }
+    }
+   }
+  },
+  "hv500k_new500k@25_cut80": {
+   "params": {
+    "hv": 500000,
+    "new": [
+     500000,
+     25
+    ],
+    "cut": 80
+   },
+   "n_rules": 5,
+   "folds": {
+    "F1": {
+     "days": 4.167,
+     "full_days": 3,
+     "extra_alerts_per_day_mean": 1564.6,
+     "extra_alerts_full_day_min": 125.0,
+     "extra_alerts_full_day_median": 2230.0,
+     "extra_alerts_full_day_max": 2760.0,
+     "extra_alerts_per_day": {
+      "15": 1343.0,
+      "16": 2230.0,
+      "17": 2760.0,
+      "18": 125.0,
+      "19": 61.0
+     },
+     "extra_fraud": 204.0,
+     "extra_fraud_per_day": 48.96,
+     "extra_precision": 0.031,
+     "e4_same_capacity_fraud": 456.2,
+     "beats_e4_same_capacity": false,
+     "e4_recall": 0.3279,
+     "combined_recall": 0.5043,
+     "e4_plus_capacity_recall": 0.7225,
+     "rule_standalone_alerts_per_day": 1626.0,
+     "rule_standalone_precision": 0.065,
+     "rule_standalone_recall": 0.3824,
+     "extra_fraud_by_hour": {
+      "00-05": 13.0,
+      "06-08": 33.0,
+      "09-17": 105.0,
+      "18-23": 53.0
+     },
+     "extra_fraud_by_amount": {
+      "<500k": 0.0,
+      "500k-1M": 67.0,
+      ">=1M": 137.0
+     },
+     "checks": {
+      "cap_every_full_day": false,
+      "beats_e4_same_capacity": false,
+      "min_extra_fraud": true
+     }
+    },
+    "F2": {
+     "days": 4.167,
+     "full_days": 3,
+     "extra_alerts_per_day_mean": 257.8,
+     "extra_alerts_full_day_min": 176.0,
+     "extra_alerts_full_day_median": 218.0,
+     "extra_alerts_full_day_max": 347.0,
+     "extra_alerts_per_day": {
+      "19": 12.0,
+      "20": 176.0,
+      "21": 218.0,
+      "22": 347.0,
+      "23": 321.0
+     },
+     "extra_fraud": 196.0,
+     "extra_fraud_per_day": 47.04,
+     "extra_precision": 0.182,
+     "e4_same_capacity_fraud": 285.0,
+     "beats_e4_same_capacity": false,
+     "e4_recall": 0.3105,
+     "combined_recall": 0.505,
+     "e4_plus_capacity_recall": 0.5933,
+     "rule_standalone_alerts_per_day": 296.9,
+     "rule_standalone_precision": 0.281,
+     "rule_standalone_recall": 0.3452,
+     "extra_fraud_by_hour": {
+      "00-05": 1.0,
+      "06-08": 35.0,
+      "09-17": 105.0,
+      "18-23": 55.0
+     },
+     "extra_fraud_by_amount": {
+      "<500k": 0.0,
+      "500k-1M": 77.0,
+      ">=1M": 119.0
+     },
+     "checks": {
+      "cap_every_full_day": false,
+      "beats_e4_same_capacity": false,
+      "min_extra_fraud": true
+     }
+    }
+   }
+  },
+  "hv500k_new500k@45_cut70": {
+   "params": {
+    "hv": 500000,
+    "new": [
+     500000,
+     45
+    ],
+    "cut": 70
+   },
+   "n_rules": 5,
+   "folds": {
+    "F1": {
+     "days": 4.167,
+     "full_days": 3,
+     "extra_alerts_per_day_mean": 1573.2,
+     "extra_alerts_full_day_min": 125.0,
+     "extra_alerts_full_day_median": 2266.0,
+     "extra_alerts_full_day_max": 2760.0,
+     "extra_alerts_per_day": {
+      "15": 1343.0,
+      "16": 2266.0,
+      "17": 2760.0,
+      "18": 125.0,
+      "19": 61.0
+     },
+     "extra_fraud": 204.0,
+     "extra_fraud_per_day": 48.96,
+     "extra_precision": 0.031,
+     "e4_same_capacity_fraud": 457.5,
+     "beats_e4_same_capacity": false,
+     "e4_recall": 0.3279,
+     "combined_recall": 0.5043,
+     "e4_plus_capacity_recall": 0.7236,
+     "rule_standalone_alerts_per_day": 1639.7,
+     "rule_standalone_precision": 0.068,
+     "rule_standalone_recall": 0.4005,
+     "extra_fraud_by_hour": {
+      "00-05": 13.0,
+      "06-08": 33.0,
+      "09-17": 105.0,
+      "18-23": 53.0
+     },
+     "extra_fraud_by_amount": {
+      "<500k": 0.0,
+      "500k-1M": 67.0,
+      ">=1M": 137.0
+     },
+     "checks": {
+      "cap_every_full_day": false,
+      "beats_e4_same_capacity": false,
+      "min_extra_fraud": true
+     }
+    },
+    "F2": {
+     "days": 4.167,
+     "full_days": 3,
+     "extra_alerts_per_day_mean": 258.2,
+     "extra_alerts_full_day_min": 176.0,
+     "extra_alerts_full_day_median": 218.0,
+     "extra_alerts_full_day_max": 347.0,
+     "extra_alerts_per_day": {
+      "19": 12.0,
+      "20": 176.0,
+      "21": 218.0,
+      "22": 347.0,
+      "23": 323.0
+     },
+     "extra_fraud": 196.0,
+     "extra_fraud_per_day": 47.04,
+     "extra_precision": 0.182,
+     "e4_same_capacity_fraud": 285.0,
+     "beats_e4_same_capacity": false,
+     "e4_recall": 0.3105,
+     "combined_recall": 0.505,
+     "e4_plus_capacity_recall": 0.5933,
+     "rule_standalone_alerts_per_day": 299.0,
+     "rule_standalone_precision": 0.285,
+     "rule_standalone_recall": 0.3522,
+     "extra_fraud_by_hour": {
+      "00-05": 1.0,
+      "06-08": 35.0,
+      "09-17": 105.0,
+      "18-23": 55.0
+     },
+     "extra_fraud_by_amount": {
+      "<500k": 0.0,
+      "500k-1M": 77.0,
+      ">=1M": 119.0
+     },
+     "checks": {
+      "cap_every_full_day": false,
+      "beats_e4_same_capacity": false,
+      "min_extra_fraud": true
+     }
+    }
+   }
+  },
+  "hv500k_new500k@45_cut80": {
+   "params": {
+    "hv": 500000,
+    "new": [
+     500000,
+     45
+    ],
+    "cut": 80
+   },
+   "n_rules": 5,
+   "folds": {
+    "F1": {
+     "days": 4.167,
+     "full_days": 3,
+     "extra_alerts_per_day_mean": 1564.6,
+     "extra_alerts_full_day_min": 125.0,
+     "extra_alerts_full_day_median": 2230.0,
+     "extra_alerts_full_day_max": 2760.0,
+     "extra_alerts_per_day": {
+      "15": 1343.0,
+      "16": 2230.0,
+      "17": 2760.0,
+      "18": 125.0,
+      "19": 61.0
+     },
+     "extra_fraud": 204.0,
+     "extra_fraud_per_day": 48.96,
+     "extra_precision": 0.031,
+     "e4_same_capacity_fraud": 456.2,
+     "beats_e4_same_capacity": false,
+     "e4_recall": 0.3279,
+     "combined_recall": 0.5043,
+     "e4_plus_capacity_recall": 0.7225,
+     "rule_standalone_alerts_per_day": 1626.0,
+     "rule_standalone_precision": 0.065,
+     "rule_standalone_recall": 0.3824,
+     "extra_fraud_by_hour": {
+      "00-05": 13.0,
+      "06-08": 33.0,
+      "09-17": 105.0,
+      "18-23": 53.0
+     },
+     "extra_fraud_by_amount": {
+      "<500k": 0.0,
+      "500k-1M": 67.0,
+      ">=1M": 137.0
+     },
+     "checks": {
+      "cap_every_full_day": false,
+      "beats_e4_same_capacity": false,
+      "min_extra_fraud": true
+     }
+    },
+    "F2": {
+     "days": 4.167,
+     "full_days": 3,
+     "extra_alerts_per_day_mean": 257.8,
+     "extra_alerts_full_day_min": 176.0,
+     "extra_alerts_full_day_median": 218.0,
+     "extra_alerts_full_day_max": 347.0,
+     "extra_alerts_per_day": {
+      "19": 12.0,
+      "20": 176.0,
+      "21": 218.0,
+      "22": 347.0,
+      "23": 321.0
+     },
+     "extra_fraud": 196.0,
+     "extra_fraud_per_day": 47.04,
+     "extra_precision": 0.182,
+     "e4_same_capacity_fraud": 285.0,
+     "beats_e4_same_capacity": false,
+     "e4_recall": 0.3105,
+     "combined_recall": 0.505,
+     "e4_plus_capacity_recall": 0.5933,
+     "rule_standalone_alerts_per_day": 296.9,
+     "rule_standalone_precision": 0.281,
+     "rule_standalone_recall": 0.3452,
+     "extra_fraud_by_hour": {
+      "00-05": 1.0,
+      "06-08": 35.0,
+      "09-17": 105.0,
+      "18-23": 55.0
+     },
+     "extra_fraud_by_amount": {
+      "<500k": 0.0,
+      "500k-1M": 77.0,
+      ">=1M": 119.0
+     },
+     "checks": {
+      "cap_every_full_day": false,
+      "beats_e4_same_capacity": false,
+      "min_extra_fraud": true
+     }
+    }
+   }
+  },
+  "hv500k_new1000k@25_cut70": {
+   "params": {
+    "hv": 500000,
+    "new": [
+     1000000,
+     25
+    ],
+    "cut": 70
+   },
+   "n_rules": 5,
+   "folds": {
+    "F1": {
+     "days": 4.167,
+     "full_days": 3,
+     "extra_alerts_per_day_mean": 735.1,
+     "extra_alerts_full_day_min": 60.0,
+     "extra_alerts_full_day_median": 1001.0,
+     "extra_alerts_full_day_max": 1319.0,
+     "extra_alerts_per_day": {
+      "15": 637.0,
+      "16": 1001.0,
+      "17": 1319.0,
+      "18": 60.0,
+      "19": 46.0
+     },
+     "extra_fraud": 142.0,
+     "extra_fraud_per_day": 34.08,
+     "extra_precision": 0.046,
+     "e4_same_capacity_fraud": 343.3,
+     "beats_e4_same_capacity": false,
+     "e4_recall": 0.3279,
+     "combined_recall": 0.4507,
+     "e4_plus_capacity_recall": 0.6249,
+     "rule_standalone_alerts_per_day": 801.6,
+     "rule_standalone_precision": 0.12,
+     "rule_standalone_recall": 0.3469,
+     "extra_fraud_by_hour": {
+      "00-05": 6.0,
+      "06-08": 25.0,
+      "09-17": 86.0,
+      "18-23": 25.0
+     },
+     "extra_fraud_by_amount": {
+      "<500k": 0.0,
+      "500k-1M": 5.0,
+      ">=1M": 137.0
+     },
+     "checks": {
+      "cap_every_full_day": false,
+      "beats_e4_same_capacity": false,
+      "min_extra_fraud": true
+     }
+    },
+    "F2": {
+     "days": 4.167,
+     "full_days": 3,
+     "extra_alerts_per_day_mean": 144.5,
+     "extra_alerts_full_day_min": 84.0,
+     "extra_alerts_full_day_median": 127.0,
+     "extra_alerts_full_day_max": 221.0,
+     "extra_alerts_per_day": {
+      "19": 4.0,
+      "20": 84.0,
+      "21": 127.0,
+      "22": 221.0,
+      "23": 166.0
+     },
+     "extra_fraud": 119.0,
+     "extra_fraud_per_day": 28.56,
+     "extra_precision": 0.198,
+     "e4_same_capacity_fraud": 166.0,
+     "beats_e4_same_capacity": false,
+     "e4_recall": 0.3105,
+     "combined_recall": 0.4286,
+     "e4_plus_capacity_recall": 0.4752,
+     "rule_standalone_alerts_per_day": 184.1,
+     "rule_standalone_precision": 0.356,
+     "rule_standalone_recall": 0.2708,
+     "extra_fraud_by_hour": {
+      "00-05": 0.0,
+      "06-08": 22.0,
+      "09-17": 73.0,
+      "18-23": 24.0
+     },
+     "extra_fraud_by_amount": {
+      "<500k": 0.0,
+      "500k-1M": 0.0,
+      ">=1M": 119.0
+     },
+     "checks": {
+      "cap_every_full_day": false,
+      "beats_e4_same_capacity": false,
+      "min_extra_fraud": true
+     }
+    }
+   }
+  },
+  "hv500k_new1000k@25_cut80": {
+   "params": {
+    "hv": 500000,
+    "new": [
+     1000000,
+     25
+    ],
+    "cut": 80
+   },
+   "n_rules": 5,
+   "folds": {
+    "F1": {
+     "days": 4.167,
+     "full_days": 3,
+     "extra_alerts_per_day_mean": 726.5,
+     "extra_alerts_full_day_min": 60.0,
+     "extra_alerts_full_day_median": 965.0,
+     "extra_alerts_full_day_max": 1319.0,
+     "extra_alerts_per_day": {
+      "15": 637.0,
+      "16": 965.0,
+      "17": 1319.0,
+      "18": 60.0,
+      "19": 46.0
+     },
+     "extra_fraud": 142.0,
+     "extra_fraud_per_day": 34.08,
+     "extra_precision": 0.047,
+     "e4_same_capacity_fraud": 340.8,
+     "beats_e4_same_capacity": false,
+     "e4_recall": 0.3279,
+     "combined_recall": 0.4507,
+     "e4_plus_capacity_recall": 0.6227,
+     "rule_standalone_alerts_per_day": 787.9,
+     "rule_standalone_precision": 0.116,
+     "rule_standalone_recall": 0.3287,
+     "extra_fraud_by_hour": {
+      "00-05": 6.0,
+      "06-08": 25.0,
+      "09-17": 86.0,
+      "18-23": 25.0
+     },
+     "extra_fraud_by_amount": {
+      "<500k": 0.0,
+      "500k-1M": 5.0,
+      ">=1M": 137.0
+     },
+     "checks": {
+      "cap_every_full_day": false,
+      "beats_e4_same_capacity": false,
+      "min_extra_fraud": true
+     }
+    },
+    "F2": {
+     "days": 4.167,
+     "full_days": 3,
+     "extra_alerts_per_day_mean": 144.0,
+     "extra_alerts_full_day_min": 84.0,
+     "extra_alerts_full_day_median": 127.0,
+     "extra_alerts_full_day_max": 221.0,
+     "extra_alerts_per_day": {
+      "19": 4.0,
+      "20": 84.0,
+      "21": 127.0,
+      "22": 221.0,
+      "23": 164.0
+     },
+     "extra_fraud": 119.0,
+     "extra_fraud_per_day": 28.56,
+     "extra_precision": 0.198,
+     "e4_same_capacity_fraud": 165.0,
+     "beats_e4_same_capacity": false,
+     "e4_recall": 0.3105,
+     "combined_recall": 0.4286,
+     "e4_plus_capacity_recall": 0.4742,
+     "rule_standalone_alerts_per_day": 181.9,
+     "rule_standalone_precision": 0.351,
+     "rule_standalone_recall": 0.2639,
+     "extra_fraud_by_hour": {
+      "00-05": 0.0,
+      "06-08": 22.0,
+      "09-17": 73.0,
+      "18-23": 24.0
+     },
+     "extra_fraud_by_amount": {
+      "<500k": 0.0,
+      "500k-1M": 0.0,
+      ">=1M": 119.0
+     },
+     "checks": {
+      "cap_every_full_day": false,
+      "beats_e4_same_capacity": false,
+      "min_extra_fraud": true
+     }
+    }
+   }
+  },
+  "hv500k_new1000k@45_cut70": {
+   "params": {
+    "hv": 500000,
+    "new": [
+     1000000,
+     45
+    ],
+    "cut": 70
+   },
+   "n_rules": 5,
+   "folds": {
+    "F1": {
+     "days": 4.167,
+     "full_days": 3,
+     "extra_alerts_per_day_mean": 735.1,
+     "extra_alerts_full_day_min": 60.0,
+     "extra_alerts_full_day_median": 1001.0,
+     "extra_alerts_full_day_max": 1319.0,
+     "extra_alerts_per_day": {
+      "15": 637.0,
+      "16": 1001.0,
+      "17": 1319.0,
+      "18": 60.0,
+      "19": 46.0
+     },
+     "extra_fraud": 142.0,
+     "extra_fraud_per_day": 34.08,
+     "extra_precision": 0.046,
+     "e4_same_capacity_fraud": 343.3,
+     "beats_e4_same_capacity": false,
+     "e4_recall": 0.3279,
+     "combined_recall": 0.4507,
+     "e4_plus_capacity_recall": 0.6249,
+     "rule_standalone_alerts_per_day": 801.6,
+     "rule_standalone_precision": 0.12,
+     "rule_standalone_recall": 0.3469,
+     "extra_fraud_by_hour": {
+      "00-05": 6.0,
+      "06-08": 25.0,
+      "09-17": 86.0,
+      "18-23": 25.0
+     },
+     "extra_fraud_by_amount": {
+      "<500k": 0.0,
+      "500k-1M": 5.0,
+      ">=1M": 137.0
+     },
+     "checks": {
+      "cap_every_full_day": false,
+      "beats_e4_same_capacity": false,
+      "min_extra_fraud": true
+     }
+    },
+    "F2": {
+     "days": 4.167,
+     "full_days": 3,
+     "extra_alerts_per_day_mean": 144.5,
+     "extra_alerts_full_day_min": 84.0,
+     "extra_alerts_full_day_median": 127.0,
+     "extra_alerts_full_day_max": 221.0,
+     "extra_alerts_per_day": {
+      "19": 4.0,
+      "20": 84.0,
+      "21": 127.0,
+      "22": 221.0,
+      "23": 166.0
+     },
+     "extra_fraud": 119.0,
+     "extra_fraud_per_day": 28.56,
+     "extra_precision": 0.198,
+     "e4_same_capacity_fraud": 166.0,
+     "beats_e4_same_capacity": false,
+     "e4_recall": 0.3105,
+     "combined_recall": 0.4286,
+     "e4_plus_capacity_recall": 0.4752,
+     "rule_standalone_alerts_per_day": 184.1,
+     "rule_standalone_precision": 0.356,
+     "rule_standalone_recall": 0.2708,
+     "extra_fraud_by_hour": {
+      "00-05": 0.0,
+      "06-08": 22.0,
+      "09-17": 73.0,
+      "18-23": 24.0
+     },
+     "extra_fraud_by_amount": {
+      "<500k": 0.0,
+      "500k-1M": 0.0,
+      ">=1M": 119.0
+     },
+     "checks": {
+      "cap_every_full_day": false,
+      "beats_e4_same_capacity": false,
+      "min_extra_fraud": true
+     }
+    }
+   }
+  },
+  "hv500k_new1000k@45_cut80": {
+   "params": {
+    "hv": 500000,
+    "new": [
+     1000000,
+     45
+    ],
+    "cut": 80
+   },
+   "n_rules": 5,
+   "folds": {
+    "F1": {
+     "days": 4.167,
+     "full_days": 3,
+     "extra_alerts_per_day_mean": 726.5,
+     "extra_alerts_full_day_min": 60.0,
+     "extra_alerts_full_day_median": 965.0,
+     "extra_alerts_full_day_max": 1319.0,
+     "extra_alerts_per_day": {
+      "15": 637.0,
+      "16": 965.0,
+      "17": 1319.0,
+      "18": 60.0,
+      "19": 46.0
+     },
+     "extra_fraud": 142.0,
+     "extra_fraud_per_day": 34.08,
+     "extra_precision": 0.047,
+     "e4_same_capacity_fraud": 340.8,
+     "beats_e4_same_capacity": false,
+     "e4_recall": 0.3279,
+     "combined_recall": 0.4507,
+     "e4_plus_capacity_recall": 0.6227,
+     "rule_standalone_alerts_per_day": 787.9,
+     "rule_standalone_precision": 0.116,
+     "rule_standalone_recall": 0.3287,
+     "extra_fraud_by_hour": {
+      "00-05": 6.0,
+      "06-08": 25.0,
+      "09-17": 86.0,
+      "18-23": 25.0
+     },
+     "extra_fraud_by_amount": {
+      "<500k": 0.0,
+      "500k-1M": 5.0,
+      ">=1M": 137.0
+     },
+     "checks": {
+      "cap_every_full_day": false,
+      "beats_e4_same_capacity": false,
+      "min_extra_fraud": true
+     }
+    },
+    "F2": {
+     "days": 4.167,
+     "full_days": 3,
+     "extra_alerts_per_day_mean": 144.0,
+     "extra_alerts_full_day_min": 84.0,
+     "extra_alerts_full_day_median": 127.0,
+     "extra_alerts_full_day_max": 221.0,
+     "extra_alerts_per_day": {
+      "19": 4.0,
+      "20": 84.0,
+      "21": 127.0,
+      "22": 221.0,
+      "23": 164.0
+     },
+     "extra_fraud": 119.0,
+     "extra_fraud_per_day": 28.56,
+     "extra_precision": 0.198,
+     "e4_same_capacity_fraud": 165.0,
+     "beats_e4_same_capacity": false,
+     "e4_recall": 0.3105,
+     "combined_recall": 0.4286,
+     "e4_plus_capacity_recall": 0.4742,
+     "rule_standalone_alerts_per_day": 181.9,
+     "rule_standalone_precision": 0.351,
+     "rule_standalone_recall": 0.2639,
+     "extra_fraud_by_hour": {
+      "00-05": 0.0,
+      "06-08": 22.0,
+      "09-17": 73.0,
+      "18-23": 24.0
+     },
+     "extra_fraud_by_amount": {
+      "<500k": 0.0,
+      "500k-1M": 0.0,
+      ">=1M": 119.0
+     },
+     "checks": {
+      "cap_every_full_day": false,
+      "beats_e4_same_capacity": false,
+      "min_extra_fraud": true
+     }
+    }
+   }
+  },
+  "hv500k_new2000k@25_cut70": {
+   "params": {
+    "hv": 500000,
+    "new": [
+     2000000,
+     25
+    ],
+    "cut": 70
+   },
+   "n_rules": 5,
+   "folds": {
+    "F1": {
+     "days": 4.167,
+     "full_days": 3,
+     "extra_alerts_per_day_mean": 280.6,
+     "extra_alerts_full_day_min": 35.0,
+     "extra_alerts_full_day_median": 422.0,
+     "extra_alerts_full_day_max": 479.0,
+     "extra_alerts_per_day": {
+      "15": 203.0,
+      "16": 479.0,
+      "17": 422.0,
+      "18": 35.0,
+      "19": 30.0
+     },
+     "extra_fraud": 93.0,
+     "extra_fraud_per_day": 22.32,
+     "extra_precision": 0.08,
+     "e4_same_capacity_fraud": 236.8,
+     "beats_e4_same_capacity": false,
+     "e4_recall": 0.3279,
+     "combined_recall": 0.4083,
+     "e4_plus_capacity_recall": 0.5327,
+     "rule_standalone_alerts_per_day": 344.2,
+     "rule_standalone_precision": 0.238,
+     "rule_standalone_recall": 0.2958,
+     "extra_fraud_by_hour": {
+      "00-05": 6.0,
+      "06-08": 15.0,
+      "09-17": 53.0,
+      "18-23": 19.0
+     },
+     "extra_fraud_by_amount": {
+      "<500k": 0.0,
+      "500k-1M": 5.0,
+      ">=1M": 88.0
+     },
+     "checks": {
+      "cap_every_full_day": false,
+      "beats_e4_same_capacity": false,
+      "min_extra_fraud": true
+     }
+    },
+    "F2": {
+     "days": 4.167,
+     "full_days": 3,
+     "extra_alerts_per_day_mean": 69.8,
+     "extra_alerts_full_day_min": 34.0,
+     "extra_alerts_full_day_median": 52.0,
+     "extra_alerts_full_day_max": 129.0,
+     "extra_alerts_per_day": {
+      "19": 1.0,
+      "20": 34.0,
+      "21": 52.0,
+      "22": 129.0,
+      "23": 75.0
+     },
+     "extra_fraud": 50.0,
+     "extra_fraud_per_day": 12.0,
+     "extra_precision": 0.172,
+     "e4_same_capacity_fraud": 84.5,
+     "beats_e4_same_capacity": false,
+     "e4_recall": 0.3105,
+     "combined_recall": 0.3601,
+     "e4_plus_capacity_recall": 0.3943,
+     "rule_standalone_alerts_per_day": 105.6,
+     "rule_standalone_precision": 0.43,
+     "rule_standalone_recall": 0.1875,
+     "extra_fraud_by_hour": {
+      "00-05": 0.0,
+      "06-08": 7.0,
+      "09-17": 37.0,
+      "18-23": 6.0
+     },
+     "extra_fraud_by_amount": {
+      "<500k": 0.0,
+      "500k-1M": 0.0,
+      ">=1M": 50.0
+     },
+     "checks": {
+      "cap_every_full_day": false,
+      "beats_e4_same_capacity": false,
+      "min_extra_fraud": true
+     }
+    }
+   }
+  },
+  "hv500k_new2000k@25_cut80": {
+   "params": {
+    "hv": 500000,
+    "new": [
+     2000000,
+     25
+    ],
+    "cut": 80
+   },
+   "n_rules": 5,
+   "folds": {
+    "F1": {
+     "days": 4.167,
+     "full_days": 3,
+     "extra_alerts_per_day_mean": 271.9,
+     "extra_alerts_full_day_min": 35.0,
+     "extra_alerts_full_day_median": 422.0,
+     "extra_alerts_full_day_max": 443.0,
+     "extra_alerts_per_day": {
+      "15": 203.0,
+      "16": 443.0,
+      "17": 422.0,
+      "18": 35.0,
+      "19": 30.0
+     },
+     "extra_fraud": 93.0,
+     "extra_fraud_per_day": 22.32,
+     "extra_precision": 0.082,
+     "e4_same_capacity_fraud": 233.5,
+     "beats_e4_same_capacity": false,
+     "e4_recall": 0.3279,
+     "combined_recall": 0.4083,
+     "e4_plus_capacity_recall": 0.5298,
+     "rule_standalone_alerts_per_day": 330.5,
+     "rule_standalone_precision": 0.233,
+     "rule_standalone_recall": 0.2777,
+     "extra_fraud_by_hour": {
+      "00-05": 6.0,
+      "06-08": 15.0,
+      "09-17": 53.0,
+      "18-23": 19.0
+     },
+     "extra_fraud_by_amount": {
+      "<500k": 0.0,
+      "500k-1M": 5.0,
+      ">=1M": 88.0
+     },
+     "checks": {
+      "cap_every_full_day": false,
+      "beats_e4_same_capacity": false,
+      "min_extra_fraud": true
+     }
+    },
+    "F2": {
+     "days": 4.167,
+     "full_days": 3,
+     "extra_alerts_per_day_mean": 69.4,
+     "extra_alerts_full_day_min": 34.0,
+     "extra_alerts_full_day_median": 52.0,
+     "extra_alerts_full_day_max": 129.0,
+     "extra_alerts_per_day": {
+      "19": 1.0,
+      "20": 34.0,
+      "21": 52.0,
+      "22": 129.0,
+      "23": 73.0
+     },
+     "extra_fraud": 50.0,
+     "extra_fraud_per_day": 12.0,
+     "extra_precision": 0.173,
+     "e4_same_capacity_fraud": 84.3,
+     "beats_e4_same_capacity": false,
+     "e4_recall": 0.3105,
+     "combined_recall": 0.3601,
+     "e4_plus_capacity_recall": 0.3941,
+     "rule_standalone_alerts_per_day": 103.4,
+     "rule_standalone_precision": 0.422,
+     "rule_standalone_recall": 0.1806,
+     "extra_fraud_by_hour": {
+      "00-05": 0.0,
+      "06-08": 7.0,
+      "09-17": 37.0,
+      "18-23": 6.0
+     },
+     "extra_fraud_by_amount": {
+      "<500k": 0.0,
+      "500k-1M": 0.0,
+      ">=1M": 50.0
+     },
+     "checks": {
+      "cap_every_full_day": false,
+      "beats_e4_same_capacity": false,
+      "min_extra_fraud": true
+     }
+    }
+   }
+  },
+  "hv500k_new2000k@45_cut70": {
+   "params": {
+    "hv": 500000,
+    "new": [
+     2000000,
+     45
+    ],
+    "cut": 70
+   },
+   "n_rules": 5,
+   "folds": {
+    "F1": {
+     "days": 4.167,
+     "full_days": 3,
+     "extra_alerts_per_day_mean": 280.6,
+     "extra_alerts_full_day_min": 35.0,
+     "extra_alerts_full_day_median": 422.0,
+     "extra_alerts_full_day_max": 479.0,
+     "extra_alerts_per_day": {
+      "15": 203.0,
+      "16": 479.0,
+      "17": 422.0,
+      "18": 35.0,
+      "19": 30.0
+     },
+     "extra_fraud": 93.0,
+     "extra_fraud_per_day": 22.32,
+     "extra_precision": 0.08,
+     "e4_same_capacity_fraud": 236.8,
+     "beats_e4_same_capacity": false,
+     "e4_recall": 0.3279,
+     "combined_recall": 0.4083,
+     "e4_plus_capacity_recall": 0.5327,
+     "rule_standalone_alerts_per_day": 344.2,
+     "rule_standalone_precision": 0.238,
+     "rule_standalone_recall": 0.2958,
+     "extra_fraud_by_hour": {
+      "00-05": 6.0,
+      "06-08": 15.0,
+      "09-17": 53.0,
+      "18-23": 19.0
+     },
+     "extra_fraud_by_amount": {
+      "<500k": 0.0,
+      "500k-1M": 5.0,
+      ">=1M": 88.0
+     },
+     "checks": {
+      "cap_every_full_day": false,
+      "beats_e4_same_capacity": false,
+      "min_extra_fraud": true
+     }
+    },
+    "F2": {
+     "days": 4.167,
+     "full_days": 3,
+     "extra_alerts_per_day_mean": 69.8,
+     "extra_alerts_full_day_min": 34.0,
+     "extra_alerts_full_day_median": 52.0,
+     "extra_alerts_full_day_max": 129.0,
+     "extra_alerts_per_day": {
+      "19": 1.0,
+      "20": 34.0,
+      "21": 52.0,
+      "22": 129.0,
+      "23": 75.0
+     },
+     "extra_fraud": 50.0,
+     "extra_fraud_per_day": 12.0,
+     "extra_precision": 0.172,
+     "e4_same_capacity_fraud": 84.5,
+     "beats_e4_same_capacity": false,
+     "e4_recall": 0.3105,
+     "combined_recall": 0.3601,
+     "e4_plus_capacity_recall": 0.3943,
+     "rule_standalone_alerts_per_day": 105.6,
+     "rule_standalone_precision": 0.43,
+     "rule_standalone_recall": 0.1875,
+     "extra_fraud_by_hour": {
+      "00-05": 0.0,
+      "06-08": 7.0,
+      "09-17": 37.0,
+      "18-23": 6.0
+     },
+     "extra_fraud_by_amount": {
+      "<500k": 0.0,
+      "500k-1M": 0.0,
+      ">=1M": 50.0
+     },
+     "checks": {
+      "cap_every_full_day": false,
+      "beats_e4_same_capacity": false,
+      "min_extra_fraud": true
+     }
+    }
+   }
+  },
+  "hv500k_new2000k@45_cut80": {
+   "params": {
+    "hv": 500000,
+    "new": [
+     2000000,
+     45
+    ],
+    "cut": 80
+   },
+   "n_rules": 5,
+   "folds": {
+    "F1": {
+     "days": 4.167,
+     "full_days": 3,
+     "extra_alerts_per_day_mean": 271.9,
+     "extra_alerts_full_day_min": 35.0,
+     "extra_alerts_full_day_median": 422.0,
+     "extra_alerts_full_day_max": 443.0,
+     "extra_alerts_per_day": {
+      "15": 203.0,
+      "16": 443.0,
+      "17": 422.0,
+      "18": 35.0,
+      "19": 30.0
+     },
+     "extra_fraud": 93.0,
+     "extra_fraud_per_day": 22.32,
+     "extra_precision": 0.082,
+     "e4_same_capacity_fraud": 233.5,
+     "beats_e4_same_capacity": false,
+     "e4_recall": 0.3279,
+     "combined_recall": 0.4083,
+     "e4_plus_capacity_recall": 0.5298,
+     "rule_standalone_alerts_per_day": 330.5,
+     "rule_standalone_precision": 0.233,
+     "rule_standalone_recall": 0.2777,
+     "extra_fraud_by_hour": {
+      "00-05": 6.0,
+      "06-08": 15.0,
+      "09-17": 53.0,
+      "18-23": 19.0
+     },
+     "extra_fraud_by_amount": {
+      "<500k": 0.0,
+      "500k-1M": 5.0,
+      ">=1M": 88.0
+     },
+     "checks": {
+      "cap_every_full_day": false,
+      "beats_e4_same_capacity": false,
+      "min_extra_fraud": true
+     }
+    },
+    "F2": {
+     "days": 4.167,
+     "full_days": 3,
+     "extra_alerts_per_day_mean": 69.4,
+     "extra_alerts_full_day_min": 34.0,
+     "extra_alerts_full_day_median": 52.0,
+     "extra_alerts_full_day_max": 129.0,
+     "extra_alerts_per_day": {
+      "19": 1.0,
+      "20": 34.0,
+      "21": 52.0,
+      "22": 129.0,
+      "23": 73.0
+     },
+     "extra_fraud": 50.0,
+     "extra_fraud_per_day": 12.0,
+     "extra_precision": 0.173,
+     "e4_same_capacity_fraud": 84.3,
+     "beats_e4_same_capacity": false,
+     "e4_recall": 0.3105,
+     "combined_recall": 0.3601,
+     "e4_plus_capacity_recall": 0.3941,
+     "rule_standalone_alerts_per_day": 103.4,
+     "rule_standalone_precision": 0.422,
+     "rule_standalone_recall": 0.1806,
+     "extra_fraud_by_hour": {
+      "00-05": 0.0,
+      "06-08": 7.0,
+      "09-17": 37.0,
+      "18-23": 6.0
+     },
+     "extra_fraud_by_amount": {
+      "<500k": 0.0,
+      "500k-1M": 0.0,
+      ">=1M": 50.0
+     },
+     "checks": {
+      "cap_every_full_day": false,
+      "beats_e4_same_capacity": false,
+      "min_extra_fraud": true
+     }
+    }
+   }
+  },
+  "hv1000k_nonew_cut70": {
+   "params": {
+    "hv": 1000000,
+    "new": null,
+    "cut": 70
+   },
+   "n_rules": 4,
+   "folds": {
+    "F1": {
+     "days": 4.167,
+     "full_days": 3,
+     "extra_alerts_per_day_mean": 22.6,
+     "extra_alerts_full_day_min": 10.0,
+     "extra_alerts_full_day_median": 12.0,
+     "extra_alerts_full_day_max": 60.0,
+     "extra_alerts_per_day": {
+      "15": 2.0,
+      "16": 60.0,
+      "17": 10.0,
+      "18": 12.0,
+      "19": 10.0
+     },
+     "extra_fraud": 22.0,
+     "extra_fraud_per_day": 5.28,
+     "extra_precision": 0.234,
+     "e4_same_capacity_fraud": 51.0,
+     "beats_e4_same_capacity": false,
+     "e4_recall": 0.3279,
+     "combined_recall": 0.3469,
+     "e4_plus_capacity_recall": 0.372,
+     "rule_standalone_alerts_per_day": 60.5,
+     "rule_standalone_precision": 0.714,
+     "rule_standalone_recall": 0.1557,
+     "extra_fraud_by_hour": {
+      "00-05": 0.0,
+      "06-08": 5.0,
+      "09-17": 14.0,
+      "18-23": 3.0
+     },
+     "extra_fraud_by_amount": {
+      "<500k": 0.0,
+      "500k-1M": 0.0,
+      ">=1M": 22.0
+     },
+     "checks": {
+      "cap_every_full_day": false,
+      "beats_e4_same_capacity": false,
+      "min_extra_fraud": true
+     }
+    },
+    "F2": {
+     "days": 4.167,
+     "full_days": 3,
+     "extra_alerts_per_day_mean": 7.0,
+     "extra_alerts_full_day_min": 5.0,
+     "extra_alerts_full_day_median": 6.0,
+     "extra_alerts_full_day_max": 6.0,
+     "extra_alerts_per_day": {
+      "19": 0.0,
+      "20": 5.0,
+      "21": 6.0,
+      "22": 6.0,
+      "23": 12.0
+     },
+     "extra_fraud": 8.0,
+     "extra_fraud_per_day": 1.92,
+     "extra_precision": 0.276,
+     "e4_same_capacity_fraud": 9.0,
+     "beats_e4_same_capacity": false,
+     "e4_recall": 0.3105,
+     "combined_recall": 0.3185,
+     "e4_plus_capacity_recall": 0.3194,
+     "rule_standalone_alerts_per_day": 25.9,
+     "rule_standalone_precision": 0.796,
+     "rule_standalone_recall": 0.0853,
+     "extra_fraud_by_hour": {
+      "00-05": 0.0,
+      "06-08": 0.0,
+      "09-17": 7.0,
+      "18-23": 1.0
+     },
+     "extra_fraud_by_amount": {
+      "<500k": 0.0,
+      "500k-1M": 0.0,
+      ">=1M": 8.0
+     },
+     "checks": {
+      "cap_every_full_day": true,
+      "beats_e4_same_capacity": false,
+      "min_extra_fraud": true
+     }
+    }
+   }
+  },
+  "hv1000k_nonew_cut80": {
+   "params": {
+    "hv": 1000000,
+    "new": null,
+    "cut": 80
+   },
+   "n_rules": 4,
+   "folds": {
+    "F1": {
+     "days": 4.167,
+     "full_days": 3,
+     "extra_alerts_per_day_mean": 5.8,
+     "extra_alerts_full_day_min": 4.0,
+     "extra_alerts_full_day_median": 6.0,
+     "extra_alerts_full_day_max": 11.0,
+     "extra_alerts_per_day": {
+      "15": 0.0,
+      "16": 11.0,
+      "17": 6.0,
+      "18": 4.0,
+      "19": 3.0
+     },
+     "extra_fraud": 0.0,
+     "extra_fraud_per_day": 0.0,
+     "extra_precision": 0.0,
+     "e4_same_capacity_fraud": 14.0,
+     "beats_e4_same_capacity": false,
+     "e4_recall": 0.3279,
+     "combined_recall": 0.3279,
+     "e4_plus_capacity_recall": 0.34,
+     "rule_standalone_alerts_per_day": 36.7,
+     "rule_standalone_precision": 0.843,
+     "rule_standalone_recall": 0.1116,
+     "extra_fraud_by_hour": {
+      "00-05": 0.0,
+      "06-08": 0.0,
+      "09-17": 0.0,
+      "18-23": 0.0
+     },
+     "extra_fraud_by_amount": {
+      "<500k": 0.0,
+      "500k-1M": 0.0,
+      ">=1M": 0.0
+     },
+     "checks": {
+      "cap_every_full_day": true,
+      "beats_e4_same_capacity": false,
+      "min_extra_fraud": false
+     }
+    },
+    "F2": {
+     "days": 4.167,
+     "full_days": 3,
+     "extra_alerts_per_day_mean": 4.3,
+     "extra_alerts_full_day_min": 2.0,
+     "extra_alerts_full_day_median": 4.0,
+     "extra_alerts_full_day_max": 4.0,
+     "extra_alerts_per_day": {
+      "19": 0.0,
+      "20": 4.0,
+      "21": 4.0,
+      "22": 2.0,
+      "23": 8.0
+     },
+     "extra_fraud": 0.0,
+     "extra_fraud_per_day": 0.0,
+     "extra_precision": 0.0,
+     "e4_same_capacity_fraud": 4.0,
+     "beats_e4_same_capacity": false,
+     "e4_recall": 0.3105,
+     "combined_recall": 0.3105,
+     "e4_plus_capacity_recall": 0.3145,
+     "rule_standalone_alerts_per_day": 20.4,
+     "rule_standalone_precision": 0.776,
+     "rule_standalone_recall": 0.0655,
+     "extra_fraud_by_hour": {
+      "00-05": 0.0,
+      "06-08": 0.0,
+      "09-17": 0.0,
+      "18-23": 0.0
+     },
+     "extra_fraud_by_amount": {
+      "<500k": 0.0,
+      "500k-1M": 0.0,
+      ">=1M": 0.0
+     },
+     "checks": {
+      "cap_every_full_day": true,
+      "beats_e4_same_capacity": false,
+      "min_extra_fraud": false
+     }
+    }
+   }
+  },
+  "hv1000k_new250k@25_cut70": {
+   "params": {
+    "hv": 1000000,
+    "new": [
+     250000,
+     25
+    ],
+    "cut": 70
+   },
+   "n_rules": 5,
+   "folds": {
+    "F1": {
+     "days": 4.167,
+     "full_days": 3,
+     "extra_alerts_per_day_mean": 732.0,
+     "extra_alerts_full_day_min": 60.0,
+     "extra_alerts_full_day_median": 1001.0,
+     "extra_alerts_full_day_max": 1312.0,
+     "extra_alerts_per_day": {
+      "15": 637.0,
+      "16": 1001.0,
+      "17": 1312.0,
+      "18": 60.0,
+      "19": 40.0
+     },
+     "extra_fraud": 144.0,
+     "extra_fraud_per_day": 34.56,
+     "extra_precision": 0.047,
+     "e4_same_capacity_fraud": 341.6,
+     "beats_e4_same_capacity": false,
+     "e4_recall": 0.3279,
+     "combined_recall": 0.4524,
+     "e4_plus_capacity_recall": 0.6233,
+     "rule_standalone_alerts_per_day": 797.0,
+     "rule_standalone_precision": 0.12,
+     "rule_standalone_recall": 0.3434,
+     "extra_fraud_by_hour": {
+      "00-05": 8.0,
+      "06-08": 25.0,
+      "09-17": 86.0,
+      "18-23": 25.0
+     },
+     "extra_fraud_by_amount": {
+      "<500k": 6.0,
+      "500k-1M": 1.0,
+      ">=1M": 137.0
+     },
+     "checks": {
+      "cap_every_full_day": false,
+      "beats_e4_same_capacity": false,
+      "min_extra_fraud": true
+     }
+    },
+    "F2": {
+     "days": 4.167,
+     "full_days": 3,
+     "extra_alerts_per_day_mean": 137.3,
+     "extra_alerts_full_day_min": 70.0,
+     "extra_alerts_full_day_median": 123.0,
+     "extra_alerts_full_day_max": 220.0,
+     "extra_alerts_per_day": {
+      "19": 4.0,
+      "20": 70.0,
+      "21": 123.0,
+      "22": 220.0,
+      "23": 155.0
+     },
+     "extra_fraud": 122.0,
+     "extra_fraud_per_day": 29.28,
+     "extra_precision": 0.213,
+     "e4_same_capacity_fraud": 163.5,
+     "beats_e4_same_capacity": false,
+     "e4_recall": 0.3105,
+     "combined_recall": 0.4315,
+     "e4_plus_capacity_recall": 0.4728,
+     "rule_standalone_alerts_per_day": 179.5,
+     "rule_standalone_precision": 0.384,
+     "rule_standalone_recall": 0.2847,
+     "extra_fraud_by_hour": {
+      "00-05": 3.0,
+      "06-08": 22.0,
+      "09-17": 73.0,
+      "18-23": 24.0
+     },
+     "extra_fraud_by_amount": {
+      "<500k": 3.0,
+      "500k-1M": 0.0,
+      ">=1M": 119.0
+     },
+     "checks": {
+      "cap_every_full_day": false,
+      "beats_e4_same_capacity": false,
+      "min_extra_fraud": true
+     }
+    }
+   }
+  },
+  "hv1000k_new250k@25_cut80": {
+   "params": {
+    "hv": 1000000,
+    "new": [
+     250000,
+     25
+    ],
+    "cut": 80
+   },
+   "n_rules": 5,
+   "folds": {
+    "F1": {
+     "days": 4.167,
+     "full_days": 3,
+     "extra_alerts_per_day_mean": 721.0,
+     "extra_alerts_full_day_min": 55.0,
+     "extra_alerts_full_day_median": 963.0,
+     "extra_alerts_full_day_max": 1309.0,
+     "extra_alerts_per_day": {
+      "15": 637.0,
+      "16": 963.0,
+      "17": 1309.0,
+      "18": 55.0,
+      "19": 40.0
+     },
+     "extra_fraud": 137.0,
+     "extra_fraud_per_day": 32.88,
+     "extra_precision": 0.046,
+     "e4_same_capacity_fraud": 340.0,
+     "beats_e4_same_capacity": false,
+     "e4_recall": 0.3279,
+     "combined_recall": 0.4464,
+     "e4_plus_capacity_recall": 0.622,
+     "rule_standalone_alerts_per_day": 772.1,
+     "rule_standalone_precision": 0.103,
+     "rule_standalone_recall": 0.2872,
+     "extra_fraud_by_hour": {
+      "00-05": 1.0,
+      "06-08": 25.0,
+      "09-17": 86.0,
+      "18-23": 25.0
+     },
+     "extra_fraud_by_amount": {
+      "<500k": 0.0,
+      "500k-1M": 0.0,
+      ">=1M": 137.0
+     },
+     "checks": {
+      "cap_every_full_day": false,
+      "beats_e4_same_capacity": false,
+      "min_extra_fraud": true
+     }
+    },
+    "F2": {
+     "days": 4.167,
+     "full_days": 3,
+     "extra_alerts_per_day_mean": 135.6,
+     "extra_alerts_full_day_min": 68.0,
+     "extra_alerts_full_day_median": 122.0,
+     "extra_alerts_full_day_max": 220.0,
+     "extra_alerts_per_day": {
+      "19": 4.0,
+      "20": 68.0,
+      "21": 122.0,
+      "22": 220.0,
+      "23": 151.0
+     },
+     "extra_fraud": 119.0,
+     "extra_fraud_per_day": 28.56,
+     "extra_precision": 0.211,
+     "e4_same_capacity_fraud": 163.4,
+     "beats_e4_same_capacity": false,
+     "e4_recall": 0.3105,
+     "combined_recall": 0.4286,
+     "e4_plus_capacity_recall": 0.4726,
+     "rule_standalone_alerts_per_day": 165.1,
+     "rule_standalone_precision": 0.346,
+     "rule_standalone_recall": 0.2361,
+     "extra_fraud_by_hour": {
+      "00-05": 0.0,
+      "06-08": 22.0,
+      "09-17": 73.0,
+      "18-23": 24.0
+     },
+     "extra_fraud_by_amount": {
+      "<500k": 0.0,
+      "500k-1M": 0.0,
+      ">=1M": 119.0
+     },
+     "checks": {
+      "cap_every_full_day": false,
+      "beats_e4_same_capacity": false,
+      "min_extra_fraud": true
+     }
+    }
+   }
+  },
+  "hv1000k_new250k@45_cut70": {
+   "params": {
+    "hv": 1000000,
+    "new": [
+     250000,
+     45
+    ],
+    "cut": 70
+   },
+   "n_rules": 5,
+   "folds": {
+    "F1": {
+     "days": 4.167,
+     "full_days": 3,
+     "extra_alerts_per_day_mean": 4798.8,
+     "extra_alerts_full_day_min": 388.0,
+     "extra_alerts_full_day_median": 7195.0,
+     "extra_alerts_full_day_max": 8310.0,
+     "extra_alerts_per_day": {
+      "15": 3979.0,
+      "16": 7195.0,
+      "17": 8310.0,
+      "18": 388.0,
+      "19": 123.0
+     },
+     "extra_fraud": 299.0,
+     "extra_fraud_per_day": 71.76,
+     "extra_precision": 0.015,
+     "e4_same_capacity_fraud": 588.0,
+     "beats_e4_same_capacity": false,
+     "e4_recall": 0.3279,
+     "combined_recall": 0.5865,
+     "e4_plus_capacity_recall": 0.8365,
+     "rule_standalone_alerts_per_day": 4863.8,
+     "rule_standalone_precision": 0.027,
+     "rule_standalone_recall": 0.4775,
+     "extra_fraud_by_hour": {
+      "00-05": 18.0,
+      "06-08": 44.0,
+      "09-17": 157.0,
+      "18-23": 80.0
+     },
+     "extra_fraud_by_amount": {
+      "<500k": 99.0,
+      "500k-1M": 63.0,
+      ">=1M": 137.0
+     },
+     "checks": {
+      "cap_every_full_day": false,
+      "beats_e4_same_capacity": false,
+      "min_extra_fraud": true
+     }
+    },
+    "F2": {
+     "days": 4.167,
+     "full_days": 3,
+     "extra_alerts_per_day_mean": 684.0,
+     "extra_alerts_full_day_min": 401.0,
+     "extra_alerts_full_day_median": 516.0,
+     "extra_alerts_full_day_max": 985.0,
+     "extra_alerts_per_day": {
+      "19": 42.0,
+      "20": 401.0,
+      "21": 516.0,
+      "22": 985.0,
+      "23": 906.0
+     },
+     "extra_fraud": 256.0,
+     "extra_fraud_per_day": 61.44,
+     "extra_precision": 0.09,
+     "e4_same_capacity_fraud": 509.0,
+     "beats_e4_same_capacity": false,
+     "e4_recall": 0.3105,
+     "combined_recall": 0.5645,
+     "e4_plus_capacity_recall": 0.8155,
+     "rule_standalone_alerts_per_day": 727.4,
+     "rule_standalone_precision": 0.141,
+     "rule_standalone_recall": 0.4226,
+     "extra_fraud_by_hour": {
+      "00-05": 6.0,
+      "06-08": 49.0,
+      "09-17": 122.0,
+      "18-23": 79.0
+     },
+     "extra_fraud_by_amount": {
+      "<500k": 60.0,
+      "500k-1M": 77.0,
+      ">=1M": 119.0
+     },
+     "checks": {
+      "cap_every_full_day": false,
+      "beats_e4_same_capacity": false,
+      "min_extra_fraud": true
+     }
+    }
+   }
+  },
+  "hv1000k_new250k@45_cut80": {
+   "params": {
+    "hv": 1000000,
+    "new": [
+     250000,
+     45
+    ],
+    "cut": 80
+   },
+   "n_rules": 5,
+   "folds": {
+    "F1": {
+     "days": 4.167,
+     "full_days": 3,
+     "extra_alerts_per_day_mean": 723.4,
+     "extra_alerts_full_day_min": 60.0,
+     "extra_alerts_full_day_median": 965.0,
+     "extra_alerts_full_day_max": 1312.0,
+     "extra_alerts_per_day": {
+      "15": 637.0,
+      "16": 965.0,
+      "17": 1312.0,
+      "18": 60.0,
+      "19": 40.0
+     },
+     "extra_fraud": 144.0,
+     "extra_fraud_per_day": 34.56,
+     "extra_precision": 0.048,
+     "e4_same_capacity_fraud": 340.0,
+     "beats_e4_same_capacity": false,
+     "e4_recall": 0.3279,
+     "combined_recall": 0.4524,
+     "e4_plus_capacity_recall": 0.622,
+     "rule_standalone_alerts_per_day": 783.4,
+     "rule_standalone_precision": 0.115,
+     "rule_standalone_recall": 0.3253,
+     "extra_fraud_by_hour": {
+      "00-05": 8.0,
+      "06-08": 25.0,
+      "09-17": 86.0,
+      "18-23": 25.0
+     },
+     "extra_fraud_by_amount": {
+      "<500k": 6.0,
+      "500k-1M": 1.0,
+      ">=1M": 137.0
+     },
+     "checks": {
+      "cap_every_full_day": false,
+      "beats_e4_same_capacity": false,
+      "min_extra_fraud": true
+     }
+    },
+    "F2": {
+     "days": 4.167,
+     "full_days": 3,
+     "extra_alerts_per_day_mean": 136.8,
+     "extra_alerts_full_day_min": 70.0,
+     "extra_alerts_full_day_median": 123.0,
+     "extra_alerts_full_day_max": 220.0,
+     "extra_alerts_per_day": {
+      "19": 4.0,
+      "20": 70.0,
+      "21": 123.0,
+      "22": 220.0,
+      "23": 153.0
+     },
+     "extra_fraud": 122.0,
+     "extra_fraud_per_day": 29.28,
+     "extra_precision": 0.214,
+     "e4_same_capacity_fraud": 163.5,
+     "beats_e4_same_capacity": false,
+     "e4_recall": 0.3105,
+     "combined_recall": 0.4315,
+     "e4_plus_capacity_recall": 0.4727,
+     "rule_standalone_alerts_per_day": 177.4,
+     "rule_standalone_precision": 0.379,
+     "rule_standalone_recall": 0.2778,
+     "extra_fraud_by_hour": {
+      "00-05": 3.0,
+      "06-08": 22.0,
+      "09-17": 73.0,
+      "18-23": 24.0
+     },
+     "extra_fraud_by_amount": {
+      "<500k": 3.0,
+      "500k-1M": 0.0,
+      ">=1M": 119.0
+     },
+     "checks": {
+      "cap_every_full_day": false,
+      "beats_e4_same_capacity": false,
+      "min_extra_fraud": true
+     }
+    }
+   }
+  },
+  "hv1000k_new500k@25_cut70": {
+   "params": {
+    "hv": 1000000,
+    "new": [
+     500000,
+     25
+    ],
+    "cut": 70
+   },
+   "n_rules": 5,
+   "folds": {
+    "F1": {
+     "days": 4.167,
+     "full_days": 3,
+     "extra_alerts_per_day_mean": 729.8,
+     "extra_alerts_full_day_min": 56.0,
+     "extra_alerts_full_day_median": 999.0,
+     "extra_alerts_full_day_max": 1309.0,
+     "extra_alerts_per_day": {
+      "15": 637.0,
+      "16": 999.0,
+      "17": 1309.0,
+      "18": 56.0,
+      "19": 40.0
+     },
+     "extra_fraud": 138.0,
+     "extra_fraud_per_day": 33.12,
+     "extra_precision": 0.045,
+     "e4_same_capacity_fraud": 341.1,
+     "beats_e4_same_capacity": false,
+     "e4_recall": 0.3279,
+     "combined_recall": 0.4472,
+     "e4_plus_capacity_recall": 0.6229,
+     "rule_standalone_alerts_per_day": 792.7,
+     "rule_standalone_precision": 0.116,
+     "rule_standalone_recall": 0.3304,
+     "extra_fraud_by_hour": {
+      "00-05": 2.0,
+      "06-08": 25.0,
+      "09-17": 86.0,
+      "18-23": 25.0
+     },
+     "extra_fraud_by_amount": {
+      "<500k": 0.0,
+      "500k-1M": 1.0,
+      ">=1M": 137.0
+     },
+     "checks": {
+      "cap_every_full_day": false,
+      "beats_e4_same_capacity": false,
+      "min_extra_fraud": true
+     }
+    },
+    "F2": {
+     "days": 4.167,
+     "full_days": 3,
+     "extra_alerts_per_day_mean": 136.1,
+     "extra_alerts_full_day_min": 68.0,
+     "extra_alerts_full_day_median": 122.0,
+     "extra_alerts_full_day_max": 220.0,
+     "extra_alerts_per_day": {
+      "19": 4.0,
+      "20": 68.0,
+      "21": 122.0,
+      "22": 220.0,
+      "23": 153.0
+     },
+     "extra_fraud": 119.0,
+     "extra_fraud_per_day": 28.56,
+     "extra_precision": 0.21,
+     "e4_same_capacity_fraud": 163.4,
+     "beats_e4_same_capacity": false,
+     "e4_recall": 0.3105,
+     "combined_recall": 0.4286,
+     "e4_plus_capacity_recall": 0.4727,
+     "rule_standalone_alerts_per_day": 172.1,
+     "rule_standalone_precision": 0.367,
+     "rule_standalone_recall": 0.2609,
+     "extra_fraud_by_hour": {
+      "00-05": 0.0,
+      "06-08": 22.0,
+      "09-17": 73.0,
+      "18-23": 24.0
+     },
+     "extra_fraud_by_amount": {
+      "<500k": 0.0,
+      "500k-1M": 0.0,
+      ">=1M": 119.0
+     },
+     "checks": {
+      "cap_every_full_day": false,
+      "beats_e4_same_capacity": false,
+      "min_extra_fraud": true
+     }
+    }
+   }
+  },
+  "hv1000k_new500k@25_cut80": {
+   "params": {
+    "hv": 1000000,
+    "new": [
+     500000,
+     25
+    ],
+    "cut": 80
+   },
+   "n_rules": 5,
+   "folds": {
+    "F1": {
+     "days": 4.167,
+     "full_days": 3,
+     "extra_alerts_per_day_mean": 721.0,
+     "extra_alerts_full_day_min": 55.0,
+     "extra_alerts_full_day_median": 963.0,
+     "extra_alerts_full_day_max": 1309.0,
+     "extra_alerts_per_day": {
+      "15": 637.0,
+      "16": 963.0,
+      "17": 1309.0,
+      "18": 55.0,
+      "19": 40.0
+     },
+     "extra_fraud": 137.0,
+     "extra_fraud_per_day": 32.88,
+     "extra_precision": 0.046,
+     "e4_same_capacity_fraud": 340.0,
+     "beats_e4_same_capacity": false,
+     "e4_recall": 0.3279,
+     "combined_recall": 0.4464,
+     "e4_plus_capacity_recall": 0.622,
+     "rule_standalone_alerts_per_day": 772.1,
+     "rule_standalone_precision": 0.103,
+     "rule_standalone_recall": 0.2872,
+     "extra_fraud_by_hour": {
+      "00-05": 1.0,
+      "06-08": 25.0,
+      "09-17": 86.0,
+      "18-23": 25.0
+     },
+     "extra_fraud_by_amount": {
+      "<500k": 0.0,
+      "500k-1M": 0.0,
+      ">=1M": 137.0
+     },
+     "checks": {
+      "cap_every_full_day": false,
+      "beats_e4_same_capacity": false,
+      "min_extra_fraud": true
+     }
+    },
+    "F2": {
+     "days": 4.167,
+     "full_days": 3,
+     "extra_alerts_per_day_mean": 135.6,
+     "extra_alerts_full_day_min": 68.0,
+     "extra_alerts_full_day_median": 122.0,
+     "extra_alerts_full_day_max": 220.0,
+     "extra_alerts_per_day": {
+      "19": 4.0,
+      "20": 68.0,
+      "21": 122.0,
+      "22": 220.0,
+      "23": 151.0
+     },
+     "extra_fraud": 119.0,
+     "extra_fraud_per_day": 28.56,
+     "extra_precision": 0.211,
+     "e4_same_capacity_fraud": 163.4,
+     "beats_e4_same_capacity": false,
+     "e4_recall": 0.3105,
+     "combined_recall": 0.4286,
+     "e4_plus_capacity_recall": 0.4726,
+     "rule_standalone_alerts_per_day": 165.1,
+     "rule_standalone_precision": 0.346,
+     "rule_standalone_recall": 0.2361,
+     "extra_fraud_by_hour": {
+      "00-05": 0.0,
+      "06-08": 22.0,
+      "09-17": 73.0,
+      "18-23": 24.0
+     },
+     "extra_fraud_by_amount": {
+      "<500k": 0.0,
+      "500k-1M": 0.0,
+      ">=1M": 119.0
+     },
+     "checks": {
+      "cap_every_full_day": false,
+      "beats_e4_same_capacity": false,
+      "min_extra_fraud": true
+     }
+    }
+   }
+  },
+  "hv1000k_new500k@45_cut70": {
+   "params": {
+    "hv": 1000000,
+    "new": [
+     500000,
+     45
+    ],
+    "cut": 70
+   },
+   "n_rules": 5,
+   "folds": {
+    "F1": {
+     "days": 4.167,
+     "full_days": 3,
+     "extra_alerts_per_day_mean": 1567.9,
+     "extra_alerts_full_day_min": 121.0,
+     "extra_alerts_full_day_median": 2264.0,
+     "extra_alerts_full_day_max": 2750.0,
+     "extra_alerts_per_day": {
+      "15": 1343.0,
+      "16": 2264.0,
+      "17": 2750.0,
+      "18": 121.0,
+      "19": 55.0
+     },
+     "extra_fraud": 200.0,
+     "extra_fraud_per_day": 48.0,
+     "extra_precision": 0.031,
+     "e4_same_capacity_fraud": 456.8,
+     "beats_e4_same_capacity": false,
+     "e4_recall": 0.3279,
+     "combined_recall": 0.5009,
+     "e4_plus_capacity_recall": 0.723,
+     "rule_standalone_alerts_per_day": 1630.8,
+     "rule_standalone_precision": 0.065,
+     "rule_standalone_recall": 0.3841,
+     "extra_fraud_by_hour": {
+      "00-05": 9.0,
+      "06-08": 33.0,
+      "09-17": 105.0,
+      "18-23": 53.0
+     },
+     "extra_fraud_by_amount": {
+      "<500k": 0.0,
+      "500k-1M": 63.0,
+      ">=1M": 137.0
+     },
+     "checks": {
+      "cap_every_full_day": false,
+      "beats_e4_same_capacity": false,
+      "min_extra_fraud": true
+     }
+    },
+    "F2": {
+     "days": 4.167,
+     "full_days": 3,
+     "extra_alerts_per_day_mean": 249.8,
+     "extra_alerts_full_day_min": 160.0,
+     "extra_alerts_full_day_median": 213.0,
+     "extra_alerts_full_day_max": 346.0,
+     "extra_alerts_per_day": {
+      "19": 12.0,
+      "20": 160.0,
+      "21": 213.0,
+      "22": 346.0,
+      "23": 310.0
+     },
+     "extra_fraud": 196.0,
+     "extra_fraud_per_day": 47.04,
+     "extra_precision": 0.188,
+     "e4_same_capacity_fraud": 278.0,
+     "beats_e4_same_capacity": false,
+     "e4_recall": 0.3105,
+     "combined_recall": 0.505,
+     "e4_plus_capacity_recall": 0.5863,
+     "rule_standalone_alerts_per_day": 287.0,
+     "rule_standalone_precision": 0.288,
+     "rule_standalone_recall": 0.3423,
+     "extra_fraud_by_hour": {
+      "00-05": 1.0,
+      "06-08": 35.0,
+      "09-17": 105.0,
+      "18-23": 55.0
+     },
+     "extra_fraud_by_amount": {
+      "<500k": 0.0,
+      "500k-1M": 77.0,
+      ">=1M": 119.0
+     },
+     "checks": {
+      "cap_every_full_day": false,
+      "beats_e4_same_capacity": false,
+      "min_extra_fraud": true
+     }
+    }
+   }
+  },
+  "hv1000k_new500k@45_cut80": {
+   "params": {
+    "hv": 1000000,
+    "new": [
+     500000,
+     45
+    ],
+    "cut": 80
+   },
+   "n_rules": 5,
+   "folds": {
+    "F1": {
+     "days": 4.167,
+     "full_days": 3,
+     "extra_alerts_per_day_mean": 721.2,
+     "extra_alerts_full_day_min": 56.0,
+     "extra_alerts_full_day_median": 963.0,
+     "extra_alerts_full_day_max": 1309.0,
+     "extra_alerts_per_day": {
+      "15": 637.0,
+      "16": 963.0,
+      "17": 1309.0,
+      "18": 56.0,
+      "19": 40.0
+     },
+     "extra_fraud": 138.0,
+     "extra_fraud_per_day": 33.12,
+     "extra_precision": 0.046,
+     "e4_same_capacity_fraud": 340.0,
+     "beats_e4_same_capacity": false,
+     "e4_recall": 0.3279,
+     "combined_recall": 0.4472,
+     "e4_plus_capacity_recall": 0.622,
+     "rule_standalone_alerts_per_day": 779.0,
+     "rule_standalone_precision": 0.111,
+     "rule_standalone_recall": 0.3123,
+     "extra_fraud_by_hour": {
+      "00-05": 2.0,
+      "06-08": 25.0,
+      "09-17": 86.0,
+      "18-23": 25.0
+     },
+     "extra_fraud_by_amount": {
+      "<500k": 0.0,
+      "500k-1M": 1.0,
+      ">=1M": 137.0
+     },
+     "checks": {
+      "cap_every_full_day": false,
+      "beats_e4_same_capacity": false,
+      "min_extra_fraud": true
+     }
+    },
+    "F2": {
+     "days": 4.167,
+     "full_days": 3,
+     "extra_alerts_per_day_mean": 135.6,
+     "extra_alerts_full_day_min": 68.0,
+     "extra_alerts_full_day_median": 122.0,
+     "extra_alerts_full_day_max": 220.0,
+     "extra_alerts_per_day": {
+      "19": 4.0,
+      "20": 68.0,
+      "21": 122.0,
+      "22": 220.0,
+      "23": 151.0
+     },
+     "extra_fraud": 119.0,
+     "extra_fraud_per_day": 28.56,
+     "extra_precision": 0.211,
+     "e4_same_capacity_fraud": 163.4,
+     "beats_e4_same_capacity": false,
+     "e4_recall": 0.3105,
+     "combined_recall": 0.4286,
+     "e4_plus_capacity_recall": 0.4726,
+     "rule_standalone_alerts_per_day": 169.9,
+     "rule_standalone_precision": 0.362,
+     "rule_standalone_recall": 0.254,
+     "extra_fraud_by_hour": {
+      "00-05": 0.0,
+      "06-08": 22.0,
+      "09-17": 73.0,
+      "18-23": 24.0
+     },
+     "extra_fraud_by_amount": {
+      "<500k": 0.0,
+      "500k-1M": 0.0,
+      ">=1M": 119.0
+     },
+     "checks": {
+      "cap_every_full_day": false,
+      "beats_e4_same_capacity": false,
+      "min_extra_fraud": true
+     }
+    }
+   }
+  },
+  "hv1000k_new1000k@25_cut70": {
+   "params": {
+    "hv": 1000000,
+    "new": [
+     1000000,
+     25
+    ],
+    "cut": 70
+   },
+   "n_rules": 5,
+   "folds": {
+    "F1": {
+     "days": 4.167,
+     "full_days": 3,
+     "extra_alerts_per_day_mean": 729.6,
+     "extra_alerts_full_day_min": 55.0,
+     "extra_alerts_full_day_median": 999.0,
+     "extra_alerts_full_day_max": 1309.0,
+     "extra_alerts_per_day": {
+      "15": 637.0,
+      "16": 999.0,
+      "17": 1309.0,
+      "18": 55.0,
+      "19": 40.0
+     },
+     "extra_fraud": 137.0,
+     "extra_fraud_per_day": 32.88,
+     "extra_precision": 0.045,
+     "e4_same_capacity_fraud": 341.0,
+     "beats_e4_same_capacity": false,
+     "e4_recall": 0.3279,
+     "combined_recall": 0.4464,
+     "e4_plus_capacity_recall": 0.6228,
+     "rule_standalone_alerts_per_day": 785.8,
+     "rule_standalone_precision": 0.108,
+     "rule_standalone_recall": 0.3054,
+     "extra_fraud_by_hour": {
+      "00-05": 1.0,
+      "06-08": 25.0,
+      "09-17": 86.0,
+      "18-23": 25.0
+     },
+     "extra_fraud_by_amount": {
+      "<500k": 0.0,
+      "500k-1M": 0.0,
+      ">=1M": 137.0
+     },
+     "checks": {
+      "cap_every_full_day": false,
+      "beats_e4_same_capacity": false,
+      "min_extra_fraud": true
+     }
+    },
+    "F2": {
+     "days": 4.167,
+     "full_days": 3,
+     "extra_alerts_per_day_mean": 136.1,
+     "extra_alerts_full_day_min": 68.0,
+     "extra_alerts_full_day_median": 122.0,
+     "extra_alerts_full_day_max": 220.0,
+     "extra_alerts_per_day": {
+      "19": 4.0,
+      "20": 68.0,
+      "21": 122.0,
+      "22": 220.0,
+      "23": 153.0
+     },
+     "extra_fraud": 119.0,
+     "extra_fraud_per_day": 28.56,
+     "extra_precision": 0.21,
+     "e4_same_capacity_fraud": 163.4,
+     "beats_e4_same_capacity": false,
+     "e4_recall": 0.3105,
+     "combined_recall": 0.4286,
+     "e4_plus_capacity_recall": 0.4727,
+     "rule_standalone_alerts_per_day": 167.3,
+     "rule_standalone_precision": 0.352,
+     "rule_standalone_recall": 0.2431,
+     "extra_fraud_by_hour": {
+      "00-05": 0.0,
+      "06-08": 22.0,
+      "09-17": 73.0,
+      "18-23": 24.0
+     },
+     "extra_fraud_by_amount": {
+      "<500k": 0.0,
+      "500k-1M": 0.0,
+      ">=1M": 119.0
+     },
+     "checks": {
+      "cap_every_full_day": false,
+      "beats_e4_same_capacity": false,
+      "min_extra_fraud": true
+     }
+    }
+   }
+  },
+  "hv1000k_new1000k@25_cut80": {
+   "params": {
+    "hv": 1000000,
+    "new": [
+     1000000,
+     25
+    ],
+    "cut": 80
+   },
+   "n_rules": 5,
+   "folds": {
+    "F1": {
+     "days": 4.167,
+     "full_days": 3,
+     "extra_alerts_per_day_mean": 721.0,
+     "extra_alerts_full_day_min": 55.0,
+     "extra_alerts_full_day_median": 963.0,
+     "extra_alerts_full_day_max": 1309.0,
+     "extra_alerts_per_day": {
+      "15": 637.0,
+      "16": 963.0,
+      "17": 1309.0,
+      "18": 55.0,
+      "19": 40.0
+     },
+     "extra_fraud": 137.0,
+     "extra_fraud_per_day": 32.88,
+     "extra_precision": 0.046,
+     "e4_same_capacity_fraud": 340.0,
+     "beats_e4_same_capacity": false,
+     "e4_recall": 0.3279,
+     "combined_recall": 0.4464,
+     "e4_plus_capacity_recall": 0.622,
+     "rule_standalone_alerts_per_day": 772.1,
+     "rule_standalone_precision": 0.103,
+     "rule_standalone_recall": 0.2872,
+     "extra_fraud_by_hour": {
+      "00-05": 1.0,
+      "06-08": 25.0,
+      "09-17": 86.0,
+      "18-23": 25.0
+     },
+     "extra_fraud_by_amount": {
+      "<500k": 0.0,
+      "500k-1M": 0.0,
+      ">=1M": 137.0
+     },
+     "checks": {
+      "cap_every_full_day": false,
+      "beats_e4_same_capacity": false,
+      "min_extra_fraud": true
+     }
+    },
+    "F2": {
+     "days": 4.167,
+     "full_days": 3,
+     "extra_alerts_per_day_mean": 135.6,
+     "extra_alerts_full_day_min": 68.0,
+     "extra_alerts_full_day_median": 122.0,
+     "extra_alerts_full_day_max": 220.0,
+     "extra_alerts_per_day": {
+      "19": 4.0,
+      "20": 68.0,
+      "21": 122.0,
+      "22": 220.0,
+      "23": 151.0
+     },
+     "extra_fraud": 119.0,
+     "extra_fraud_per_day": 28.56,
+     "extra_precision": 0.211,
+     "e4_same_capacity_fraud": 163.4,
+     "beats_e4_same_capacity": false,
+     "e4_recall": 0.3105,
+     "combined_recall": 0.4286,
+     "e4_plus_capacity_recall": 0.4726,
+     "rule_standalone_alerts_per_day": 165.1,
+     "rule_standalone_precision": 0.346,
+     "rule_standalone_recall": 0.2361,
+     "extra_fraud_by_hour": {
+      "00-05": 0.0,
+      "06-08": 22.0,
+      "09-17": 73.0,
+      "18-23": 24.0
+     },
+     "extra_fraud_by_amount": {
+      "<500k": 0.0,
+      "500k-1M": 0.0,
+      ">=1M": 119.0
+     },
+     "checks": {
+      "cap_every_full_day": false,
+      "beats_e4_same_capacity": false,
+      "min_extra_fraud": true
+     }
+    }
+   }
+  },
+  "hv1000k_new1000k@45_cut70": {
+   "params": {
+    "hv": 1000000,
+    "new": [
+     1000000,
+     45
+    ],
+    "cut": 70
+   },
+   "n_rules": 5,
+   "folds": {
+    "F1": {
+     "days": 4.167,
+     "full_days": 3,
+     "extra_alerts_per_day_mean": 729.6,
+     "extra_alerts_full_day_min": 55.0,
+     "extra_alerts_full_day_median": 999.0,
+     "extra_alerts_full_day_max": 1309.0,
+     "extra_alerts_per_day": {
+      "15": 637.0,
+      "16": 999.0,
+      "17": 1309.0,
+      "18": 55.0,
+      "19": 40.0
+     },
+     "extra_fraud": 137.0,
+     "extra_fraud_per_day": 32.88,
+     "extra_precision": 0.045,
+     "e4_same_capacity_fraud": 341.0,
+     "beats_e4_same_capacity": false,
+     "e4_recall": 0.3279,
+     "combined_recall": 0.4464,
+     "e4_plus_capacity_recall": 0.6228,
+     "rule_standalone_alerts_per_day": 785.8,
+     "rule_standalone_precision": 0.108,
+     "rule_standalone_recall": 0.3054,
+     "extra_fraud_by_hour": {
+      "00-05": 1.0,
+      "06-08": 25.0,
+      "09-17": 86.0,
+      "18-23": 25.0
+     },
+     "extra_fraud_by_amount": {
+      "<500k": 0.0,
+      "500k-1M": 0.0,
+      ">=1M": 137.0
+     },
+     "checks": {
+      "cap_every_full_day": false,
+      "beats_e4_same_capacity": false,
+      "min_extra_fraud": true
+     }
+    },
+    "F2": {
+     "days": 4.167,
+     "full_days": 3,
+     "extra_alerts_per_day_mean": 136.1,
+     "extra_alerts_full_day_min": 68.0,
+     "extra_alerts_full_day_median": 122.0,
+     "extra_alerts_full_day_max": 220.0,
+     "extra_alerts_per_day": {
+      "19": 4.0,
+      "20": 68.0,
+      "21": 122.0,
+      "22": 220.0,
+      "23": 153.0
+     },
+     "extra_fraud": 119.0,
+     "extra_fraud_per_day": 28.56,
+     "extra_precision": 0.21,
+     "e4_same_capacity_fraud": 163.4,
+     "beats_e4_same_capacity": false,
+     "e4_recall": 0.3105,
+     "combined_recall": 0.4286,
+     "e4_plus_capacity_recall": 0.4727,
+     "rule_standalone_alerts_per_day": 167.3,
+     "rule_standalone_precision": 0.352,
+     "rule_standalone_recall": 0.2431,
+     "extra_fraud_by_hour": {
+      "00-05": 0.0,
+      "06-08": 22.0,
+      "09-17": 73.0,
+      "18-23": 24.0
+     },
+     "extra_fraud_by_amount": {
+      "<500k": 0.0,
+      "500k-1M": 0.0,
+      ">=1M": 119.0
+     },
+     "checks": {
+      "cap_every_full_day": false,
+      "beats_e4_same_capacity": false,
+      "min_extra_fraud": true
+     }
+    }
+   }
+  },
+  "hv1000k_new1000k@45_cut80": {
+   "params": {
+    "hv": 1000000,
+    "new": [
+     1000000,
+     45
+    ],
+    "cut": 80
+   },
+   "n_rules": 5,
+   "folds": {
+    "F1": {
+     "days": 4.167,
+     "full_days": 3,
+     "extra_alerts_per_day_mean": 721.0,
+     "extra_alerts_full_day_min": 55.0,
+     "extra_alerts_full_day_median": 963.0,
+     "extra_alerts_full_day_max": 1309.0,
+     "extra_alerts_per_day": {
+      "15": 637.0,
+      "16": 963.0,
+      "17": 1309.0,
+      "18": 55.0,
+      "19": 40.0
+     },
+     "extra_fraud": 137.0,
+     "extra_fraud_per_day": 32.88,
+     "extra_precision": 0.046,
+     "e4_same_capacity_fraud": 340.0,
+     "beats_e4_same_capacity": false,
+     "e4_recall": 0.3279,
+     "combined_recall": 0.4464,
+     "e4_plus_capacity_recall": 0.622,
+     "rule_standalone_alerts_per_day": 772.1,
+     "rule_standalone_precision": 0.103,
+     "rule_standalone_recall": 0.2872,
+     "extra_fraud_by_hour": {
+      "00-05": 1.0,
+      "06-08": 25.0,
+      "09-17": 86.0,
+      "18-23": 25.0
+     },
+     "extra_fraud_by_amount": {
+      "<500k": 0.0,
+      "500k-1M": 0.0,
+      ">=1M": 137.0
+     },
+     "checks": {
+      "cap_every_full_day": false,
+      "beats_e4_same_capacity": false,
+      "min_extra_fraud": true
+     }
+    },
+    "F2": {
+     "days": 4.167,
+     "full_days": 3,
+     "extra_alerts_per_day_mean": 135.6,
+     "extra_alerts_full_day_min": 68.0,
+     "extra_alerts_full_day_median": 122.0,
+     "extra_alerts_full_day_max": 220.0,
+     "extra_alerts_per_day": {
+      "19": 4.0,
+      "20": 68.0,
+      "21": 122.0,
+      "22": 220.0,
+      "23": 151.0
+     },
+     "extra_fraud": 119.0,
+     "extra_fraud_per_day": 28.56,
+     "extra_precision": 0.211,
+     "e4_same_capacity_fraud": 163.4,
+     "beats_e4_same_capacity": false,
+     "e4_recall": 0.3105,
+     "combined_recall": 0.4286,
+     "e4_plus_capacity_recall": 0.4726,
+     "rule_standalone_alerts_per_day": 165.1,
+     "rule_standalone_precision": 0.346,
+     "rule_standalone_recall": 0.2361,
+     "extra_fraud_by_hour": {
+      "00-05": 0.0,
+      "06-08": 22.0,
+      "09-17": 73.0,
+      "18-23": 24.0
+     },
+     "extra_fraud_by_amount": {
+      "<500k": 0.0,
+      "500k-1M": 0.0,
+      ">=1M": 119.0
+     },
+     "checks": {
+      "cap_every_full_day": false,
+      "beats_e4_same_capacity": false,
+      "min_extra_fraud": true
+     }
+    }
+   }
+  },
+  "hv1000k_new2000k@25_cut70": {
+   "params": {
+    "hv": 1000000,
+    "new": [
+     2000000,
+     25
+    ],
+    "cut": 70
+   },
+   "n_rules": 5,
+   "folds": {
+    "F1": {
+     "days": 4.167,
+     "full_days": 3,
+     "extra_alerts_per_day_mean": 275.0,
+     "extra_alerts_full_day_min": 30.0,
+     "extra_alerts_full_day_median": 412.0,
+     "extra_alerts_full_day_max": 477.0,
+     "extra_alerts_per_day": {
+      "15": 203.0,
+      "16": 477.0,
+      "17": 412.0,
+      "18": 30.0,
+      "19": 24.0
+     },
+     "extra_fraud": 88.0,
+     "extra_fraud_per_day": 21.12,
+     "extra_precision": 0.077,
+     "e4_same_capacity_fraud": 234.6,
+     "beats_e4_same_capacity": false,
+     "e4_recall": 0.3279,
+     "combined_recall": 0.404,
+     "e4_plus_capacity_recall": 0.5308,
+     "rule_standalone_alerts_per_day": 328.3,
+     "rule_standalone_precision": 0.215,
+     "rule_standalone_recall": 0.2543,
+     "extra_fraud_by_hour": {
+      "00-05": 1.0,
+      "06-08": 15.0,
+      "09-17": 53.0,
+      "18-23": 19.0
+     },
+     "extra_fraud_by_amount": {
+      "<500k": 0.0,
+      "500k-1M": 0.0,
+      ">=1M": 88.0
+     },
+     "checks": {
+      "cap_every_full_day": false,
+      "beats_e4_same_capacity": false,
+      "min_extra_fraud": true
+     }
+    },
+    "F2": {
+     "days": 4.167,
+     "full_days": 3,
+     "extra_alerts_per_day_mean": 61.4,
+     "extra_alerts_full_day_min": 18.0,
+     "extra_alerts_full_day_median": 47.0,
+     "extra_alerts_full_day_max": 128.0,
+     "extra_alerts_per_day": {
+      "19": 1.0,
+      "20": 18.0,
+      "21": 47.0,
+      "22": 128.0,
+      "23": 62.0
+     },
+     "extra_fraud": 50.0,
+     "extra_fraud_per_day": 12.0,
+     "extra_precision": 0.195,
+     "e4_same_capacity_fraud": 80.8,
+     "beats_e4_same_capacity": false,
+     "e4_recall": 0.3105,
+     "combined_recall": 0.3601,
+     "e4_plus_capacity_recall": 0.3907,
+     "rule_standalone_alerts_per_day": 88.8,
+     "rule_standalone_precision": 0.435,
+     "rule_standalone_recall": 0.1597,
+     "extra_fraud_by_hour": {
+      "00-05": 0.0,
+      "06-08": 7.0,
+      "09-17": 37.0,
+      "18-23": 6.0
+     },
+     "extra_fraud_by_amount": {
+      "<500k": 0.0,
+      "500k-1M": 0.0,
+      ">=1M": 50.0
+     },
+     "checks": {
+      "cap_every_full_day": false,
+      "beats_e4_same_capacity": false,
+      "min_extra_fraud": true
+     }
+    }
+   }
+  },
+  "hv1000k_new2000k@25_cut80": {
+   "params": {
+    "hv": 1000000,
+    "new": [
+     2000000,
+     25
+    ],
+    "cut": 80
+   },
+   "n_rules": 5,
+   "folds": {
+    "F1": {
+     "days": 4.167,
+     "full_days": 3,
+     "extra_alerts_per_day_mean": 266.4,
+     "extra_alerts_full_day_min": 30.0,
+     "extra_alerts_full_day_median": 412.0,
+     "extra_alerts_full_day_max": 441.0,
+     "extra_alerts_per_day": {
+      "15": 203.0,
+      "16": 441.0,
+      "17": 412.0,
+      "18": 30.0,
+      "19": 24.0
+     },
+     "extra_fraud": 88.0,
+     "extra_fraud_per_day": 21.12,
+     "extra_precision": 0.079,
+     "e4_same_capacity_fraud": 231.0,
+     "beats_e4_same_capacity": false,
+     "e4_recall": 0.3279,
+     "combined_recall": 0.404,
+     "e4_plus_capacity_recall": 0.5277,
+     "rule_standalone_alerts_per_day": 314.6,
+     "rule_standalone_precision": 0.208,
+     "rule_standalone_recall": 0.2362,
+     "extra_fraud_by_hour": {
+      "00-05": 1.0,
+      "06-08": 15.0,
+      "09-17": 53.0,
+      "18-23": 19.0
+     },
+     "extra_fraud_by_amount": {
+      "<500k": 0.0,
+      "500k-1M": 0.0,
+      ">=1M": 88.0
+     },
+     "checks": {
+      "cap_every_full_day": false,
+      "beats_e4_same_capacity": false,
+      "min_extra_fraud": true
+     }
+    },
+    "F2": {
+     "days": 4.167,
+     "full_days": 3,
+     "extra_alerts_per_day_mean": 61.0,
+     "extra_alerts_full_day_min": 18.0,
+     "extra_alerts_full_day_median": 47.0,
+     "extra_alerts_full_day_max": 128.0,
+     "extra_alerts_per_day": {
+      "19": 1.0,
+      "20": 18.0,
+      "21": 47.0,
+      "22": 128.0,
+      "23": 60.0
+     },
+     "extra_fraud": 50.0,
+     "extra_fraud_per_day": 12.0,
+     "extra_precision": 0.197,
+     "e4_same_capacity_fraud": 80.6,
+     "beats_e4_same_capacity": false,
+     "e4_recall": 0.3105,
+     "combined_recall": 0.3601,
+     "e4_plus_capacity_recall": 0.3905,
+     "rule_standalone_alerts_per_day": 86.6,
+     "rule_standalone_precision": 0.427,
+     "rule_standalone_recall": 0.1528,
+     "extra_fraud_by_hour": {
+      "00-05": 0.0,
+      "06-08": 7.0,
+      "09-17": 37.0,
+      "18-23": 6.0
+     },
+     "extra_fraud_by_amount": {
+      "<500k": 0.0,
+      "500k-1M": 0.0,
+      ">=1M": 50.0
+     },
+     "checks": {
+      "cap_every_full_day": false,
+      "beats_e4_same_capacity": false,
+      "min_extra_fraud": true
+     }
+    }
+   }
+  },
+  "hv1000k_new2000k@45_cut70": {
+   "params": {
+    "hv": 1000000,
+    "new": [
+     2000000,
+     45
+    ],
+    "cut": 70
+   },
+   "n_rules": 5,
+   "folds": {
+    "F1": {
+     "days": 4.167,
+     "full_days": 3,
+     "extra_alerts_per_day_mean": 275.0,
+     "extra_alerts_full_day_min": 30.0,
+     "extra_alerts_full_day_median": 412.0,
+     "extra_alerts_full_day_max": 477.0,
+     "extra_alerts_per_day": {
+      "15": 203.0,
+      "16": 477.0,
+      "17": 412.0,
+      "18": 30.0,
+      "19": 24.0
+     },
+     "extra_fraud": 88.0,
+     "extra_fraud_per_day": 21.12,
+     "extra_precision": 0.077,
+     "e4_same_capacity_fraud": 234.6,
+     "beats_e4_same_capacity": false,
+     "e4_recall": 0.3279,
+     "combined_recall": 0.404,
+     "e4_plus_capacity_recall": 0.5308,
+     "rule_standalone_alerts_per_day": 328.3,
+     "rule_standalone_precision": 0.215,
+     "rule_standalone_recall": 0.2543,
+     "extra_fraud_by_hour": {
+      "00-05": 1.0,
+      "06-08": 15.0,
+      "09-17": 53.0,
+      "18-23": 19.0
+     },
+     "extra_fraud_by_amount": {
+      "<500k": 0.0,
+      "500k-1M": 0.0,
+      ">=1M": 88.0
+     },
+     "checks": {
+      "cap_every_full_day": false,
+      "beats_e4_same_capacity": false,
+      "min_extra_fraud": true
+     }
+    },
+    "F2": {
+     "days": 4.167,
+     "full_days": 3,
+     "extra_alerts_per_day_mean": 61.4,
+     "extra_alerts_full_day_min": 18.0,
+     "extra_alerts_full_day_median": 47.0,
+     "extra_alerts_full_day_max": 128.0,
+     "extra_alerts_per_day": {
+      "19": 1.0,
+      "20": 18.0,
+      "21": 47.0,
+      "22": 128.0,
+      "23": 62.0
+     },
+     "extra_fraud": 50.0,
+     "extra_fraud_per_day": 12.0,
+     "extra_precision": 0.195,
+     "e4_same_capacity_fraud": 80.8,
+     "beats_e4_same_capacity": false,
+     "e4_recall": 0.3105,
+     "combined_recall": 0.3601,
+     "e4_plus_capacity_recall": 0.3907,
+     "rule_standalone_alerts_per_day": 88.8,
+     "rule_standalone_precision": 0.435,
+     "rule_standalone_recall": 0.1597,
+     "extra_fraud_by_hour": {
+      "00-05": 0.0,
+      "06-08": 7.0,
+      "09-17": 37.0,
+      "18-23": 6.0
+     },
+     "extra_fraud_by_amount": {
+      "<500k": 0.0,
+      "500k-1M": 0.0,
+      ">=1M": 50.0
+     },
+     "checks": {
+      "cap_every_full_day": false,
+      "beats_e4_same_capacity": false,
+      "min_extra_fraud": true
+     }
+    }
+   }
+  },
+  "hv1000k_new2000k@45_cut80": {
+   "params": {
+    "hv": 1000000,
+    "new": [
+     2000000,
+     45
+    ],
+    "cut": 80
+   },
+   "n_rules": 5,
+   "folds": {
+    "F1": {
+     "days": 4.167,
+     "full_days": 3,
+     "extra_alerts_per_day_mean": 266.4,
+     "extra_alerts_full_day_min": 30.0,
+     "extra_alerts_full_day_median": 412.0,
+     "extra_alerts_full_day_max": 441.0,
+     "extra_alerts_per_day": {
+      "15": 203.0,
+      "16": 441.0,
+      "17": 412.0,
+      "18": 30.0,
+      "19": 24.0
+     },
+     "extra_fraud": 88.0,
+     "extra_fraud_per_day": 21.12,
+     "extra_precision": 0.079,
+     "e4_same_capacity_fraud": 231.0,
+     "beats_e4_same_capacity": false,
+     "e4_recall": 0.3279,
+     "combined_recall": 0.404,
+     "e4_plus_capacity_recall": 0.5277,
+     "rule_standalone_alerts_per_day": 314.6,
+     "rule_standalone_precision": 0.208,
+     "rule_standalone_recall": 0.2362,
+     "extra_fraud_by_hour": {
+      "00-05": 1.0,
+      "06-08": 15.0,
+      "09-17": 53.0,
+      "18-23": 19.0
+     },
+     "extra_fraud_by_amount": {
+      "<500k": 0.0,
+      "500k-1M": 0.0,
+      ">=1M": 88.0
+     },
+     "checks": {
+      "cap_every_full_day": false,
+      "beats_e4_same_capacity": false,
+      "min_extra_fraud": true
+     }
+    },
+    "F2": {
+     "days": 4.167,
+     "full_days": 3,
+     "extra_alerts_per_day_mean": 61.0,
+     "extra_alerts_full_day_min": 18.0,
+     "extra_alerts_full_day_median": 47.0,
+     "extra_alerts_full_day_max": 128.0,
+     "extra_alerts_per_day": {
+      "19": 1.0,
+      "20": 18.0,
+      "21": 47.0,
+      "22": 128.0,
+      "23": 60.0
+     },
+     "extra_fraud": 50.0,
+     "extra_fraud_per_day": 12.0,
+     "extra_precision": 0.197,
+     "e4_same_capacity_fraud": 80.6,
+     "beats_e4_same_capacity": false,
+     "e4_recall": 0.3105,
+     "combined_recall": 0.3601,
+     "e4_plus_capacity_recall": 0.3905,
+     "rule_standalone_alerts_per_day": 86.6,
+     "rule_standalone_precision": 0.427,
+     "rule_standalone_recall": 0.1528,
+     "extra_fraud_by_hour": {
+      "00-05": 0.0,
+      "06-08": 7.0,
+      "09-17": 37.0,
+      "18-23": 6.0
+     },
+     "extra_fraud_by_amount": {
+      "<500k": 0.0,
+      "500k-1M": 0.0,
+      ">=1M": 50.0
+     },
+     "checks": {
+      "cap_every_full_day": false,
+      "beats_e4_same_capacity": false,
+      "min_extra_fraud": true
+     }
+    }
+   }
+  },
+  "hv2000k_nonew_cut70": {
+   "params": {
+    "hv": 2000000,
+    "new": null,
+    "cut": 70
+   },
+   "n_rules": 4,
+   "folds": {
+    "F1": {
+     "days": 4.167,
+     "full_days": 3,
+     "extra_alerts_per_day_mean": 19.7,
+     "extra_alerts_full_day_min": 6.0,
+     "extra_alerts_full_day_median": 10.0,
+     "extra_alerts_full_day_max": 54.0,
+     "extra_alerts_per_day": {
+      "15": 2.0,
+      "16": 54.0,
+      "17": 6.0,
+      "18": 10.0,
+      "19": 10.0
+     },
+     "extra_fraud": 22.0,
+     "extra_fraud_per_day": 5.28,
+     "extra_precision": 0.268,
+     "e4_same_capacity_fraud": 47.4,
+     "beats_e4_same_capacity": false,
+     "e4_recall": 0.3279,
+     "combined_recall": 0.3469,
+     "e4_plus_capacity_recall": 0.3689,
+     "rule_standalone_alerts_per_day": 47.5,
+     "rule_standalone_precision": 0.697,
+     "rule_standalone_recall": 0.1194,
+     "extra_fraud_by_hour": {
+      "00-05": 0.0,
+      "06-08": 5.0,
+      "09-17": 14.0,
+      "18-23": 3.0
+     },
+     "extra_fraud_by_amount": {
+      "<500k": 0.0,
+      "500k-1M": 0.0,
+      ">=1M": 22.0
+     },
+     "checks": {
+      "cap_every_full_day": false,
+      "beats_e4_same_capacity": false,
+      "min_extra_fraud": true
+     }
+    },
+    "F2": {
+     "days": 4.167,
+     "full_days": 3,
+     "extra_alerts_per_day_mean": 4.1,
+     "extra_alerts_full_day_min": 2.0,
+     "extra_alerts_full_day_median": 3.0,
+     "extra_alerts_full_day_max": 5.0,
+     "extra_alerts_per_day": {
+      "19": 0.0,
+      "20": 2.0,
+      "21": 3.0,
+      "22": 5.0,
+      "23": 7.0
+     },
+     "extra_fraud": 8.0,
+     "extra_fraud_per_day": 1.92,
+     "extra_precision": 0.471,
+     "e4_same_capacity_fraud": 4.0,
+     "beats_e4_same_capacity": true,
+     "e4_recall": 0.3105,
+     "combined_recall": 0.3185,
+     "e4_plus_capacity_recall": 0.3145,
+     "rule_standalone_alerts_per_day": 16.3,
+     "rule_standalone_precision": 0.853,
+     "rule_standalone_recall": 0.0575,
+     "extra_fraud_by_hour": {
+      "00-05": 0.0,
+      "06-08": 0.0,
+      "09-17": 7.0,
+      "18-23": 1.0
+     },
+     "extra_fraud_by_amount": {
+      "<500k": 0.0,
+      "500k-1M": 0.0,
+      ">=1M": 8.0
+     },
+     "checks": {
+      "cap_every_full_day": true,
+      "beats_e4_same_capacity": true,
+      "min_extra_fraud": true
+     }
+    }
+   }
+  },
+  "hv2000k_nonew_cut80": {
+   "params": {
+    "hv": 2000000,
+    "new": null,
+    "cut": 80
+   },
+   "n_rules": 4,
+   "folds": {
+    "F1": {
+     "days": 4.167,
+     "full_days": 3,
+     "extra_alerts_per_day_mean": 2.9,
+     "extra_alerts_full_day_min": 2.0,
+     "extra_alerts_full_day_median": 2.0,
+     "extra_alerts_full_day_max": 5.0,
+     "extra_alerts_per_day": {
+      "15": 0.0,
+      "16": 5.0,
+      "17": 2.0,
+      "18": 2.0,
+      "19": 3.0
+     },
+     "extra_fraud": 0.0,
+     "extra_fraud_per_day": 0.0,
+     "extra_precision": 0.0,
+     "e4_same_capacity_fraud": 6.6,
+     "beats_e4_same_capacity": false,
+     "e4_recall": 0.3279,
+     "combined_recall": 0.3279,
+     "e4_plus_capacity_recall": 0.3336,
+     "rule_standalone_alerts_per_day": 23.8,
+     "rule_standalone_precision": 0.879,
+     "rule_standalone_recall": 0.0753,
+     "extra_fraud_by_hour": {
+      "00-05": 0.0,
+      "06-08": 0.0,
+      "09-17": 0.0,
+      "18-23": 0.0
+     },
+     "extra_fraud_by_amount": {
+      "<500k": 0.0,
+      "500k-1M": 0.0,
+      ">=1M": 0.0
+     },
+     "checks": {
+      "cap_every_full_day": true,
+      "beats_e4_same_capacity": false,
+      "min_extra_fraud": false
+     }
+    },
+    "F2": {
+     "days": 4.167,
+     "full_days": 3,
+     "extra_alerts_per_day_mean": 1.4,
+     "extra_alerts_full_day_min": 1.0,
+     "extra_alerts_full_day_median": 1.0,
+     "extra_alerts_full_day_max": 1.0,
+     "extra_alerts_per_day": {
+      "19": 0.0,
+      "20": 1.0,
+      "21": 1.0,
+      "22": 1.0,
+      "23": 3.0
+     },
+     "extra_fraud": 0.0,
+     "extra_fraud_per_day": 0.0,
+     "extra_precision": 0.0,
+     "e4_same_capacity_fraud": 1.2,
+     "beats_e4_same_capacity": false,
+     "e4_recall": 0.3105,
+     "combined_recall": 0.3105,
+     "e4_plus_capacity_recall": 0.3118,
+     "rule_standalone_alerts_per_day": 10.8,
+     "rule_standalone_precision": 0.844,
+     "rule_standalone_recall": 0.0377,
+     "extra_fraud_by_hour": {
+      "00-05": 0.0,
+      "06-08": 0.0,
+      "09-17": 0.0,
+      "18-23": 0.0
+     },
+     "extra_fraud_by_amount": {
+      "<500k": 0.0,
+      "500k-1M": 0.0,
+      ">=1M": 0.0
+     },
+     "checks": {
+      "cap_every_full_day": true,
+      "beats_e4_same_capacity": false,
+      "min_extra_fraud": false
+     }
+    }
+   }
+  },
+  "hv2000k_new250k@25_cut70": {
+   "params": {
+    "hv": 2000000,
+    "new": [
+     250000,
+     25
+    ],
+    "cut": 70
+   },
+   "n_rules": 5,
+   "folds": {
+    "F1": {
+     "days": 4.167,
+     "full_days": 3,
+     "extra_alerts_per_day_mean": 274.6,
+     "extra_alerts_full_day_min": 33.0,
+     "extra_alerts_full_day_median": 411.0,
+     "extra_alerts_full_day_max": 473.0,
+     "extra_alerts_per_day": {
+      "15": 203.0,
+      "16": 473.0,
+      "17": 411.0,
+      "18": 33.0,
+      "19": 24.0
+     },
+     "extra_fraud": 95.0,
+     "extra_fraud_per_day": 22.8,
+     "extra_precision": 0.083,
+     "e4_same_capacity_fraud": 234.5,
+     "beats_e4_same_capacity": false,
+     "e4_recall": 0.3279,
+     "combined_recall": 0.41,
+     "e4_plus_capacity_recall": 0.5307,
+     "rule_standalone_alerts_per_day": 332.9,
+     "rule_standalone_precision": 0.232,
+     "rule_standalone_recall": 0.2785,
+     "extra_fraud_by_hour": {
+      "00-05": 8.0,
+      "06-08": 15.0,
+      "09-17": 53.0,
+      "18-23": 19.0
+     },
+     "extra_fraud_by_amount": {
+      "<500k": 6.0,
+      "500k-1M": 1.0,
+      ">=1M": 88.0
+     },
+     "checks": {
+      "cap_every_full_day": false,
+      "beats_e4_same_capacity": false,
+      "min_extra_fraud": true
+     }
+    },
+    "F2": {
+     "days": 4.167,
+     "full_days": 3,
+     "extra_alerts_per_day_mean": 59.8,
+     "extra_alerts_full_day_min": 17.0,
+     "extra_alerts_full_day_median": 45.0,
+     "extra_alerts_full_day_max": 127.0,
+     "extra_alerts_per_day": {
+      "19": 1.0,
+      "20": 17.0,
+      "21": 45.0,
+      "22": 127.0,
+      "23": 59.0
+     },
+     "extra_fraud": 53.0,
+     "extra_fraud_per_day": 12.72,
+     "extra_precision": 0.213,
+     "e4_same_capacity_fraud": 80.1,
+     "beats_e4_same_capacity": false,
+     "e4_recall": 0.3105,
+     "combined_recall": 0.3631,
+     "e4_plus_capacity_recall": 0.3899,
+     "rule_standalone_alerts_per_day": 96.0,
+     "rule_standalone_precision": 0.485,
+     "rule_standalone_recall": 0.1925,
+     "extra_fraud_by_hour": {
+      "00-05": 3.0,
+      "06-08": 7.0,
+      "09-17": 37.0,
+      "18-23": 6.0
+     },
+     "extra_fraud_by_amount": {
+      "<500k": 3.0,
+      "500k-1M": 0.0,
+      ">=1M": 50.0
+     },
+     "checks": {
+      "cap_every_full_day": false,
+      "beats_e4_same_capacity": false,
+      "min_extra_fraud": true
+     }
+    }
+   }
+  },
+  "hv2000k_new250k@25_cut80": {
+   "params": {
+    "hv": 2000000,
+    "new": [
+     250000,
+     25
+    ],
+    "cut": 80
+   },
+   "n_rules": 5,
+   "folds": {
+    "F1": {
+     "days": 4.167,
+     "full_days": 3,
+     "extra_alerts_per_day_mean": 263.5,
+     "extra_alerts_full_day_min": 28.0,
+     "extra_alerts_full_day_median": 408.0,
+     "extra_alerts_full_day_max": 435.0,
+     "extra_alerts_per_day": {
+      "15": 203.0,
+      "16": 435.0,
+      "17": 408.0,
+      "18": 28.0,
+      "19": 24.0
+     },
+     "extra_fraud": 88.0,
+     "extra_fraud_per_day": 21.12,
+     "extra_precision": 0.08,
+     "e4_same_capacity_fraud": 230.0,
+     "beats_e4_same_capacity": false,
+     "e4_recall": 0.3279,
+     "combined_recall": 0.404,
+     "e4_plus_capacity_recall": 0.5268,
+     "rule_standalone_alerts_per_day": 301.7,
+     "rule_standalone_precision": 0.184,
+     "rule_standalone_recall": 0.1998,
+     "extra_fraud_by_hour": {
+      "00-05": 1.0,
+      "06-08": 15.0,
+      "09-17": 53.0,
+      "18-23": 19.0
+     },
+     "extra_fraud_by_amount": {
+      "<500k": 0.0,
+      "500k-1M": 0.0,
+      ">=1M": 88.0
+     },
+     "checks": {
+      "cap_every_full_day": false,
+      "beats_e4_same_capacity": false,
+      "min_extra_fraud": true
+     }
+    },
+    "F2": {
+     "days": 4.167,
+     "full_days": 3,
+     "extra_alerts_per_day_mean": 58.1,
+     "extra_alerts_full_day_min": 15.0,
+     "extra_alerts_full_day_median": 44.0,
+     "extra_alerts_full_day_max": 127.0,
+     "extra_alerts_per_day": {
+      "19": 1.0,
+      "20": 15.0,
+      "21": 44.0,
+      "22": 127.0,
+      "23": 55.0
+     },
+     "extra_fraud": 50.0,
+     "extra_fraud_per_day": 12.0,
+     "extra_precision": 0.207,
+     "e4_same_capacity_fraud": 79.3,
+     "beats_e4_same_capacity": false,
+     "e4_recall": 0.3105,
+     "combined_recall": 0.3601,
+     "e4_plus_capacity_recall": 0.3892,
+     "rule_standalone_alerts_per_day": 77.0,
+     "rule_standalone_precision": 0.393,
+     "rule_standalone_recall": 0.125,
+     "extra_fraud_by_hour": {
+      "00-05": 0.0,
+      "06-08": 7.0,
+      "09-17": 37.0,
+      "18-23": 6.0
+     },
+     "extra_fraud_by_amount": {
+      "<500k": 0.0,
+      "500k-1M": 0.0,
+      ">=1M": 50.0
+     },
+     "checks": {
+      "cap_every_full_day": false,
+      "beats_e4_same_capacity": false,
+      "min_extra_fraud": true
+     }
+    }
+   }
+  },
+  "hv2000k_new250k@45_cut70": {
+   "params": {
+    "hv": 2000000,
+    "new": [
+     250000,
+     45
+    ],
+    "cut": 70
+   },
+   "n_rules": 5,
+   "folds": {
+    "F1": {
+     "days": 4.167,
+     "full_days": 3,
+     "extra_alerts_per_day_mean": 4795.9,
+     "extra_alerts_full_day_min": 386.0,
+     "extra_alerts_full_day_median": 7189.0,
+     "extra_alerts_full_day_max": 8306.0,
+     "extra_alerts_per_day": {
+      "15": 3979.0,
+      "16": 7189.0,
+      "17": 8306.0,
+      "18": 386.0,
+      "19": 123.0
+     },
+     "extra_fraud": 299.0,
+     "extra_fraud_per_day": 71.76,
+     "extra_precision": 0.015,
+     "e4_same_capacity_fraud": 588.0,
+     "beats_e4_same_capacity": false,
+     "e4_recall": 0.3279,
+     "combined_recall": 0.5865,
+     "e4_plus_capacity_recall": 0.8365,
+     "rule_standalone_alerts_per_day": 4857.1,
+     "rule_standalone_precision": 0.026,
+     "rule_standalone_recall": 0.4637,
+     "extra_fraud_by_hour": {
+      "00-05": 18.0,
+      "06-08": 44.0,
+      "09-17": 157.0,
+      "18-23": 80.0
+     },
+     "extra_fraud_by_amount": {
+      "<500k": 99.0,
+      "500k-1M": 63.0,
+      ">=1M": 137.0
+     },
+     "checks": {
+      "cap_every_full_day": false,
+      "beats_e4_same_capacity": false,
+      "min_extra_fraud": true
+     }
+    },
+    "F2": {
+     "days": 4.167,
+     "full_days": 3,
+     "extra_alerts_per_day_mean": 681.1,
+     "extra_alerts_full_day_min": 398.0,
+     "extra_alerts_full_day_median": 513.0,
+     "extra_alerts_full_day_max": 984.0,
+     "extra_alerts_per_day": {
+      "19": 42.0,
+      "20": 398.0,
+      "21": 513.0,
+      "22": 984.0,
+      "23": 901.0
+     },
+     "extra_fraud": 256.0,
+     "extra_fraud_per_day": 61.44,
+     "extra_precision": 0.09,
+     "e4_same_capacity_fraud": 509.0,
+     "beats_e4_same_capacity": false,
+     "e4_recall": 0.3105,
+     "combined_recall": 0.5645,
+     "e4_plus_capacity_recall": 0.8155,
+     "rule_standalone_alerts_per_day": 722.4,
+     "rule_standalone_precision": 0.139,
+     "rule_standalone_recall": 0.4137,
+     "extra_fraud_by_hour": {
+      "00-05": 6.0,
+      "06-08": 49.0,
+      "09-17": 122.0,
+      "18-23": 79.0
+     },
+     "extra_fraud_by_amount": {
+      "<500k": 60.0,
+      "500k-1M": 77.0,
+      ">=1M": 119.0
+     },
+     "checks": {
+      "cap_every_full_day": false,
+      "beats_e4_same_capacity": false,
+      "min_extra_fraud": true
+     }
+    }
+   }
+  },
+  "hv2000k_new250k@45_cut80": {
+   "params": {
+    "hv": 2000000,
+    "new": [
+     250000,
+     45
+    ],
+    "cut": 80
+   },
+   "n_rules": 5,
+   "folds": {
+    "F1": {
+     "days": 4.167,
+     "full_days": 3,
+     "extra_alerts_per_day_mean": 265.9,
+     "extra_alerts_full_day_min": 33.0,
+     "extra_alerts_full_day_median": 411.0,
+     "extra_alerts_full_day_max": 437.0,
+     "extra_alerts_per_day": {
+      "15": 203.0,
+      "16": 437.0,
+      "17": 411.0,
+      "18": 33.0,
+      "19": 24.0
+     },
+     "extra_fraud": 95.0,
+     "extra_fraud_per_day": 22.8,
+     "extra_precision": 0.086,
+     "e4_same_capacity_fraud": 230.7,
+     "beats_e4_same_capacity": false,
+     "e4_recall": 0.3279,
+     "combined_recall": 0.41,
+     "e4_plus_capacity_recall": 0.5274,
+     "rule_standalone_alerts_per_day": 319.2,
+     "rule_standalone_precision": 0.226,
+     "rule_standalone_recall": 0.2604,
+     "extra_fraud_by_hour": {
+      "00-05": 8.0,
+      "06-08": 15.0,
+      "09-17": 53.0,
+      "18-23": 19.0
+     },
+     "extra_fraud_by_amount": {
+      "<500k": 6.0,
+      "500k-1M": 1.0,
+      ">=1M": 88.0
+     },
+     "checks": {
+      "cap_every_full_day": false,
+      "beats_e4_same_capacity": false,
+      "min_extra_fraud": true
+     }
+    },
+    "F2": {
+     "days": 4.167,
+     "full_days": 3,
+     "extra_alerts_per_day_mean": 59.3,
+     "extra_alerts_full_day_min": 17.0,
+     "extra_alerts_full_day_median": 45.0,
+     "extra_alerts_full_day_max": 127.0,
+     "extra_alerts_per_day": {
+      "19": 1.0,
+      "20": 17.0,
+      "21": 45.0,
+      "22": 127.0,
+      "23": 57.0
+     },
+     "extra_fraud": 53.0,
+     "extra_fraud_per_day": 12.72,
+     "extra_precision": 0.215,
+     "e4_same_capacity_fraud": 79.8,
+     "beats_e4_same_capacity": false,
+     "e4_recall": 0.3105,
+     "combined_recall": 0.3631,
+     "e4_plus_capacity_recall": 0.3897,
+     "rule_standalone_alerts_per_day": 93.8,
+     "rule_standalone_precision": 0.478,
+     "rule_standalone_recall": 0.1855,
+     "extra_fraud_by_hour": {
+      "00-05": 3.0,
+      "06-08": 7.0,
+      "09-17": 37.0,
+      "18-23": 6.0
+     },
+     "extra_fraud_by_amount": {
+      "<500k": 3.0,
+      "500k-1M": 0.0,
+      ">=1M": 50.0
+     },
+     "checks": {
+      "cap_every_full_day": false,
+      "beats_e4_same_capacity": false,
+      "min_extra_fraud": true
+     }
+    }
+   }
+  },
+  "hv2000k_new500k@25_cut70": {
+   "params": {
+    "hv": 2000000,
+    "new": [
+     500000,
+     25
+    ],
+    "cut": 70
+   },
+   "n_rules": 5,
+   "folds": {
+    "F1": {
+     "days": 4.167,
+     "full_days": 3,
+     "extra_alerts_per_day_mean": 272.4,
+     "extra_alerts_full_day_min": 29.0,
+     "extra_alerts_full_day_median": 408.0,
+     "extra_alerts_full_day_max": 471.0,
+     "extra_alerts_per_day": {
+      "15": 203.0,
+      "16": 471.0,
+      "17": 408.0,
+      "18": 29.0,
+      "19": 24.0
+     },
+     "extra_fraud": 89.0,
+     "extra_fraud_per_day": 21.36,
+     "extra_precision": 0.078,
+     "e4_same_capacity_fraud": 233.6,
+     "beats_e4_same_capacity": false,
+     "e4_recall": 0.3279,
+     "combined_recall": 0.4048,
+     "e4_plus_capacity_recall": 0.53,
+     "rule_standalone_alerts_per_day": 328.6,
+     "rule_standalone_precision": 0.224,
+     "rule_standalone_recall": 0.2656,
+     "extra_fraud_by_hour": {
+      "00-05": 2.0,
+      "06-08": 15.0,
+      "09-17": 53.0,
+      "18-23": 19.0
+     },
+     "extra_fraud_by_amount": {
+      "<500k": 0.0,
+      "500k-1M": 1.0,
+      ">=1M": 88.0
+     },
+     "checks": {
+      "cap_every_full_day": false,
+      "beats_e4_same_capacity": false,
+      "min_extra_fraud": true
+     }
+    },
+    "F2": {
+     "days": 4.167,
+     "full_days": 3,
+     "extra_alerts_per_day_mean": 58.6,
+     "extra_alerts_full_day_min": 15.0,
+     "extra_alerts_full_day_median": 44.0,
+     "extra_alerts_full_day_max": 127.0,
+     "extra_alerts_per_day": {
+      "19": 1.0,
+      "20": 15.0,
+      "21": 44.0,
+      "22": 127.0,
+      "23": 57.0
+     },
+     "extra_fraud": 50.0,
+     "extra_fraud_per_day": 12.0,
+     "extra_precision": 0.205,
+     "e4_same_capacity_fraud": 79.5,
+     "beats_e4_same_capacity": false,
+     "e4_recall": 0.3105,
+     "combined_recall": 0.3601,
+     "e4_plus_capacity_recall": 0.3894,
+     "rule_standalone_alerts_per_day": 88.6,
+     "rule_standalone_precision": 0.461,
+     "rule_standalone_recall": 0.1687,
+     "extra_fraud_by_hour": {
+      "00-05": 0.0,
+      "06-08": 7.0,
+      "09-17": 37.0,
+      "18-23": 6.0
+     },
+     "extra_fraud_by_amount": {
+      "<500k": 0.0,
+      "500k-1M": 0.0,
+      ">=1M": 50.0
+     },
+     "checks": {
+      "cap_every_full_day": false,
+      "beats_e4_same_capacity": false,
+      "min_extra_fraud": true
+     }
+    }
+   }
+  },
+  "hv2000k_new500k@25_cut80": {
+   "params": {
+    "hv": 2000000,
+    "new": [
+     500000,
+     25
+    ],
+    "cut": 80
+   },
+   "n_rules": 5,
+   "folds": {
+    "F1": {
+     "days": 4.167,
+     "full_days": 3,
+     "extra_alerts_per_day_mean": 263.5,
+     "extra_alerts_full_day_min": 28.0,
+     "extra_alerts_full_day_median": 408.0,
+     "extra_alerts_full_day_max": 435.0,
+     "extra_alerts_per_day": {
+      "15": 203.0,
+      "16": 435.0,
+      "17": 408.0,
+      "18": 28.0,
+      "19": 24.0
+     },
+     "extra_fraud": 88.0,
+     "extra_fraud_per_day": 21.12,
+     "extra_precision": 0.08,
+     "e4_same_capacity_fraud": 230.0,
+     "beats_e4_same_capacity": false,
+     "e4_recall": 0.3279,
+     "combined_recall": 0.404,
+     "e4_plus_capacity_recall": 0.5268,
+     "rule_standalone_alerts_per_day": 301.7,
+     "rule_standalone_precision": 0.184,
+     "rule_standalone_recall": 0.1998,
+     "extra_fraud_by_hour": {
+      "00-05": 1.0,
+      "06-08": 15.0,
+      "09-17": 53.0,
+      "18-23": 19.0
+     },
+     "extra_fraud_by_amount": {
+      "<500k": 0.0,
+      "500k-1M": 0.0,
+      ">=1M": 88.0
+     },
+     "checks": {
+      "cap_every_full_day": false,
+      "beats_e4_same_capacity": false,
+      "min_extra_fraud": true
+     }
+    },
+    "F2": {
+     "days": 4.167,
+     "full_days": 3,
+     "extra_alerts_per_day_mean": 58.1,
+     "extra_alerts_full_day_min": 15.0,
+     "extra_alerts_full_day_median": 44.0,
+     "extra_alerts_full_day_max": 127.0,
+     "extra_alerts_per_day": {
+      "19": 1.0,
+      "20": 15.0,
+      "21": 44.0,
+      "22": 127.0,
+      "23": 55.0
+     },
+     "extra_fraud": 50.0,
+     "extra_fraud_per_day": 12.0,
+     "extra_precision": 0.207,
+     "e4_same_capacity_fraud": 79.3,
+     "beats_e4_same_capacity": false,
+     "e4_recall": 0.3105,
+     "combined_recall": 0.3601,
+     "e4_plus_capacity_recall": 0.3892,
+     "rule_standalone_alerts_per_day": 77.0,
+     "rule_standalone_precision": 0.393,
+     "rule_standalone_recall": 0.125,
+     "extra_fraud_by_hour": {
+      "00-05": 0.0,
+      "06-08": 7.0,
+      "09-17": 37.0,
+      "18-23": 6.0
+     },
+     "extra_fraud_by_amount": {
+      "<500k": 0.0,
+      "500k-1M": 0.0,
+      ">=1M": 50.0
+     },
+     "checks": {
+      "cap_every_full_day": false,
+      "beats_e4_same_capacity": false,
+      "min_extra_fraud": true
+     }
+    }
+   }
+  },
+  "hv2000k_new500k@45_cut70": {
+   "params": {
+    "hv": 2000000,
+    "new": [
+     500000,
+     45
+    ],
+    "cut": 70
+   },
+   "n_rules": 5,
+   "folds": {
+    "F1": {
+     "days": 4.167,
+     "full_days": 3,
+     "extra_alerts_per_day_mean": 1565.0,
+     "extra_alerts_full_day_min": 119.0,
+     "extra_alerts_full_day_median": 2258.0,
+     "extra_alerts_full_day_max": 2746.0,
+     "extra_alerts_per_day": {
+      "15": 1343.0,
+      "16": 2258.0,
+      "17": 2746.0,
+      "18": 119.0,
+      "19": 55.0
+     },
+     "extra_fraud": 200.0,
+     "extra_fraud_per_day": 48.0,
+     "extra_precision": 0.031,
+     "e4_same_capacity_fraud": 456.3,
+     "beats_e4_same_capacity": false,
+     "e4_recall": 0.3279,
+     "combined_recall": 0.5009,
+     "e4_plus_capacity_recall": 0.7226,
+     "rule_standalone_alerts_per_day": 1624.1,
+     "rule_standalone_precision": 0.063,
+     "rule_standalone_recall": 0.3702,
+     "extra_fraud_by_hour": {
+      "00-05": 9.0,
+      "06-08": 33.0,
+      "09-17": 105.0,
+      "18-23": 53.0
+     },
+     "extra_fraud_by_amount": {
+      "<500k": 0.0,
+      "500k-1M": 63.0,
+      ">=1M": 137.0
+     },
+     "checks": {
+      "cap_every_full_day": false,
+      "beats_e4_same_capacity": false,
+      "min_extra_fraud": true
+     }
+    },
+    "F2": {
+     "days": 4.167,
+     "full_days": 3,
+     "extra_alerts_per_day_mean": 247.0,
+     "extra_alerts_full_day_min": 157.0,
+     "extra_alerts_full_day_median": 210.0,
+     "extra_alerts_full_day_max": 345.0,
+     "extra_alerts_per_day": {
+      "19": 12.0,
+      "20": 157.0,
+      "21": 210.0,
+      "22": 345.0,
+      "23": 305.0
+     },
+     "extra_fraud": 196.0,
+     "extra_fraud_per_day": 47.04,
+     "extra_precision": 0.19,
+     "e4_same_capacity_fraud": 278.0,
+     "beats_e4_same_capacity": false,
+     "e4_recall": 0.3105,
+     "combined_recall": 0.505,
+     "e4_plus_capacity_recall": 0.5863,
+     "rule_standalone_alerts_per_day": 282.0,
+     "rule_standalone_precision": 0.286,
+     "rule_standalone_recall": 0.3333,
+     "extra_fraud_by_hour": {
+      "00-05": 1.0,
+      "06-08": 35.0,
+      "09-17": 105.0,
+      "18-23": 55.0
+     },
+     "extra_fraud_by_amount": {
+      "<500k": 0.0,
+      "500k-1M": 77.0,
+      ">=1M": 119.0
+     },
+     "checks": {
+      "cap_every_full_day": false,
+      "beats_e4_same_capacity": false,
+      "min_extra_fraud": true
+     }
+    }
+   }
+  },
+  "hv2000k_new500k@45_cut80": {
+   "params": {
+    "hv": 2000000,
+    "new": [
+     500000,
+     45
+    ],
+    "cut": 80
+   },
+   "n_rules": 5,
+   "folds": {
+    "F1": {
+     "days": 4.167,
+     "full_days": 3,
+     "extra_alerts_per_day_mean": 263.8,
+     "extra_alerts_full_day_min": 29.0,
+     "extra_alerts_full_day_median": 408.0,
+     "extra_alerts_full_day_max": 435.0,
+     "extra_alerts_per_day": {
+      "15": 203.0,
+      "16": 435.0,
+      "17": 408.0,
+      "18": 29.0,
+      "19": 24.0
+     },
+     "extra_fraud": 89.0,
+     "extra_fraud_per_day": 21.36,
+     "extra_precision": 0.081,
+     "e4_same_capacity_fraud": 230.0,
+     "beats_e4_same_capacity": false,
+     "e4_recall": 0.3279,
+     "combined_recall": 0.4048,
+     "e4_plus_capacity_recall": 0.5268,
+     "rule_standalone_alerts_per_day": 314.9,
+     "rule_standalone_precision": 0.218,
+     "rule_standalone_recall": 0.2474,
+     "extra_fraud_by_hour": {
+      "00-05": 2.0,
+      "06-08": 15.0,
+      "09-17": 53.0,
+      "18-23": 19.0
+     },
+     "extra_fraud_by_amount": {
+      "<500k": 0.0,
+      "500k-1M": 1.0,
+      ">=1M": 88.0
+     },
+     "checks": {
+      "cap_every_full_day": false,
+      "beats_e4_same_capacity": false,
+      "min_extra_fraud": true
+     }
+    },
+    "F2": {
+     "days": 4.167,
+     "full_days": 3,
+     "extra_alerts_per_day_mean": 58.1,
+     "extra_alerts_full_day_min": 15.0,
+     "extra_alerts_full_day_median": 44.0,
+     "extra_alerts_full_day_max": 127.0,
+     "extra_alerts_per_day": {
+      "19": 1.0,
+      "20": 15.0,
+      "21": 44.0,
+      "22": 127.0,
+      "23": 55.0
+     },
+     "extra_fraud": 50.0,
+     "extra_fraud_per_day": 12.0,
+     "extra_precision": 0.207,
+     "e4_same_capacity_fraud": 79.3,
+     "beats_e4_same_capacity": false,
+     "e4_recall": 0.3105,
+     "combined_recall": 0.3601,
+     "e4_plus_capacity_recall": 0.3892,
+     "rule_standalone_alerts_per_day": 86.4,
+     "rule_standalone_precision": 0.453,
+     "rule_standalone_recall": 0.1617,
+     "extra_fraud_by_hour": {
+      "00-05": 0.0,
+      "06-08": 7.0,
+      "09-17": 37.0,
+      "18-23": 6.0
+     },
+     "extra_fraud_by_amount": {
+      "<500k": 0.0,
+      "500k-1M": 0.0,
+      ">=1M": 50.0
+     },
+     "checks": {
+      "cap_every_full_day": false,
+      "beats_e4_same_capacity": false,
+      "min_extra_fraud": true
+     }
+    }
+   }
+  },
+  "hv2000k_new1000k@25_cut70": {
+   "params": {
+    "hv": 2000000,
+    "new": [
+     1000000,
+     25
+    ],
+    "cut": 70
+   },
+   "n_rules": 5,
+   "folds": {
+    "F1": {
+     "days": 4.167,
+     "full_days": 3,
+     "extra_alerts_per_day_mean": 272.2,
+     "extra_alerts_full_day_min": 28.0,
+     "extra_alerts_full_day_median": 408.0,
+     "extra_alerts_full_day_max": 471.0,
+     "extra_alerts_per_day": {
+      "15": 203.0,
+      "16": 471.0,
+      "17": 408.0,
+      "18": 28.0,
+      "19": 24.0
+     },
+     "extra_fraud": 88.0,
+     "extra_fraud_per_day": 21.12,
+     "extra_precision": 0.078,
+     "e4_same_capacity_fraud": 233.5,
+     "beats_e4_same_capacity": false,
+     "e4_recall": 0.3279,
+     "combined_recall": 0.404,
+     "e4_plus_capacity_recall": 0.5299,
+     "rule_standalone_alerts_per_day": 321.6,
+     "rule_standalone_precision": 0.207,
+     "rule_standalone_recall": 0.2405,
+     "extra_fraud_by_hour": {
+      "00-05": 1.0,
+      "06-08": 15.0,
+      "09-17": 53.0,
+      "18-23": 19.0
+     },
+     "extra_fraud_by_amount": {
+      "<500k": 0.0,
+      "500k-1M": 0.0,
+      ">=1M": 88.0
+     },
+     "checks": {
+      "cap_every_full_day": false,
+      "beats_e4_same_capacity": false,
+      "min_extra_fraud": true
+     }
+    },
+    "F2": {
+     "days": 4.167,
+     "full_days": 3,
+     "extra_alerts_per_day_mean": 58.6,
+     "extra_alerts_full_day_min": 15.0,
+     "extra_alerts_full_day_median": 44.0,
+     "extra_alerts_full_day_max": 127.0,
+     "extra_alerts_per_day": {
+      "19": 1.0,
+      "20": 15.0,
+      "21": 44.0,
+      "22": 127.0,
+      "23": 57.0
+     },
+     "extra_fraud": 50.0,
+     "extra_fraud_per_day": 12.0,
+     "extra_precision": 0.205,
+     "e4_same_capacity_fraud": 79.5,
+     "beats_e4_same_capacity": false,
+     "e4_recall": 0.3105,
+     "combined_recall": 0.3601,
+     "e4_plus_capacity_recall": 0.3894,
+     "rule_standalone_alerts_per_day": 83.8,
+     "rule_standalone_precision": 0.436,
+     "rule_standalone_recall": 0.1508,
+     "extra_fraud_by_hour": {
+      "00-05": 0.0,
+      "06-08": 7.0,
+      "09-17": 37.0,
+      "18-23": 6.0
+     },
+     "extra_fraud_by_amount": {
+      "<500k": 0.0,
+      "500k-1M": 0.0,
+      ">=1M": 50.0
+     },
+     "checks": {
+      "cap_every_full_day": false,
+      "beats_e4_same_capacity": false,
+      "min_extra_fraud": true
+     }
+    }
+   }
+  },
+  "hv2000k_new1000k@25_cut80": {
+   "params": {
+    "hv": 2000000,
+    "new": [
+     1000000,
+     25
+    ],
+    "cut": 80
+   },
+   "n_rules": 5,
+   "folds": {
+    "F1": {
+     "days": 4.167,
+     "full_days": 3,
+     "extra_alerts_per_day_mean": 263.5,
+     "extra_alerts_full_day_min": 28.0,
+     "extra_alerts_full_day_median": 408.0,
+     "extra_alerts_full_day_max": 435.0,
+     "extra_alerts_per_day": {
+      "15": 203.0,
+      "16": 435.0,
+      "17": 408.0,
+      "18": 28.0,
+      "19": 24.0
+     },
+     "extra_fraud": 88.0,
+     "extra_fraud_per_day": 21.12,
+     "extra_precision": 0.08,
+     "e4_same_capacity_fraud": 230.0,
+     "beats_e4_same_capacity": false,
+     "e4_recall": 0.3279,
+     "combined_recall": 0.404,
+     "e4_plus_capacity_recall": 0.5268,
+     "rule_standalone_alerts_per_day": 301.7,
+     "rule_standalone_precision": 0.184,
+     "rule_standalone_recall": 0.1998,
+     "extra_fraud_by_hour": {
+      "00-05": 1.0,
+      "06-08": 15.0,
+      "09-17": 53.0,
+      "18-23": 19.0
+     },
+     "extra_fraud_by_amount": {
+      "<500k": 0.0,
+      "500k-1M": 0.0,
+      ">=1M": 88.0
+     },
+     "checks": {
+      "cap_every_full_day": false,
+      "beats_e4_same_capacity": false,
+      "min_extra_fraud": true
+     }
+    },
+    "F2": {
+     "days": 4.167,
+     "full_days": 3,
+     "extra_alerts_per_day_mean": 58.1,
+     "extra_alerts_full_day_min": 15.0,
+     "extra_alerts_full_day_median": 44.0,
+     "extra_alerts_full_day_max": 127.0,
+     "extra_alerts_per_day": {
+      "19": 1.0,
+      "20": 15.0,
+      "21": 44.0,
+      "22": 127.0,
+      "23": 55.0
+     },
+     "extra_fraud": 50.0,
+     "extra_fraud_per_day": 12.0,
+     "extra_precision": 0.207,
+     "e4_same_capacity_fraud": 79.3,
+     "beats_e4_same_capacity": false,
+     "e4_recall": 0.3105,
+     "combined_recall": 0.3601,
+     "e4_plus_capacity_recall": 0.3892,
+     "rule_standalone_alerts_per_day": 77.0,
+     "rule_standalone_precision": 0.393,
+     "rule_standalone_recall": 0.125,
+     "extra_fraud_by_hour": {
+      "00-05": 0.0,
+      "06-08": 7.0,
+      "09-17": 37.0,
+      "18-23": 6.0
+     },
+     "extra_fraud_by_amount": {
+      "<500k": 0.0,
+      "500k-1M": 0.0,
+      ">=1M": 50.0
+     },
+     "checks": {
+      "cap_every_full_day": false,
+      "beats_e4_same_capacity": false,
+      "min_extra_fraud": true
+     }
+    }
+   }
+  },
+  "hv2000k_new1000k@45_cut70": {
+   "params": {
+    "hv": 2000000,
+    "new": [
+     1000000,
+     45
+    ],
+    "cut": 70
+   },
+   "n_rules": 5,
+   "folds": {
+    "F1": {
+     "days": 4.167,
+     "full_days": 3,
+     "extra_alerts_per_day_mean": 726.7,
+     "extra_alerts_full_day_min": 53.0,
+     "extra_alerts_full_day_median": 993.0,
+     "extra_alerts_full_day_max": 1305.0,
+     "extra_alerts_per_day": {
+      "15": 637.0,
+      "16": 993.0,
+      "17": 1305.0,
+      "18": 53.0,
+      "19": 40.0
+     },
+     "extra_fraud": 137.0,
+     "extra_fraud_per_day": 32.88,
+     "extra_precision": 0.045,
+     "e4_same_capacity_fraud": 340.9,
+     "beats_e4_same_capacity": false,
+     "e4_recall": 0.3279,
+     "combined_recall": 0.4464,
+     "e4_plus_capacity_recall": 0.6227,
+     "rule_standalone_alerts_per_day": 779.0,
+     "rule_standalone_precision": 0.104,
+     "rule_standalone_recall": 0.2915,
+     "extra_fraud_by_hour": {
+      "00-05": 1.0,
+      "06-08": 25.0,
+      "09-17": 86.0,
+      "18-23": 25.0
+     },
+     "extra_fraud_by_amount": {
+      "<500k": 0.0,
+      "500k-1M": 0.0,
+      ">=1M": 137.0
+     },
+     "checks": {
+      "cap_every_full_day": false,
+      "beats_e4_same_capacity": false,
+      "min_extra_fraud": true
+     }
+    },
+    "F2": {
+     "days": 4.167,
+     "full_days": 3,
+     "extra_alerts_per_day_mean": 133.2,
+     "extra_alerts_full_day_min": 65.0,
+     "extra_alerts_full_day_median": 119.0,
+     "extra_alerts_full_day_max": 219.0,
+     "extra_alerts_per_day": {
+      "19": 4.0,
+      "20": 65.0,
+      "21": 119.0,
+      "22": 219.0,
+      "23": 148.0
+     },
+     "extra_fraud": 119.0,
+     "extra_fraud_per_day": 28.56,
+     "extra_precision": 0.214,
+     "e4_same_capacity_fraud": 163.2,
+     "beats_e4_same_capacity": false,
+     "e4_recall": 0.3105,
+     "combined_recall": 0.4286,
+     "e4_plus_capacity_recall": 0.4724,
+     "rule_standalone_alerts_per_day": 162.2,
+     "rule_standalone_precision": 0.349,
+     "rule_standalone_recall": 0.2341,
+     "extra_fraud_by_hour": {
+      "00-05": 0.0,
+      "06-08": 22.0,
+      "09-17": 73.0,
+      "18-23": 24.0
+     },
+     "extra_fraud_by_amount": {
+      "<500k": 0.0,
+      "500k-1M": 0.0,
+      ">=1M": 119.0
+     },
+     "checks": {
+      "cap_every_full_day": false,
+      "beats_e4_same_capacity": false,
+      "min_extra_fraud": true
+     }
+    }
+   }
+  },
+  "hv2000k_new1000k@45_cut80": {
+   "params": {
+    "hv": 2000000,
+    "new": [
+     1000000,
+     45
+    ],
+    "cut": 80
+   },
+   "n_rules": 5,
+   "folds": {
+    "F1": {
+     "days": 4.167,
+     "full_days": 3,
+     "extra_alerts_per_day_mean": 263.5,
+     "extra_alerts_full_day_min": 28.0,
+     "extra_alerts_full_day_median": 408.0,
+     "extra_alerts_full_day_max": 435.0,
+     "extra_alerts_per_day": {
+      "15": 203.0,
+      "16": 435.0,
+      "17": 408.0,
+      "18": 28.0,
+      "19": 24.0
+     },
+     "extra_fraud": 88.0,
+     "extra_fraud_per_day": 21.12,
+     "extra_precision": 0.08,
+     "e4_same_capacity_fraud": 230.0,
+     "beats_e4_same_capacity": false,
+     "e4_recall": 0.3279,
+     "combined_recall": 0.404,
+     "e4_plus_capacity_recall": 0.5268,
+     "rule_standalone_alerts_per_day": 307.9,
+     "rule_standalone_precision": 0.2,
+     "rule_standalone_recall": 0.2223,
+     "extra_fraud_by_hour": {
+      "00-05": 1.0,
+      "06-08": 15.0,
+      "09-17": 53.0,
+      "18-23": 19.0
+     },
+     "extra_fraud_by_amount": {
+      "<500k": 0.0,
+      "500k-1M": 0.0,
+      ">=1M": 88.0
+     },
+     "checks": {
+      "cap_every_full_day": false,
+      "beats_e4_same_capacity": false,
+      "min_extra_fraud": true
+     }
+    },
+    "F2": {
+     "days": 4.167,
+     "full_days": 3,
+     "extra_alerts_per_day_mean": 58.1,
+     "extra_alerts_full_day_min": 15.0,
+     "extra_alerts_full_day_median": 44.0,
+     "extra_alerts_full_day_max": 127.0,
+     "extra_alerts_per_day": {
+      "19": 1.0,
+      "20": 15.0,
+      "21": 44.0,
+      "22": 127.0,
+      "23": 55.0
+     },
+     "extra_fraud": 50.0,
+     "extra_fraud_per_day": 12.0,
+     "extra_precision": 0.207,
+     "e4_same_capacity_fraud": 79.3,
+     "beats_e4_same_capacity": false,
+     "e4_recall": 0.3105,
+     "combined_recall": 0.3601,
+     "e4_plus_capacity_recall": 0.3892,
+     "rule_standalone_alerts_per_day": 81.6,
+     "rule_standalone_precision": 0.426,
+     "rule_standalone_recall": 0.1438,
+     "extra_fraud_by_hour": {
+      "00-05": 0.0,
+      "06-08": 7.0,
+      "09-17": 37.0,
+      "18-23": 6.0
+     },
+     "extra_fraud_by_amount": {
+      "<500k": 0.0,
+      "500k-1M": 0.0,
+      ">=1M": 50.0
+     },
+     "checks": {
+      "cap_every_full_day": false,
+      "beats_e4_same_capacity": false,
+      "min_extra_fraud": true
+     }
+    }
+   }
+  },
+  "hv2000k_new2000k@25_cut70": {
+   "params": {
+    "hv": 2000000,
+    "new": [
+     2000000,
+     25
+    ],
+    "cut": 70
+   },
+   "n_rules": 5,
+   "folds": {
+    "F1": {
+     "days": 4.167,
+     "full_days": 3,
+     "extra_alerts_per_day_mean": 272.2,
+     "extra_alerts_full_day_min": 28.0,
+     "extra_alerts_full_day_median": 408.0,
+     "extra_alerts_full_day_max": 471.0,
+     "extra_alerts_per_day": {
+      "15": 203.0,
+      "16": 471.0,
+      "17": 408.0,
+      "18": 28.0,
+      "19": 24.0
+     },
+     "extra_fraud": 88.0,
+     "extra_fraud_per_day": 21.12,
+     "extra_precision": 0.078,
+     "e4_same_capacity_fraud": 233.5,
+     "beats_e4_same_capacity": false,
+     "e4_recall": 0.3279,
+     "combined_recall": 0.404,
+     "e4_plus_capacity_recall": 0.5299,
+     "rule_standalone_alerts_per_day": 315.4,
+     "rule_standalone_precision": 0.192,
+     "rule_standalone_recall": 0.218,
+     "extra_fraud_by_hour": {
+      "00-05": 1.0,
+      "06-08": 15.0,
+      "09-17": 53.0,
+      "18-23": 19.0
+     },
+     "extra_fraud_by_amount": {
+      "<500k": 0.0,
+      "500k-1M": 0.0,
+      ">=1M": 88.0
+     },
+     "checks": {
+      "cap_every_full_day": false,
+      "beats_e4_same_capacity": false,
+      "min_extra_fraud": true
+     }
+    },
+    "F2": {
+     "days": 4.167,
+     "full_days": 3,
+     "extra_alerts_per_day_mean": 58.6,
+     "extra_alerts_full_day_min": 15.0,
+     "extra_alerts_full_day_median": 44.0,
+     "extra_alerts_full_day_max": 127.0,
+     "extra_alerts_per_day": {
+      "19": 1.0,
+      "20": 15.0,
+      "21": 44.0,
+      "22": 127.0,
+      "23": 57.0
+     },
+     "extra_fraud": 50.0,
+     "extra_fraud_per_day": 12.0,
+     "extra_precision": 0.205,
+     "e4_same_capacity_fraud": 79.5,
+     "beats_e4_same_capacity": false,
+     "e4_recall": 0.3105,
+     "combined_recall": 0.3601,
+     "e4_plus_capacity_recall": 0.3894,
+     "rule_standalone_alerts_per_day": 79.2,
+     "rule_standalone_precision": 0.403,
+     "rule_standalone_recall": 0.1319,
+     "extra_fraud_by_hour": {
+      "00-05": 0.0,
+      "06-08": 7.0,
+      "09-17": 37.0,
+      "18-23": 6.0
+     },
+     "extra_fraud_by_amount": {
+      "<500k": 0.0,
+      "500k-1M": 0.0,
+      ">=1M": 50.0
+     },
+     "checks": {
+      "cap_every_full_day": false,
+      "beats_e4_same_capacity": false,
+      "min_extra_fraud": true
+     }
+    }
+   }
+  },
+  "hv2000k_new2000k@25_cut80": {
+   "params": {
+    "hv": 2000000,
+    "new": [
+     2000000,
+     25
+    ],
+    "cut": 80
+   },
+   "n_rules": 5,
+   "folds": {
+    "F1": {
+     "days": 4.167,
+     "full_days": 3,
+     "extra_alerts_per_day_mean": 263.5,
+     "extra_alerts_full_day_min": 28.0,
+     "extra_alerts_full_day_median": 408.0,
+     "extra_alerts_full_day_max": 435.0,
+     "extra_alerts_per_day": {
+      "15": 203.0,
+      "16": 435.0,
+      "17": 408.0,
+      "18": 28.0,
+      "19": 24.0
+     },
+     "extra_fraud": 88.0,
+     "extra_fraud_per_day": 21.12,
+     "extra_precision": 0.08,
+     "e4_same_capacity_fraud": 230.0,
+     "beats_e4_same_capacity": false,
+     "e4_recall": 0.3279,
+     "combined_recall": 0.404,
+     "e4_plus_capacity_recall": 0.5268,
+     "rule_standalone_alerts_per_day": 301.7,
+     "rule_standalone_precision": 0.184,
+     "rule_standalone_recall": 0.1998,
+     "extra_fraud_by_hour": {
+      "00-05": 1.0,
+      "06-08": 15.0,
+      "09-17": 53.0,
+      "18-23": 19.0
+     },
+     "extra_fraud_by_amount": {
+      "<500k": 0.0,
+      "500k-1M": 0.0,
+      ">=1M": 88.0
+     },
+     "checks": {
+      "cap_every_full_day": false,
+      "beats_e4_same_capacity": false,
+      "min_extra_fraud": true
+     }
+    },
+    "F2": {
+     "days": 4.167,
+     "full_days": 3,
+     "extra_alerts_per_day_mean": 58.1,
+     "extra_alerts_full_day_min": 15.0,
+     "extra_alerts_full_day_median": 44.0,
+     "extra_alerts_full_day_max": 127.0,
+     "extra_alerts_per_day": {
+      "19": 1.0,
+      "20": 15.0,
+      "21": 44.0,
+      "22": 127.0,
+      "23": 55.0
+     },
+     "extra_fraud": 50.0,
+     "extra_fraud_per_day": 12.0,
+     "extra_precision": 0.207,
+     "e4_same_capacity_fraud": 79.3,
+     "beats_e4_same_capacity": false,
+     "e4_recall": 0.3105,
+     "combined_recall": 0.3601,
+     "e4_plus_capacity_recall": 0.3892,
+     "rule_standalone_alerts_per_day": 77.0,
+     "rule_standalone_precision": 0.393,
+     "rule_standalone_recall": 0.125,
+     "extra_fraud_by_hour": {
+      "00-05": 0.0,
+      "06-08": 7.0,
+      "09-17": 37.0,
+      "18-23": 6.0
+     },
+     "extra_fraud_by_amount": {
+      "<500k": 0.0,
+      "500k-1M": 0.0,
+      ">=1M": 50.0
+     },
+     "checks": {
+      "cap_every_full_day": false,
+      "beats_e4_same_capacity": false,
+      "min_extra_fraud": true
+     }
+    }
+   }
+  },
+  "hv2000k_new2000k@45_cut70": {
+   "params": {
+    "hv": 2000000,
+    "new": [
+     2000000,
+     45
+    ],
+    "cut": 70
+   },
+   "n_rules": 5,
+   "folds": {
+    "F1": {
+     "days": 4.167,
+     "full_days": 3,
+     "extra_alerts_per_day_mean": 272.2,
+     "extra_alerts_full_day_min": 28.0,
+     "extra_alerts_full_day_median": 408.0,
+     "extra_alerts_full_day_max": 471.0,
+     "extra_alerts_per_day": {
+      "15": 203.0,
+      "16": 471.0,
+      "17": 408.0,
+      "18": 28.0,
+      "19": 24.0
+     },
+     "extra_fraud": 88.0,
+     "extra_fraud_per_day": 21.12,
+     "extra_precision": 0.078,
+     "e4_same_capacity_fraud": 233.5,
+     "beats_e4_same_capacity": false,
+     "e4_recall": 0.3279,
+     "combined_recall": 0.404,
+     "e4_plus_capacity_recall": 0.5299,
+     "rule_standalone_alerts_per_day": 315.4,
+     "rule_standalone_precision": 0.192,
+     "rule_standalone_recall": 0.218,
+     "extra_fraud_by_hour": {
+      "00-05": 1.0,
+      "06-08": 15.0,
+      "09-17": 53.0,
+      "18-23": 19.0
+     },
+     "extra_fraud_by_amount": {
+      "<500k": 0.0,
+      "500k-1M": 0.0,
+      ">=1M": 88.0
+     },
+     "checks": {
+      "cap_every_full_day": false,
+      "beats_e4_same_capacity": false,
+      "min_extra_fraud": true
+     }
+    },
+    "F2": {
+     "days": 4.167,
+     "full_days": 3,
+     "extra_alerts_per_day_mean": 58.6,
+     "extra_alerts_full_day_min": 15.0,
+     "extra_alerts_full_day_median": 44.0,
+     "extra_alerts_full_day_max": 127.0,
+     "extra_alerts_per_day": {
+      "19": 1.0,
+      "20": 15.0,
+      "21": 44.0,
+      "22": 127.0,
+      "23": 57.0
+     },
+     "extra_fraud": 50.0,
+     "extra_fraud_per_day": 12.0,
+     "extra_precision": 0.205,
+     "e4_same_capacity_fraud": 79.5,
+     "beats_e4_same_capacity": false,
+     "e4_recall": 0.3105,
+     "combined_recall": 0.3601,
+     "e4_plus_capacity_recall": 0.3894,
+     "rule_standalone_alerts_per_day": 79.2,
+     "rule_standalone_precision": 0.403,
+     "rule_standalone_recall": 0.1319,
+     "extra_fraud_by_hour": {
+      "00-05": 0.0,
+      "06-08": 7.0,
+      "09-17": 37.0,
+      "18-23": 6.0
+     },
+     "extra_fraud_by_amount": {
+      "<500k": 0.0,
+      "500k-1M": 0.0,
+      ">=1M": 50.0
+     },
+     "checks": {
+      "cap_every_full_day": false,
+      "beats_e4_same_capacity": false,
+      "min_extra_fraud": true
+     }
+    }
+   }
+  },
+  "hv2000k_new2000k@45_cut80": {
+   "params": {
+    "hv": 2000000,
+    "new": [
+     2000000,
+     45
+    ],
+    "cut": 80
+   },
+   "n_rules": 5,
+   "folds": {
+    "F1": {
+     "days": 4.167,
+     "full_days": 3,
+     "extra_alerts_per_day_mean": 263.5,
+     "extra_alerts_full_day_min": 28.0,
+     "extra_alerts_full_day_median": 408.0,
+     "extra_alerts_full_day_max": 435.0,
+     "extra_alerts_per_day": {
+      "15": 203.0,
+      "16": 435.0,
+      "17": 408.0,
+      "18": 28.0,
+      "19": 24.0
+     },
+     "extra_fraud": 88.0,
+     "extra_fraud_per_day": 21.12,
+     "extra_precision": 0.08,
+     "e4_same_capacity_fraud": 230.0,
+     "beats_e4_same_capacity": false,
+     "e4_recall": 0.3279,
+     "combined_recall": 0.404,
+     "e4_plus_capacity_recall": 0.5268,
+     "rule_standalone_alerts_per_day": 301.7,
+     "rule_standalone_precision": 0.184,
+     "rule_standalone_recall": 0.1998,
+     "extra_fraud_by_hour": {
+      "00-05": 1.0,
+      "06-08": 15.0,
+      "09-17": 53.0,
+      "18-23": 19.0
+     },
+     "extra_fraud_by_amount": {
+      "<500k": 0.0,
+      "500k-1M": 0.0,
+      ">=1M": 88.0
+     },
+     "checks": {
+      "cap_every_full_day": false,
+      "beats_e4_same_capacity": false,
+      "min_extra_fraud": true
+     }
+    },
+    "F2": {
+     "days": 4.167,
+     "full_days": 3,
+     "extra_alerts_per_day_mean": 58.1,
+     "extra_alerts_full_day_min": 15.0,
+     "extra_alerts_full_day_median": 44.0,
+     "extra_alerts_full_day_max": 127.0,
+     "extra_alerts_per_day": {
+      "19": 1.0,
+      "20": 15.0,
+      "21": 44.0,
+      "22": 127.0,
+      "23": 55.0
+     },
+     "extra_fraud": 50.0,
+     "extra_fraud_per_day": 12.0,
+     "extra_precision": 0.207,
+     "e4_same_capacity_fraud": 79.3,
+     "beats_e4_same_capacity": false,
+     "e4_recall": 0.3105,
+     "combined_recall": 0.3601,
+     "e4_plus_capacity_recall": 0.3892,
+     "rule_standalone_alerts_per_day": 77.0,
+     "rule_standalone_precision": 0.393,
+     "rule_standalone_recall": 0.125,
+     "extra_fraud_by_hour": {
+      "00-05": 0.0,
+      "06-08": 7.0,
+      "09-17": 37.0,
+      "18-23": 6.0
+     },
+     "extra_fraud_by_amount": {
+      "<500k": 0.0,
+      "500k-1M": 0.0,
+      ">=1M": 50.0
+     },
+     "checks": {
+      "cap_every_full_day": false,
+      "beats_e4_same_capacity": false,
+      "min_extra_fraud": true
+     }
+    }
+   }
+  }
+ }
+}
