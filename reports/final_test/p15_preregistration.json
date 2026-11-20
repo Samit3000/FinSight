@@ -1,0 +1,104 @@
+{
+  "created_utc": "2026-11-20T06:23:45Z",
+  "code_commit": "355db664d20bb270fd1769e33b02ad002a720a44",
+  "settings": {
+    "candidate": "hgb_baseline7_rcpt_cw50",
+    "baseline": "hgb_baseline8_balanced",
+    "config_sha256": {
+      "hgb_baseline7_rcpt_cw50": "de13cb43ab8d9a380c43682f2c1438a28fbc6af55349af099265420b5c194535",
+      "hgb_baseline8_balanced": "44db72cd587a5ccac0ac5116f30f912e39fc370a5cc0e94dc1c9ce184b9d2614"
+    },
+    "train_max_step": 550,
+    "calibration_steps": [
+      551,
+      650
+    ],
+    "sealed_steps": [
+      651,
+      743
+    ],
+    "budgets": [
+      50,
+      100,
+      200
+    ],
+    "decision_budgets": [
+      100,
+      200
+    ],
+    "queue": {
+      "deadline_hours": 12,
+      "floor_multiple": 4,
+      "warmup_steps": 24
+    },
+    "rule_engine_high_score": 70,
+    "n_boot": 300,
+    "bootstrap_seed": 0,
+    "decision_rule": "Promote E4 (hgb_baseline7_rcpt_cw50) over the champion configuration E0 (hgb_baseline8_balanced), both trained on steps 1-550, only if on the sealed steps 651-743: (a) the 95% paired step-block bootstrap interval of AP(E4) - AP(E0) lies entirely above 0, and (b) tie-aware recall at 100 and at 200 alerts per simulated day of E4 is not lower than E0's. Otherwise keep the champion. The frozen champion artifact, the rule engine and the alert policies are reported for context and cannot change the decision. No setting is changed after the sealed labels are read."
+  },
+  "configs": {
+    "hgb_baseline7_rcpt_cw50": {
+      "model_name": "HistGradientBoosting baseline7 + recipient prior count (class weight 1:50)",
+      "family": "hist_gradient_boosting",
+      "feature_set": "baseline_8",
+      "amount_dtype": "float32",
+      "drop_features": [
+        "log1p_amount"
+      ],
+      "history_features": [
+        "recipient_prior_in_count"
+      ],
+      "class_weight": {
+        "0": 1.0,
+        "1": 50.0
+      },
+      "params": {
+        "max_iter": 50,
+        "learning_rate": 0.1,
+        "max_leaf_nodes": 31,
+        "min_samples_leaf": 20,
+        "l2_regularization": 0.0,
+        "random_state": 42
+      },
+      "train_max_step": 450,
+      "threshold_policy": {
+        "name": "validation_f1",
+        "val_min_step": 451,
+        "val_max_step": 550
+      },
+      "selection_history": "Not independent of folds F1, F2 or F3. The recipient prior count was discovered in P1.1 error analysis of the champion's errors on steps 451-650, which includes F3's test window 551-650, and was screened on F1 (351-450) and F2 (451-550); the P0 audit had also inspected 451-550. In P1.3, F1 and F2 are screening folds and F3 only confirms shortlisted candidates; F3 is the least-used fold but not independent, and the champion it is compared with was chosen using steps 551-743. The locked test (651-743) is sealed during P1.3 and provides no evidence for this selection; it is reserved for a single final evaluation after approval, and it is not pristine either because it sat inside the pre-P0 holdout. The 1:50 class weight was chosen on validation steps 451-550 (EXP-07) and compared on 551-743 by the old promotion gate, so F2 and F3 are also not independent of the class-weight choice. Dropping log1p_amount changed AP by exactly 0.0000 on F1 and F2 in P1.1 screening."
+    },
+    "hgb_baseline8_balanced": {
+      "model_name": "HistGradientBoosting No Day",
+      "family": "hist_gradient_boosting",
+      "feature_set": "baseline_8",
+      "amount_dtype": "float32",
+      "class_weight": "balanced",
+      "params": {
+        "max_iter": 50,
+        "learning_rate": 0.1,
+        "max_leaf_nodes": 31,
+        "min_samples_leaf": 20,
+        "l2_regularization": 0.0,
+        "random_state": 42
+      },
+      "train_max_step": 450,
+      "threshold_policy": {
+        "name": "validation_f1",
+        "val_min_step": 451,
+        "val_max_step": 550
+      },
+      "selection_history": "Not independent of folds F2 and F3. The 8-feature set (dropping transaction_day) was chosen by comparing AP on the old holdout (steps 551-743, which contains F3's test window 551-650), and the decision threshold and earlier hyperparameter choices used validation steps 451-550 (F2's test window). F2 and F3 results are therefore optimistic for this configuration; F1 (steps 351-450) is the least affected."
+    }
+  },
+  "data_path": "data\\processed\\transactions.csv.gz",
+  "data_sha256": "74cba5b396ce21d08f2ffd859bd95f782622a06871ff35f0e4f3f271213294bd",
+  "champion_artifact": "models\\hist_gradient_boosting_no_day.joblib",
+  "champion_artifact_sha256": "56a40585aabf5b548faf3a6f62d685721e1c62ea7880b1ee0847f209fb99c534",
+  "expected_calibration_ap": {
+    "E4": 0.653,
+    "E0": 0.4222
+  },
+  "disclosure": "The sealed steps are not pristine: before P0 they were inside the old holdout (steps 551-743), which was used to choose the champion's 8-feature set and to compare the 1:50 class weight (EXP-07). They were never used to discover or screen the recipient feature (P1.1-P1.3 read steps <= 650 only). Development folds F1-F3 were reused many times; this run is the only use of steps 651-743 in P1.",
+  "locked_labels_read": false
+}
