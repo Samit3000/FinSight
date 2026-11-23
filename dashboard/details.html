@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>FinSight Details</title>
+<meta name="description" content="FinSight: a gradient-boosted fraud detector for PaySim, evaluated with a time-ordered protocol and a pre-registered one-time test, plus its deployment as a reviewed alert queue.">
+<link rel="stylesheet" href="app.css">
+</head>
+<body>
+<header class="topbar">
+  <div class="brand">
+    <span class="logo" aria-hidden="true">◆</span>
+    <div><div class="brand-name">FinSight</div><div class="brand-sub">Full report · <a href="index.html">back to presentation</a></div></div>
+  </div>
+  <nav class="tabs" role="tablist" aria-label="Sections">
+    <button role="tab" data-tab="summary" aria-selected="true"><span class="n">1</span>Summary</button>
+    <button role="tab" data-tab="data" aria-selected="false"><span class="n">2</span>Data</button>
+    <button role="tab" data-tab="method" aria-selected="false"><span class="n">3</span>Method</button>
+    <button role="tab" data-tab="results" aria-selected="false"><span class="n">4</span>Test results</button>
+    <button role="tab" data-tab="experiments" aria-selected="false"><span class="n">5</span>Experiments</button>
+    <button role="tab" data-tab="explain" aria-selected="false"><span class="n">6</span>Explainability</button>
+    <button role="tab" data-tab="deploy" aria-selected="false"><span class="n">7</span>Deployment</button>
+    <button role="tab" data-tab="limits" aria-selected="false"><span class="n">8</span>Limitations</button>
+  </nav>
+  <div class="top-actions">
+    <span class="source" id="source"></span>
+    <button class="icon-btn" id="print-btn" aria-label="Print or save every section as PDF" title="Print / save as PDF">⎙</button>
+    <button class="icon-btn" id="theme-toggle" aria-label="Toggle light or dark theme" title="Toggle theme">◐</button>
+  </div>
+</header>
+
+<main id="app">
+  <noscript><p class="banner">This dashboard needs JavaScript.</p></noscript>
+  <section id="tab-summary" class="tab-panel" role="tabpanel" data-title="1 · Summary"></section>
+  <section id="tab-data" class="tab-panel" role="tabpanel" data-title="2 · Data" hidden></section>
+  <section id="tab-method" class="tab-panel" role="tabpanel" data-title="3 · Method" hidden></section>
+  <section id="tab-results" class="tab-panel" role="tabpanel" data-title="4 · Test results" hidden></section>
+  <section id="tab-experiments" class="tab-panel" role="tabpanel" data-title="5 · Experiments" hidden></section>
+  <section id="tab-explain" class="tab-panel" role="tabpanel" data-title="6 · Explainability" hidden></section>
+  <section id="tab-deploy" class="tab-panel" role="tabpanel" data-title="7 · Deployment" hidden></section>
+  <section id="tab-limits" class="tab-panel" role="tabpanel" data-title="8 · Limitations" hidden></section>
+</main>
+
+<aside class="drawer" id="drawer" aria-hidden="true" aria-label="Alert details">
+  <div class="drawer-head">
+    <div><div class="eyebrow">Alert</div><h2 id="drawer-title"></h2></div>
+    <div class="drawer-nav">
+      <button class="icon-btn" id="drawer-prev" aria-label="Previous alert">‹</button>
+      <button class="icon-btn" id="drawer-next" aria-label="Next alert">›</button>
+      <button class="icon-btn" id="drawer-close" aria-label="Close details">✕</button>
+    </div>
+  </div>
+  <div class="drawer-body" id="drawer-body"></div>
+</aside>
+<div class="scrim" id="scrim" hidden></div>
+<div class="tooltip" id="tooltip" role="status" aria-live="polite" hidden></div>
+
+<footer class="footer" id="footer"></footer>
+<script src="data.js"></script>
+<script src="app.js"></script>
+</body>
+</html>

@@ -44,16 +44,24 @@ checks enforce it. `src/finsight/score_transactions.py` writes scores in `bulk` 
 never reads labels, verifies every `transaction_id` against `fct_transactions`, refuses to re-score without `--replace`,
 and commits each run as one transaction. Rollback (manual only): `sql/admin/drop_scoring_objects.sql`.
 
-### KPI views and dashboard (Milestones 6–7, built; not yet applied to the live database)
+### KPI views and dashboard (Milestones 6–7, built; views 06–10 not yet applied to the live database)
 
 | View | Grain | Notes |
 |---|---|---|
 | `vw_alert_workload_daily` | model × simulated day × period | scored transactions, alerts, alert rate, first-time-recipient alerts, full-day flag |
 | `vw_alert_mix` | model × period × type × hour band × amount band | alert counts |
 | `vw_alert_reason_summary` | model × period × source × reason | top model contributor and rule conditions, counted separately |
+| `vw_alert_workload_hourly` | model × step × period | scored transactions and alerts per simulated hour |
+| `vw_score_distribution` | model × period × score bin | transactions per 0.0005-wide score bin from 0.5 (all lower scores in one bin); for capacity planning |
 
-None of them reads fraud labels. `src/finsight/dashboard.py` builds `dashboard/index.html` (inline CSS, no scripts or external
-resources, light/dark themes) from views 01–08 in a read-only session. Power BI is no longer planned.
+None of them reads fraud labels. `src/finsight/dashboard.py` reads views 01–10 and `vw_alert_queue` in a verified read-only
+session (it rejects any label column) and writes `dashboard/data.js`. `dashboard/index.html` is an eight-screen presentation (one idea per screen, speaker notes on N). The full report is `dashboard/details.html` (`app.css`, `app.js`;
+vanilla JavaScript, SVG charts, no external resources, light/dark themes) is an eight-section report: summary, data, method (model card,
+protocol), test results (full metric table, confusion matrix, budgets, error analysis), experiments (development-fold ROC
+and PR curves, ablations, ΔAP forest plot, baselines, reliability), explainability, deployment (alert queue, capacity
+planner) and limitations. Curves come from `src/finsight/dev_curves.py`, which refits E0–E4 on folds F1–F3, never reads
+steps 651–743, and writes `reports/evaluation/dev_curves.json` only if every AP and ROC-AUC matches P1.3 to 4 decimals.
+Power BI is no longer planned.
 
 ## 3. Features
 

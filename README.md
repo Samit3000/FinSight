@@ -35,7 +35,7 @@ Modern digital payment platforms process millions of transactions across diverse
 2. **Explainable Risk Intelligence**: Traditional black-box fraud scores fail regulatory compliance demands for clear, auditable explanations behind transaction flags.
 3. **Operational & Executive Visibility**: Risk analysts, compliance officers, and business leaders require unified views connecting transaction performance (volume, success rate, AOV) directly to risk exposure.
 
-FinSight addresses these challenges through a modular pipeline that ingests, validates, profiles, enriches with explainable risk scores, stores in a normalized analytical database, and exposes data for business intelligence in an HTML/CSS dashboard.
+FinSight addresses these challenges through a modular pipeline that ingests, validates, profiles, enriches with explainable risk scores, stores in a normalized analytical database, and exposes data for business intelligence in an interactive web dashboard.
 
 > **Note on Scope**: FinSight is a historical-data analytics and batch intelligence prototype. It is not an inline, low-latency payment processing engine or an automated card authorization gateway.
 
@@ -63,7 +63,7 @@ implementation: [`docs/current-state.md`](docs/current-state.md).
 | Persona | Primary Goal | FinSight Feature |
 | :--- | :--- | :--- |
 | **FinTech Risk Analyst** | Investigate flagged transactions and evaluate suspicious patterns | ML champion risk scores with SHAP explanations, plus an explainable rule engine with reason codes. |
-| **Payment Operations Lead** | Monitor payment rail health, success rates, and decline patterns | SQL views and the HTML/CSS dashboard tracking throughput, payment rail failures, and latency. |
+| **Payment Operations Lead** | Monitor payment rail health, success rates, and decline patterns | SQL views and the interactive dashboard tracking throughput, payment rail failures, and latency. |
 | **Analytics Engineer** | Build resilient data pipelines and clean dimensional models | Automated validation contracts, quarantine handling, and modular PostgreSQL schemas. |
 | **Product / Business Analyst** | Assess customer transaction volume, AOV, and revenue drivers | Unified metric dictionary and executive dashboards highlighting growth and merchant concentration. |
 
@@ -90,8 +90,8 @@ FinSight as built (planned components are marked):
         ├──► [ Rule engine (risk_rules.py): score 0–100, LOW/MEDIUM/HIGH, reasons ]
         └──► [ SHAP explanations (explainability.py) ]
 
-Also built: scoring store (P3), KPI views 06–08 and a static HTML/CSS dashboard (`src/finsight/dashboard.py`).
-Planned (not built): stg_transactions, dimension tables. The live database still needs the P3 backfill and views 06–08.
+Also built: scoring store (P3), KPI views 06–10 and an interactive HTML/CSS/JS risk console (`dashboard/`, data from `src/finsight/dashboard.py`).
+Planned (not built): stg_transactions, dimension tables. The live database still needs the P3 backfill and views 06–10.
 ```
 
 ---
@@ -107,7 +107,7 @@ Planned (not built): stg_transactions, dimension tables. The live database still
 | **Database ORM/Driver** | SQLAlchemy, psycopg2 | Standard, battle-tested Python-to-Postgres connection and execution layer. |
 | **Configuration** | python-dotenv; model configs in `train.py` | `.env` for credentials; training configs and the champion registry are versioned in code (`config/*.yaml` was removed in P0). |
 | **Testing** | pytest, pytest-cov | Automated unit, schema, and regression testing with coverage reporting. |
-| **Dashboard** | Static HTML/CSS (no external libraries) | One self-contained page generated from the SQL views; light and dark themes; works offline. |
+| **Dashboard** | HTML, CSS and vanilla JavaScript with hand-built SVG charts (no external libraries) | Static files plus a generated data bundle; opens from disk, works offline; light and dark themes. |
 
 ---
 
@@ -158,7 +158,7 @@ FinSight/
 │   ├── evaluation/                    # Generated walk-forward and benchmark results
 │   ├── explainability/                # Generated SHAP outputs
 │   └── archive/                       # Superseded historical reports (see archive/README.md)
-└── dashboard/                         # Generated HTML/CSS dashboard (index.html) and its data snapshot (data.json)
+└── dashboard/                         # Risk console: index.html, app.css, app.js (static) and data.js (generated bundle)
 ```
 
 ---
@@ -434,7 +434,7 @@ Detailed specification: [`docs/evaluation-strategy.md`](file:///docs/evaluation-
 ### 4. Running Features, Rules, Models & Automated Tests
 
 ```bash
-# Execute full test suite (226 tests collected; one live-database test applies views when PostgreSQL is reachable)
+# Execute full test suite (243 tests collected; one live-database test applies views when PostgreSQL is reachable)
 py -m pytest tests/ -v
 
 # Run Python interactive verification of feature extraction
@@ -474,7 +474,7 @@ py src/finsight/explainability.py --sample-size 2000 --random-seed 42
 # Run explainability test suite
 py -m pytest tests/test_explainability.py -v
 
-# Run full project test suite (226 tests collected; one live-database test applies views when PostgreSQL is reachable)
+# Run full project test suite (243 tests collected; one live-database test applies views when PostgreSQL is reachable)
 py -m pytest tests/ -v
 ```
 
@@ -753,19 +753,56 @@ Integration tests run against a disposable server only: `FINSIGHT_SCRATCH_PG=hos
 
 ### KPI views and dashboard (Milestones 6–7)
 
-Three label-free views summarise stored alerts: `vw_alert_workload_daily` (alerts and scored transactions per day and
-period), `vw_alert_mix` (alerts by payment type, hour band and amount band) and `vw_alert_reason_summary` (how often each
-top model contributor and each rule condition appears; the two are counted separately). `src/finsight/dashboard.py` reads
-views 01–08 in a read-only session and writes one self-contained HTML/CSS page, `dashboard/index.html`, plus
-`dashboard/data.json`. Model evaluation on the page comes only from `vw_risk_detection_benchmark`; no new performance
-figures are computed.
+Five label-free views summarise stored scores and alerts: `vw_alert_workload_daily` and `vw_alert_workload_hourly`
+(alerts and scored transactions per day or hour and period), `vw_alert_mix` (alerts by payment type, hour band and
+amount band), `vw_alert_reason_summary` (how often each top model contributor and each rule condition appears; the two
+are counted separately) and `vw_score_distribution` (scores in 0.0005-wide bins, used for capacity planning).
+
+`src/finsight/dashboard.py` reads views 01–10 and `vw_alert_queue` in a session it sets and verifies as read-only, refuses
+any query that returns a label column, adds the recorded study results (P1.3 folds, the P1.5 test, SHAP importance, the
+development-fold curves and a model card read from the saved artifact after a SHA-256 check), and writes
+`dashboard/data.js`. Threshold metrics not stored directly (accuracy, balanced accuracy, specificity, MCC, Wilson
+intervals) are derived from the recorded confusion counts; nothing reads labels again.
+
+The front end has two pages, both static and offline:
+
+- `dashboard/index.html` (+ `present.css`, `present.js`): the **presentation**, eight screens with one idea each
+  (start, problem, data, fair test, model, results, why flagged, limits). Arrow keys move between screens; N shows
+  speaker notes. Every figure is read from `data.js`. Backup screenshots: `docs/presentation/`.
+- `dashboard/details.html` (+ `app.css`, `app.js`): the **full report** for detailed questions, in eight sections:
+
+1. **Summary**: research question, answer with the paired ΔAP interval, headline metrics, key findings.
+2. **Data**: dataset, class imbalance, the time-ordered split with prevalence per split, why accuracy misleads.
+3. **Method**: model card (hyperparameters from the artifact), features used and excluded with reasons, the
+   walk-forward/pre-registered protocol as a timeline, metrics and statistics, leakage controls.
+4. **Test results** (steps 651–743, recorded once): the pre-registered decision; a full metric table (accuracy, balanced
+   accuracy, precision, recall, specificity, F1, MCC, ROC-AUC, AP, with intervals) at equal budgets of 50/100/200 alerts/day
+   or at each system's deployed threshold; confusion matrix; precision/recall vs. budget; error analysis by hour and
+   recipient history.
+5. **Experiments**: ROC and precision-recall curves on folds F1–F3, the E0–E4 ablation table, a forest plot of paired ΔAP,
+   a baseline ladder, and a reliability diagram.
+6. **Explainability**: global SHAP importance, what drives the raised alerts, and a worked alert example.
+7. **Deployment**: alert workload, the alert queue with its reason-code drawer, the capacity planner and the scoring runs.
+8. **Limitations**: what the results do not show, an integrity record and reproduction commands.
+
+The print button renders every section for saving as PDF. Data reaches the page as text only (no `innerHTML`).
+
+### Development-fold curves
+
+No curve points were recorded in P1.3, and the test hours are retired, so curves exist only for the development folds.
+`src/finsight/dev_curves.py` refits E0–E4 on F1, F2 and F3 exactly as P1.3 did (same configs, fold masks and seed),
+refuses any row from steps 651–743, and writes `reports/evaluation/dev_curves.json` (thinned ROC and PR curves and
+reliability bins) only if every recomputed AP and ROC-AUC equals the recorded P1.3 value to 4 decimals. All 15 matched.
+It selects, promotes and saves no model.
 
 ```bash
+py src/finsight/dev_curves.py                     # development-fold curves (about 15 minutes; figures only)
 py src/finsight/dashboard.py --out dashboard     # reads the database named by DB_HOST/DB_PORT/DB_NAME; writes nothing to it
+start dashboard/index.html                        # open in a browser; no server needed
 ```
 
-The committed `dashboard/index.html` was built from a disposable test copy of the database (its header names the source),
-because the live database does not yet hold scores or views 06–08.
+The committed `dashboard/data.js` was built from a disposable test copy of the database (the top bar names the source),
+because the live database does not yet hold scores or views 06–10.
 
 ---
 
@@ -830,8 +867,8 @@ All former `reports/remediation/`, `reports/ml_improvement/` and `reports/model_
 | **P1 closeout** | **Audit & Documentation** | **Complete** | Promotion audit, docs brought in line with the current implementation, historical material labelled. |
 | **P2** | **Rule Engine: Backstop Study & Reason Codes** | **Complete** | Rules do not beat extra E4 capacity (72 configs, F1/F2 + F3 once); rules now supply reason codes beside the top-3 SHAP contributors for every E4 alert. |
 | **P3** | **Scoring Store** | In review | Score and reason-code tables, alert queue view, bulk/hourly scorer; tested on a disposable database; live database not changed. |
-| **6** | **KPI Views** | In review | `vw_alert_workload_daily`, `vw_alert_mix`, `vw_alert_reason_summary`: label-free workload, mix and reason counts by period. |
-| **7** | **HTML/CSS Dashboard** | In review | Replaces the planned Power BI report: `src/finsight/dashboard.py` builds `dashboard/index.html` from views 01–08 (read-only). |
+| **6** | **KPI Views** | In review | Views 06–10: label-free daily and hourly workload, alert mix, reason counts and score distribution by period. |
+| **7** | **Interactive Dashboard** | In review | Replaces the planned Power BI report: eight-section ML report (model card, protocol, full test metrics, confusion matrix, ROC/PR curves, ablations, calibration, SHAP) plus the alert queue and capacity planner; views 01–10 read-only. |
 
 ---
 
