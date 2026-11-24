@@ -1,6 +1,9 @@
 """
 FinSight — Supervised Machine Learning Baselines Module.
 
+LEGACY (kept for history and its tests). The active champion is loaded through finsight.champion and trained through finsight.train; defaults in this module point at the previous champion and do not support the recipient-history feature.
+
+
 Milestone 4: Supervised ML baselines for financial transaction fraud detection.
 Provides reproducible model training, chronological partitioning, feature ablation,
 validation-based threshold optimization, and holdout evaluation.

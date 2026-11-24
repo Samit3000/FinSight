@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>FinSight Presentation</title>
+<meta name="description" content="FinSight in eight screens: the fraud problem, the data, how the model was tested fairly, the model, the results, why it flags transactions, and its limits.">
+<link rel="stylesheet" href="app.css">
+<link rel="stylesheet" href="present.css">
+</head>
+<body class="present">
+<header class="pbar">
+  <div class="brand"><span class="logo" aria-hidden="true">◆</span><div><div class="brand-name">FinSight</div><div class="brand-sub">Catching fraud with a limited review budget</div></div></div>
+  <nav class="dots" id="dots" aria-label="Screens"></nav>
+  <div class="pactions">
+    <button class="pbtn" id="notes-toggle" aria-pressed="false" title="Show what to say (N)">What to say</button>
+    <a class="pbtn" href="details.html" title="Full technical report for detailed questions">Details</a>
+    <button class="icon-btn" id="theme-toggle" aria-label="Toggle light or dark theme" title="Toggle theme">◐</button>
+  </div>
+</header>
+<main class="stage" id="stage" aria-live="polite"></main>
+<aside class="notes" id="notes" hidden><div class="notes-inner"><div class="eyebrow">What to say</div><div id="notes-body"></div></div></aside>
+<footer class="pnav">
+  <button class="pbtn" id="prev" aria-label="Previous screen">← Back</button>
+  <span class="pcount" id="count"></span>
+  <button class="pbtn primary" id="next" aria-label="Next screen">Next →</button>
+</footer>
+<div class="tooltip" id="tooltip" hidden></div>
+<script src="data.js"></script>
+<script src="present.js"></script>
+</body>
+</html>

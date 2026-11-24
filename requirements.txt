@@ -4,18 +4,13 @@
 # ==============================================================================
 
 # Core tabular data manipulation & numerical processing
-pandas>=2.2.0,<3.0.0
+pandas>=2.2.0,<4.0.0  # tested with 3.0.1
 numpy>=1.26.0,<3.0.0
 
-# Configuration & environment management
+# Environment management (.env)
 python-dotenv>=1.0.0,<2.0.0
-PyYAML>=6.0.1,<7.0.0
 
-# Data validation & contract modeling
-pydantic>=2.7.0,<3.0.0
-
-# Database connectivity & PostgreSQL driver
-SQLAlchemy>=2.0.28,<3.0.0
+# PostgreSQL driver
 psycopg2-binary>=2.9.9,<3.0.0
 
 # Machine learning, model persistence & explainability
@@ -25,6 +20,6 @@ shap>=0.45.0,<1.0.0
 matplotlib>=3.8.0,<4.0.0
 
 # Testing & quality assurance
-pytest>=8.1.0,<9.0.0
+pytest>=8.1.0,<10.0.0  # tested with 9.1.1
 pytest-cov>=5.0.0,<6.0.0
 
